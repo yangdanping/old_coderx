@@ -1,0 +1,58 @@
+@keyframes moveDown {
+  0% {
+    opacity: 0;
+    transform: translate(0, -300px);
+  }
+
+  40% {
+    opacity: 0.8;
+    transform: translate(0, 30px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes titleDown {
+  0% {
+    transform: translate(-50%, -300px);
+  }
+
+  40% {
+    transform: translate(-50%, 50px);
+  }
+
+  100% {
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes flow {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -400% 0;
+  }
+}
+@keyframes typing {
+  form {
+    width: 1ch;
+  }
+  to {
+    width: 17ch;
+  }
+}
+@keyframes light {
+  0% {
+    clip-path: circle(300px at 0% 50%);
+  }
+  50% {
+    clip-path: circle(300px at 100% 50%);
+  }
+  100% {
+    clip-path: circle(300px at 0% 50%);
+  }
+}

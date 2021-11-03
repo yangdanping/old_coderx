@@ -1,4 +1,4 @@
-# coderx
+# dx_demo
 
 ## Project setup
 ```

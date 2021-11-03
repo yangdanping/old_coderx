@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    // 路径解析(类似于webpack alias)
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    // 决定那些文件用tsconfig.json进行约束和解析,exclude则是排除
+    "src/**/*.js",
+    "src/**/*.jsx",
+    "src/**/*.vue",
+    "src/**/*.less"
+  ],
+  "exclude": ["node_modules"]
+}
