@@ -1,16 +1,15 @@
 import Vue from 'vue';
 import App from './App.vue';
-import ElementUI from 'element-ui';
+import registerEl from './global/element-ui-register';
 import 'normalize.css';
-import 'element-ui/lib/theme-chalk/index.css';
 import './assets/css/base.less';
 import router from './router';
-import store from './store/store';
-Vue.use(router).use(ElementUI);
+import store from './store';
+Vue.use(router);
 Vue.config.productionTip = false;
-
+registerEl.call(Vue);
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: (h) => h(App)
 }).$mount('#app');

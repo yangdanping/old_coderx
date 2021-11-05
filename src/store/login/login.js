@@ -10,7 +10,8 @@ export default {
   },
   mutations: {
     changeToken(state, token) {
-      (state.token = token), state.token && console.log('我是changeToken,我已保存Token到login模块');
+      state.token = token;
+      state.token && console.log('我是changeToken,我已保存token到login模块');
     }
   },
   actions: {
@@ -18,6 +19,7 @@ export default {
       // 1.实现登录逻辑----------------------
       const { name, password } = payload;
       const loginResult = await userLogin(name, password);
+      console.log(loginResult);
       const { token } = loginResult; //拿到id,后面要根据该id查询是谁登陆了,以获取该用户的信息
       commit('changeToken', token);
       localCache.setCache('token', token); //注意拿到token第一时间先做缓存,然后就可以在axios实例拦截器中getCache了

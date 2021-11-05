@@ -1,27 +1,22 @@
 <template>
-    <div class="header" >
-      <header>
-        <div class="header-l">
-        <a href="javascript:scrollTo(0,0);"><span class="logo"></span> </a>
-          <nav-menu />
-        </div>
-        <div class="header-r">
-          <input class="search" v-model="input" placeholder="探索Coder X"></input>
-          <el-button @click="changeMode" class="change-mode">切换主题</el-button>
-          <router-link to="/login">
-            <el-button class="login-btn">登陆</el-button>
-          </router-link>
-          <router-link to="/register">
-            <el-button class="register-btn">注册</el-button>
-          </router-link>
-        </div>
-      </header>
-    </div>
+  <div class="header">
+    <header>
+      <div class="header-l">
+        <a href="javascript:scrollTo(0,0);"><span class="logo"></span></a>
+        <nav-menu />
+      </div>
+      <div class="header-r">
+        <input class="search" v-model="input" placeholder="探索Coder X" />
+        <el-button @click="changeMode" class="change-mode">切换主题</el-button>
+        <el-button @click="loginClick" class="login-btn">登陆</el-button>
+        <el-button @click="registerClick" class="register-btn">注册</el-button>
+      </div>
+    </header>
+  </div>
 </template>
 
 <script>
 import { mapMutations } from 'vuex';
-
 import NavMenu from './NavMenu.vue';
 export default {
   name: 'NavBar',
@@ -34,8 +29,14 @@ export default {
     NavMenu
   },
   methods: {
-    ...mapMutations(['changeMode'])
     // changeMode() { this.$store.commit('changeMode'); }
+    ...mapMutations(['changeMode']),
+    loginClick() {
+      this.$router.push('/login');
+    },
+    registerClick() {
+      this.$router.push('/register');
+    }
   }
 };
 </script>
@@ -52,19 +53,18 @@ export default {
   box-shadow: 0 2px 80px rgba(0, 0, 0, 0.1);
   header {
     display: flex;
-    justify-content: center;
+    // justify-content: center;
+    justify-content: space-around;
     align-items: center;
-
+    min-width: 1220px;
+    // max-width: 1500px;
     .header-l {
       display: flex;
       align-items: center;
-      margin-left: 40px;
-      a {
-        .logo {
-          padding: 32px 90px 20px 90px;
-          background: var(--logo);
-          background-size: 185px 60px;
-        }
+      .logo {
+        padding: 32px 90px 20px 90px;
+        background: var(--logo);
+        background-size: 185px 60px;
       }
     }
     .header-r {

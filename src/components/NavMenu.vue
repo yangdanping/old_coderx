@@ -1,8 +1,8 @@
 <template>
   <div class="nav-menu">
     <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect" active-text-color="#0597ff">
-      <el-menu-item index="1">首页</el-menu-item>
-      <el-menu-item index="2">专栏</el-menu-item>
+      <el-menu-item @click="homeClick" index="1">首页</el-menu-item>
+      <el-menu-item @click="articleClick" index="2">专栏</el-menu-item>
       <el-menu-item index="3">收藏</el-menu-item>
       <el-menu-item index="4">发现</el-menu-item>
     </el-menu>
@@ -21,6 +21,16 @@ export default {
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
+    },
+    homeClick() {
+      this.$router.push({
+        path: '/home/main'
+      });
+    },
+    articleClick() {
+      this.$router.push({
+        path: '/home/article'
+      });
     }
   }
 };
@@ -28,7 +38,6 @@ export default {
 
 <style lang="less" scoped>
 .nav-menu {
-  margin: 0 100px 0 50px;
   user-select: none;
   .el-menu {
     display: flex;

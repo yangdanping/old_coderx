@@ -1,5 +1,4 @@
 import { userRegister } from '@/network/register/register.request.js';
-import localCache from '@/utils/cache';
 export default {
   namespaced: true,
   state: {

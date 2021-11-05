@@ -2,6 +2,7 @@ import axios from 'axios';
 
 class DXRequest {
   constructor(config) {
+    console.log('我是DXRequest的构造器,每次项目启动我就会初始化一次');
     this.instance = axios.create(config); //this.instance才是其创建的实例
     this.interceptors = config.interceptors;
     console.log(this.interceptors);
@@ -16,22 +17,22 @@ class DXRequest {
     this.myResIn ? this.instance.interceptors.response.use(this.myResIn, this.myResInC) : null;
     // 全局拦截器(一旦new DXRequest则立即执行)-------------------
     this.instance.interceptors.request.use(
-      config => {
+      (config) => {
         console.log('<全局请求拦截器>:请求拦截成功');
         return config; //注意!!!拦截后你得把config原封不动得给别人还回去
       },
-      err => {
+      (err) => {
         console.log('<全局请求拦截器>:请求拦截失败');
         return err;
       }
     );
     this.instance.interceptors.response.use(
-      res => {
+      (res) => {
         console.log('<全局响应拦截器>:响应拦截成功');
         const realData = res.data;
         return realData; //返回res.data就保证了我拿到的res就是我想要的数据了
       },
-      err => {
+      (err) => {
         console.log('<全局响应拦截器>:响应拦截失败');
         return err;
       }

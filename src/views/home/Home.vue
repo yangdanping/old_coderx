@@ -1,34 +1,20 @@
 <template>
   <div class="home" ref="home">
     <nav-bar />
-    <home-title v-show="isShow" />
-    <home-main />
+    <router-view />
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import HomeTitle from './cpns/HomeTitle.vue';
-import HomeMain from './cpns/HomeMain.vue';
 import NavBar from '@/components/NavBar.vue';
 
 export default {
   name: 'Home',
   data() {
-    return {
-      isShow: true
-    };
+    return {};
   },
   components: {
-    NavBar,
-    HomeTitle,
-    HomeMain
-  },
-  mounted() {
-    console.log(this.$route.name);
-  },
-  computed: {
-    ...mapState(['isDark'])
+    NavBar
   },
   methods: {}
 };

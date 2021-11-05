@@ -1,40 +1,62 @@
 <template>
   <div class="home-main">
+    <home-title v-show="isShow" />
     <main></main>
   </div>
 </template>
 
 <script>
+import HomeTitle from './HomeTitle.vue';
 export default {
   name: 'HomeMain',
   data() {
-    return {};
+    return {
+      isShow: true
+    };
   },
-  components: {},
+  components: {
+    HomeTitle
+  },
   methods: {}
 };
 </script>
 
 <style lang="less" scoped>
 main {
-  position: relative;
+  display: grid;
   margin-top: var(--mainMT);
   margin-bottom: var(--mainMB);
   height: var(--mainH);
-  width: 1500px;
-  // background-color: rgba(0, 0, 0, 0.7);
+  width: 150rem;
+  transition: all 0.3s;
   background-color: rgba(255, 255, 255, 0.7);
 }
 
-// .header::before {
-//   content: '';
-//   background: var(--bg);
-//   position: absolute;
-//   left: 0;
-//   right: 0;
-//   bottom: 0;
-//   top: 0;
-//   filter: blur(30px);
-//   z-index: -1;
-// }
+@media screen and (max-width: 1550px) {
+  main {
+    width: 140rem;
+  }
+}
+@media screen and (max-width: 1450px) {
+  main {
+    width: 130rem;
+  }
+}
+
+@media screen and (max-width: 1350px) {
+  main {
+    width: 120rem;
+  }
+}
+
+@media screen and (max-width: 1250px) {
+  main {
+    width: 90rem;
+  }
+}
+@media screen and (max-width: 1150px) {
+  main {
+    width: 60rem;
+  }
+}
 </style>

@@ -1,10 +1,12 @@
 <template>
-  <div class="">NotFount</div>
+  <div class="">
+    <h1>HomeAticle</h1>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'NotFount',
+  name: 'HomeAticle',
   data() {
     return {};
   },
