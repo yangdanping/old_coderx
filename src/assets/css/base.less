@@ -1,23 +1,39 @@
-@import url('./home/animation.less');
-
+@import url('./animation/index.less'); //动画在这里注册
+* {
+  margin: 0;
+  padding: 0;
+}
 :root {
   --bg: url('../img/bg.svg') center / cover no-repeat fixed;
+  --pb: 25vh;
+  --fc: #707881;
   --logo: url('../img/logo.png') no-repeat 0 13px;
   --logo-dark: url('../img/logo-fff.png') no-repeat 0 13px;
-  // main属性
   --mainH: 1000px;
   --mainMT: 1000px;
   --mainMB: 100px;
-  font-size: 10px;
-}
-
-body {
-  padding: 0;
-  margin: 0;
+  --red: #ea3329;
+  --orange: #eb6a2c;
+  --yellow: #f29c38;
+  --lightyellow: #ffd321;
+  --green: #75fb4c;
+  --cyan: #00f0ff;
+  --blue: #0c8cfe;
+  --darkblue: #003b6e;
+  --purple: #e532ad;
+  --deeppurple: #970056;
+  --darkpurple: #2b0c5c;
+  --lightpurple: #3d147f;
+  --brightpurple: #8400ff;
+  --pink: #ff034a;
 }
 
 a {
   text-decoration: none;
+}
+
+i {
+  font-style: normal;
 }
 .el-button {
   border: 0;

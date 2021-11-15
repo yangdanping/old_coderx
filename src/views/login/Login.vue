@@ -49,17 +49,9 @@ export default {
   components: {},
   methods: {
     submit() {
-      console.log('登陆');
       localCache.setCache('name', this.userInfo.name);
       localCache.setCache('password', this.userInfo.password);
       this.$store.dispatch('l/loginAction', this.userInfo);
-    },
-    handleClose(done) {
-      this.$confirm('确认关闭?')
-        .then((_) => {
-          done();
-        })
-        .catch((_) => {});
     }
   }
 };

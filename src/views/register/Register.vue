@@ -37,9 +37,6 @@ export default {
           console.log('注册失败', res);
         }
       });
-    },
-    increment() {
-      this.$store.commit('r/increment');
     }
   }
 };

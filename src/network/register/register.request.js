@@ -1,9 +1,9 @@
-import { dxRequest } from '@/network';
+import { cxRequest } from '@/network';
 
 export function userRegister(name, password) {
   // body中的数据存在data中
-  return dxRequest.post({
-    url: '/users/register',
+  return cxRequest.post({
+    url: '/user/register',
     data: { name, password }
   });
 }

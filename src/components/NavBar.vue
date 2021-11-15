@@ -1,23 +1,33 @@
 <template>
   <div class="header">
     <header>
+      <nav-bar-moblie style="display: none" />
       <div class="header-l">
         <a href="javascript:scrollTo(0,0);"><span class="logo"></span></a>
-        <nav-menu />
+        <slot name="left"><nav-menu /></slot>
       </div>
       <div class="header-r">
         <input class="search" v-model="input" placeholder="探索Coder X" />
         <el-button @click="changeMode" class="change-mode">切换主题</el-button>
-        <el-button @click="loginClick" class="login-btn">登陆</el-button>
-        <el-button @click="registerClick" class="register-btn">注册</el-button>
+        <slot name="right">
+          <template v-if="!isLogin">
+            <el-button @click="loginClick" class="login-btn">登陆</el-button>
+            <el-button @click="registerClick" class="register-btn">注册</el-button>
+          </template>
+          <template v-else>
+            <nav-bar-user />
+          </template>
+        </slot>
       </div>
     </header>
   </div>
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
-import NavMenu from './NavMenu.vue';
+import { mapState, mapMutations } from 'vuex';
+import NavMenu from './navbar/NavMenu.vue';
+import NavBarMoblie from './navbar/NavBarMoblie.vue';
+import NavBarUser from './navbar/NavBarUser.vue';
 export default {
   name: 'NavBar',
   data() {
@@ -26,7 +36,14 @@ export default {
     };
   },
   components: {
-    NavMenu
+    NavMenu,
+    NavBarMoblie,
+    NavBarUser
+  },
+  computed: {
+    ...mapState({
+      isLogin: (state) => state.l.token //根据是否有token判断是否登陆(授权)
+    })
   },
   methods: {
     // changeMode() { this.$store.commit('changeMode'); }
@@ -51,13 +68,12 @@ export default {
   z-index: 999;
   background-color: rgba(255, 255, 255, 0.7);
   box-shadow: 0 2px 80px rgba(0, 0, 0, 0.1);
+
   header {
     display: flex;
-    // justify-content: center;
     justify-content: space-around;
     align-items: center;
     min-width: 1220px;
-    // max-width: 1500px;
     .header-l {
       display: flex;
       align-items: center;
@@ -133,8 +149,20 @@ export default {
       }
     }
   }
+  @media screen and (max-width: 760px) {
+    header {
+      justify-content: left;
+      min-width: 0;
+    }
+    div[class^='header-'] {
+      display: none;
+    }
+    .nav-dropdown {
+      display: block !important;
+      margin: 10px 0 0 15px;
+    }
+  }
 }
-
 .header::before {
   content: '';
   background: var(--bg);
