@@ -1,8 +1,10 @@
 let BASE_URL = null;
 const TIME_OUT = 5000;
+console.log('当前环境', process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'development') {
-  BASE_URL = 'http://localhost:8000'; //开发阶段已配置proxy选项解决跨域问题,生产环境到时再说
+  BASE_URL = '/api'; //开发阶段已配置proxy选项解决跨域问题,生产环境到时再说
 } else if (process.env.NODE_ENV === 'production') {
+  // BASE_URL = '/api';
   BASE_URL = 'http://119.91.150.141:8000';
 }
 
