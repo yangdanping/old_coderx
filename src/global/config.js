@@ -2,14 +2,14 @@ let BASE_URL = null;
 const TIME_OUT = 5000;
 console.log('当前环境', process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'development') {
-  BASE_URL = '/api'; //开发阶段已配置proxy选项解决跨域问题,生产环境到时再说
+  BASE_URL = '/api-dev';
 } else if (process.env.NODE_ENV === 'production') {
   BASE_URL = '/api';
   // BASE_URL = 'http://119.91.150.141:8000';
 }
-
 export { BASE_URL, TIME_OUT };
 
+//开发阶段已配置proxy选项解决跨域问题,生产环境到时再说
 /* 以上是根据process.env.NODE_ENV(我们项目用的方式)
 process.env.NODE_ENV会根据DefinePlugin注入不同的值
 开发环境:development 生产环境:prodoct 测试环境:test
