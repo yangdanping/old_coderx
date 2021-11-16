@@ -12,12 +12,6 @@ module.exports = {
         changeOrigin: true,
         logLevel: 'debug'
       }
-      // '^/api': {
-      //   target: 'http://119.91.150.141:8000',
-      //   pathRewrite: { '^/api': '' },
-      //   changeOrigin: true,
-      //   logLevel: 'debug'
-      // }
     }
   }
 };

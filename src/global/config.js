@@ -1,11 +1,9 @@
 let BASE_URL = null;
-const TIME_OUT = 5000;
-console.log('当前环境', process.env.NODE_ENV);
+const TIME_OUT = 15000;
 if (process.env.NODE_ENV === 'development') {
   BASE_URL = '/api-dev';
 } else if (process.env.NODE_ENV === 'production') {
   BASE_URL = '/api';
-  // BASE_URL = 'http://119.91.150.141:8000';
 }
 export { BASE_URL, TIME_OUT };
 

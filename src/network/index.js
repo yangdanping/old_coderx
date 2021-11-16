@@ -1,6 +1,7 @@
 import CXRequest from './request/request';
 import localCache from '@/utils/cache';
 import { BASE_URL, TIME_OUT } from '@/global/config';
+console.log('当前环境', process.env.NODE_ENV, '当前BASE_URL', BASE_URL);
 const cxRequest = new CXRequest({
   baseURL: BASE_URL,
   timeout: TIME_OUT,
