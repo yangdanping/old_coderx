@@ -1,7 +1,9 @@
 <template>
   <div class="login">
     <div class="login-panel">
-      <h2 class="title">{{ $store.state.l.Mdname }}</h2>
+      <div class="title">
+        <h2>{{ $store.state.l.Mdname }}</h2>
+      </div>
       <el-form status-icon ref="loginForm" label-width="65px">
         <el-form-item label="用户名" prop="name">
           <el-input v-model="userInfo.name"></el-input>
@@ -72,7 +74,9 @@ export default {
 
 .login-panel {
   .title {
-    margin-left: 85px;
+    display: flex;
+    justify-content: center;
+    margin: 0 0 20px 60px;
   }
 
   .el-form {

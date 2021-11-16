@@ -5,9 +5,9 @@ import router from '@/router'; //拿到router对象,进行路由跳转(.push)
 export default {
   namespaced: true,
   state: {
-    Mdname: '我是登陆模块',
-    token: localCache.getCache('token') ?? null,
-    userInfo: localCache.getCache('userInfo') ?? null
+    Mdname: '登陆',
+    token: localCache.getCache('token') ?? '',
+    userInfo: localCache.getCache('userInfo') ?? ''
   },
   mutations: {
     changeToken(state, token) {

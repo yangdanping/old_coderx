@@ -169,7 +169,9 @@ export default {
 }
 
 .liked {
-  color: #509afb;
+  span {
+    color: #509afb !important;
+  }
   i {
     background-image: url('~@/assets/img/like-active.png') !important;
   }

@@ -2,7 +2,7 @@ import { userRegister } from '@/network/register/register.request.js';
 export default {
   namespaced: true,
   state: {
-    Mdname: '我是注册模块',
+    Mdname: '注册',
     counter: 100
   },
   mutations: {

@@ -47,11 +47,13 @@ export default {
       if (res1.statusCode) {
         commit('getListMutation', { ...res1 });
       }
-      // 2.获取登陆用户点赞过哪些文章
-      const userId = rootState.l.userInfo.id;
-      const res2 = await getLiked(userId);
-      if (res2.statusCode) {
-        commit('getLikedId', res2.data.liked);
+      // 2.若用户登陆获取登陆用户点赞过哪些文章
+      if (rootState.l.userInfo.id) {
+        const userId = rootState.l.userInfo.id;
+        const res2 = await getLiked(userId);
+        if (res2.statusCode) {
+          commit('getLikedId', res2.data.liked);
+        }
       }
     },
     async getDetailAction({ commit }, articleId) {

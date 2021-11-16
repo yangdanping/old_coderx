@@ -1,7 +1,9 @@
 <template>
   <div class="register">
     <div class="register-panel">
-      <h2 class="title">{{ $store.state.r.Mdname }}</h2>
+      <div class="title">
+        <h2>{{ $store.state.r.Mdname }}</h2>
+      </div>
       <el-form status-icon ref="registerForm" label-width="65px">
         <el-form-item label="用户名" prop="name">
           <el-input v-model="userInfo.name"></el-input>
@@ -11,7 +13,7 @@
         </el-form-item>
         <el-form-item class="btn-box">
           <el-button type="primary" @click="register">注册</el-button>
-          <router-link to="/home"><el-button>返回</el-button></router-link>
+          <router-link to="/main"><el-button>返回</el-button></router-link>
         </el-form-item>
       </el-form>
     </div>
@@ -57,7 +59,9 @@ export default {
 
 .register-panel {
   .title {
-    margin-left: 85px;
+    display: flex;
+    justify-content: center;
+    margin: 0 0 20px 60px;
   }
 
   .el-form {
