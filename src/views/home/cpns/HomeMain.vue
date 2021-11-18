@@ -1,8 +1,8 @@
 <template>
   <div class="home-main">
+    <hr />
     <el-container>
       <el-main>Main</el-main>
-      <el-aside>Aside</el-aside>
     </el-container>
   </div>
 </template>
@@ -20,26 +20,22 @@ export default {
 
 <style lang="less" scoped>
 .home-main {
-  width: 1200px;
-  height: 600px;
-  .el-container {
-    height: 100%;
+  width: 100%;
+  hr {
+    border: 0;
+    height: 6px;
+    background-image: linear-gradient(90deg, transparent, var(--yellow), var(--red), var(--pink), var(--purple), var(--blue), transparent);
   }
 }
 
-.el-main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #e9eef3;
-  color: #333;
-  margin-right: 30px;
-}
-.el-aside {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #d3dce6;
-  color: #333;
+.el-container {
+  height: 800px;
+  .el-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // background-color: #e9eef3;
+    color: #333;
+  }
 }
 </style>

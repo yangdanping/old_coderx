@@ -16,7 +16,14 @@
           <h1 class="article-title">{{ article.title }}</h1>
           <p v-html="article.content"></p>
           <hr />
-          <comment-list />
+          <template v-if="commentInfo.length">
+            <comment-list :commentInfo="commentInfo" />
+          </template>
+          <template v-else>
+            <div class="skeleton">
+              <el-skeleton animated />
+            </div>
+          </template>
         </el-main>
       </el-container>
     </div>
@@ -40,7 +47,10 @@ export default {
   },
   computed: {
     // this.$route拿到的是我们当前处于活跃状态的路由
-    ...mapState({ article: (state) => state.a.article })
+    ...mapState({
+      article: (state) => state.a.article,
+      commentInfo: (state) => state.a.commentInfo
+    })
   },
   created() {
     this.$store.dispatch('a/getDetailAction', this.$route.params.articleId);
@@ -53,10 +63,10 @@ export default {
 <style lang="less" scoped>
 .detail {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   transition: background-color 1s;
   background: var(--bg);
-  padding-bottom: calc(var(--pb) * 3);
   hr {
     margin: 40px auto;
     border: 0;
@@ -109,6 +119,10 @@ export default {
   span {
     font-size: 15px;
   }
+}
+
+.skeleton {
+  height: calc(50vh);
 }
 
 @import url('@/assets/css/theme/dark.less');

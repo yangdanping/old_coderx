@@ -1,13 +1,20 @@
 <template>
   <div class="article">
     <nav-bar />
-    <div class="article-wrapper" ref="article">
-      <el-container>
-        <el-main>
-          <article-list :articles="articles" :likedId="likedId" />
-        </el-main>
-        <!-- <el-aside>aside</el-aside> -->
-      </el-container>
+    <div class="article-wrapper">
+      <template v-if="articles.length">
+        <el-container>
+          <el-main>
+            <article-list :articles="articles" :likedId="likedId" />
+          </el-main>
+          <!-- <el-aside>aside</el-aside> -->
+        </el-container>
+      </template>
+      <template v-else>
+        <div class="skeleton">
+          <el-skeleton animated />
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -46,10 +53,16 @@ export default {
   align-items: center;
   background: var(--bg);
   transition: background-color 1s;
+
+  .article-wrapper {
+    margin-top: 120px;
+    .skeleton {
+      width: 1000px;
+      height: calc(100vh - 120px);
+    }
+  }
 }
-.article-wrapper {
-  margin-top: 120px;
-}
+
 .el-main {
   position: relative;
   display: flex;

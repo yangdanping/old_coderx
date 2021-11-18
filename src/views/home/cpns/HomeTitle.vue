@@ -81,4 +81,14 @@ export default {
 .isShow {
   animation: titleFade 2s forwards reverse;
 }
+@media screen and (max-width: 880px) {
+  .title {
+    font-size: 70px;
+  }
+}
+@media screen and (max-width: 630px) {
+  .title {
+    font-size: 50px;
+  }
+}
 </style>

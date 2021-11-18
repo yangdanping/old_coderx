@@ -24,14 +24,17 @@
 import { mapState } from 'vuex';
 export default {
   name: 'CommentList',
+  props: {
+    commentInfo: {
+      type: Array,
+      default: () => []
+    }
+  },
   data() {
     return {};
   },
   computed: {
-    ...mapState({
-      article: (state) => state.a.article,
-      commentInfo: (state) => state.a.commentInfo
-    })
+    ...mapState({ article: (state) => state.a.article })
   },
   components: {},
   methods: {}

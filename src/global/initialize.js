@@ -9,6 +9,7 @@ import {
   Form, FormItem, Dialog, Input, Button,
   Menu, MenuItem ,Badge,
   Avatar,Tag,Pagination,Popconfirm,Drawer,
+  Skeleton,SkeletonItem,
   Dropdown,DropdownMenu,DropdownItem} from 'element-ui';
 
 const cpns = [
@@ -16,6 +17,7 @@ const cpns = [
   Form, FormItem, Dialog, Input, Button,
   Menu, MenuItem,Badge,
   Avatar,Tag,Pagination,Popconfirm,Drawer,
+  Skeleton,SkeletonItem,
   Dropdown,DropdownMenu,DropdownItem];
 
 export default function initialize() {

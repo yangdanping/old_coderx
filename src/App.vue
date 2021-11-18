@@ -11,9 +11,8 @@ export default {
     isDark() {
       return { darktheme: this.$store.state.isDark };
     }
-  },
-  methods: {}
+  }
 };
 </script>
 
-<style lang="less" scoped></style>
+<style scoped></style>

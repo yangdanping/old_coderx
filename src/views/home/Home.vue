@@ -33,7 +33,9 @@ export default {
   flex-direction: column;
   align-items: center;
   background: var(--bg);
+  height: calc(100vh);
   transition: background-color 1s;
+  box-shadow: 5px 2px 10px rgba(100, 100, 100, 0.7);
 }
 @import url('@/assets/css/theme/dark.less');
 </style>

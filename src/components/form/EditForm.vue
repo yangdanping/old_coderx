@@ -23,7 +23,7 @@ export default {
   components: {},
   methods: {
     goBack() {
-      this.$router.push('/main/article');
+      this.$router.push('/article');
     },
     onSubmit() {
       console.log('submit!');

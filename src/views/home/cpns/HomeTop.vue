@@ -1,7 +1,6 @@
 <template>
   <div class="home-top">
     <div class="home-top-wrapper"></div>
-    <hr />
   </div>
 </template>
 
@@ -18,17 +17,12 @@ export default {
 
 <style lang="less" scoped>
 .home-top {
+  width: 100%;
   .home-top-wrapper {
-    width: 1200px;
-    height: 700px;
+    width: 100%;
+    height: 100vh;
     // background: pink;
-    margin: 200px auto 0;
-  }
-  hr {
-    margin: 80px auto;
-    border: 0;
-    height: 6px;
-    background-image: linear-gradient(90deg, transparent, var(--yellow), var(--red), var(--pink), var(--purple), var(--blue), transparent);
+    margin: 100px auto 0;
   }
 }
 </style>

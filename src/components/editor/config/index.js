@@ -1,4 +1,4 @@
-import './tinymce.min.js';
+import './base/tinymce.min.js';
 import './themes/silver/theme.min.js';
 import './icons/default/icons.min.js';
 import './skins/ui/oxide-dark/skin.min.css';

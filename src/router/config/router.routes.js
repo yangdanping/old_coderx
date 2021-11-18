@@ -2,8 +2,8 @@ const Register = () => import('../../views/register/Register.vue');
 const Login = () => import('../../views/login/Login.vue');
 const Home = () => import('../../views/home/Home.vue');
 const Article = () => import('../../views/article/Article.vue');
-const Edit = () => import('../../views/edit/Edit.vue');
 const Detail = () => import('../../views/detail/Detail.vue');
+const Edit = () => import('../../views/edit/Edit.vue');
 const NotFount = () => import('../../views/NotFount.vue');
 
 const routes = [
@@ -11,11 +11,13 @@ const routes = [
   {
     name: 'home',
     path: '/home',
+    meta: { title: '首页' },
     component: Home
   },
   {
     name: 'article',
     path: '/article',
+    meta: { title: '文章' },
     component: Article
   },
   {
