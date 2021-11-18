@@ -1,17 +1,20 @@
 <template>
-  <div class="article-main">
-    <h1>Article</h1>
-    <el-container>
-      <el-main>
-        <article-list :articles="articles" :likedId="likedId" />
-      </el-main>
-      <!-- <el-aside>aside</el-aside> -->
-    </el-container>
+  <div class="article">
+    <nav-bar />
+    <div class="article-wrapper" ref="article">
+      <el-container>
+        <el-main>
+          <article-list :articles="articles" :likedId="likedId" />
+        </el-main>
+        <!-- <el-aside>aside</el-aside> -->
+      </el-container>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import NavBar from '@/components/NavBar.vue';
 import ArticleList from './cpns/ArticleList.vue';
 export default {
   name: 'Article',
@@ -27,7 +30,7 @@ export default {
       likedId: (state) => state.a.likedId
     })
   },
-  components: { ArticleList },
+  components: { NavBar, ArticleList },
   methods: {
     getArticles() {
       this.$store.dispatch('a/getListAction');
@@ -37,22 +40,27 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.article-main {
-  margin-top: 60px;
-  width: 1500px;
-  animation: moveDown 1s forwards;
+.article {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--bg);
+  transition: background-color 1s;
 }
-
+.article-wrapper {
+  margin-top: 120px;
+}
 .el-main {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  // background-color: rgb(233, 238, 243);
   background-color: rgba(255, 255, 255, 0.7);
+  transition: background-color 1s;
   color: #333;
   // margin-right: 30px;
   border-radius: 10px;
+  animation: moveDown 1s forwards;
 }
 .el-main::before {
   content: '';
@@ -73,4 +81,5 @@ export default {
 //   border-radius: 10px;
 //   color: #333;
 // }
+@import url('@/assets/css/theme/dark.less');
 </style>

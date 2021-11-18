@@ -12,8 +12,8 @@ export default {
   data() {
     return {
       menus: [
-        { name: '首页', path: '/main/home' },
-        { name: '专栏', path: '/main/article' }
+        { name: '首页', path: '/home' },
+        { name: '专栏', path: '/article' }
         // { name: '收藏', path: '/main/collection' },
         // { name: '发现', path: '/main/discover' }
       ],

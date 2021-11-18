@@ -1,31 +1,22 @@
 const Register = () => import('../../views/register/Register.vue');
 const Login = () => import('../../views/login/Login.vue');
-const Main = () => import('../../views/main/Main.vue');
+const Home = () => import('../../views/home/Home.vue');
+const Article = () => import('../../views/article/Article.vue');
 const Edit = () => import('../../views/edit/Edit.vue');
 const Detail = () => import('../../views/detail/Detail.vue');
 const NotFount = () => import('../../views/NotFount.vue');
 
 const routes = [
-  { path: '/', redirect: () => '/main' },
+  { path: '/', redirect: () => '/home' },
   {
-    path: '/main',
-    component: Main,
-    //如果是我们子组件就不能加/,它会自动在后面拼接上/ (注意,若有子路由则父路由不要命名)
-    children: [
-      { path: '', redirect: 'home' },
-      {
-        name: 'home',
-        meta: { title: '首页' },
-        path: 'home',
-        component: () => import('../../views/main/home/Home.vue')
-      },
-      {
-        name: 'article',
-        meta: { title: '文章' },
-        path: 'article',
-        component: () => import('../../views/main/article/Article.vue')
-      }
-    ]
+    name: 'home',
+    path: '/home',
+    component: Home
+  },
+  {
+    name: 'article',
+    path: '/article',
+    component: Article
   },
   {
     name: 'detail',
