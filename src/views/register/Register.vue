@@ -13,7 +13,7 @@
         </el-form-item>
         <el-form-item class="btn-box">
           <el-button type="primary" @click="register">注册</el-button>
-          <router-link to="/main"><el-button>返回</el-button></router-link>
+          <router-link to="/"><el-button>返回</el-button></router-link>
         </el-form-item>
       </el-form>
     </div>

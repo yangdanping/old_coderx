@@ -46,7 +46,7 @@ export default {
       }
       // 4.正式用路由跳转跳到首页-----------------------------------------------------
       if (localCache.getCache('token')) {
-        router.push('/main');
+        router.push('/');
       } else {
         console.log('登陆(授权)失败');
       }
