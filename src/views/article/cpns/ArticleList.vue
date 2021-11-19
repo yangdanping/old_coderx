@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+// import { mapState } from 'vuex';
 import ArticlePage from './ArticlePage.vue';
 export default {
   name: 'ArticleList',
@@ -54,9 +54,9 @@ export default {
     return {};
   },
   components: { ArticlePage },
-  computed: {
-    ...mapState({ isLiked: (state) => state.a.isLiked })
-  },
+  // computed: {
+  //   ...mapState({ isLiked: (state) => state.a.isLiked })
+  // },
   methods: {
     likeClick(articleId) {
       this.likeIndex = articleId;
@@ -70,10 +70,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.article-container {
-  width: 100%;
-}
-
+// .article-container {
+//   width: 100%;
+// }
 .article {
   display: flex;
   flex-direction: column;

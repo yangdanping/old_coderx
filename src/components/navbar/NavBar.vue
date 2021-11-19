@@ -3,11 +3,14 @@
     <header>
       <nav-bar-moblie style="display: none" />
       <div class="header-l">
-        <a href="javascript:scrollTo(0,0);"><span class="logo"></span></a>
+        <router-link to="/home"><span class="logo"></span></router-link>
         <slot name="left"><nav-menu /></slot>
       </div>
       <div class="header-r">
-        <input class="search" v-model="input" placeholder="探索Coder X" />
+        <form class="search" action="">
+          <input class="search-input" v-model="input" placeholder="探索Coder X" />
+          <img class="search-icon" src="../../assets/img/search.svg" alt="" />
+        </form>
         <el-button @click="changeMode" class="change-mode">切换主题</el-button>
         <slot name="right">
           <template v-if="!isLogin">
@@ -25,9 +28,9 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
-import NavMenu from './navbar/NavMenu.vue';
-import NavBarMoblie from './navbar/NavBarMoblie.vue';
-import NavBarUser from './navbar/NavBarUser.vue';
+import NavMenu from './cpns/NavMenu.vue';
+import NavBarMoblie from './cpns/NavBarMoblie.vue';
+import NavBarUser from './cpns/NavBarUser.vue';
 export default {
   name: 'NavBar',
   data() {
@@ -87,19 +90,28 @@ export default {
       display: flex;
       font-family: Georgia, 'Times New Roman', Times, serif;
       .search {
-        margin: 0 10px 0 30px;
-        width: 200px;
-        border: 0;
-        outline: 0;
-        background: none;
-        transition: width 0.3s;
-      }
-      .search:focus {
-        border-bottom: 1px solid #e6e6e6;
-        width: 260px;
-      }
-      .search ::placeholder {
-        color: #f1f1f1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-right: 15px;
+        .search-icon {
+          width: 25px;
+          height: 25px;
+          cursor: pointer;
+        }
+        .search-input {
+          width: 200px;
+          background: none;
+          height: 100%;
+          transition: width 0.3s;
+        }
+        .search-input:focus {
+          border-bottom: 1px solid #e6e6e6;
+          width: 260px;
+        }
+        .search-input ::placeholder {
+          color: #f1f1f1;
+        }
       }
       .change-mode {
         background: transparent;

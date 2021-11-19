@@ -4,7 +4,7 @@
       <el-form-item label="文章标题">
         <el-input v-model="title"></el-input>
       </el-form-item>
-      <el-form-item>
+      <el-form-item class="btn">
         <el-button type="primary" @click="onSubmit">创建</el-button>
         <el-button @click="goBack">退出编辑</el-button>
       </el-form-item>
@@ -36,16 +36,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.form {
-  display: flex;
-  justify-content: center;
-  .el-form {
-    width: 500px;
-    // .el-form-item:last-child {
-    //   width: 100%;
-    //   display: flex;
-    //   justify-content: space-around;
-    // }
+.el-form {
+  padding-right: 30px;
+  .btn {
+    display: flex;
+    justify-content: space-around;
   }
 }
 </style>

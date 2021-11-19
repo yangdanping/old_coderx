@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import NavBar from '@/components/NavBar.vue';
+import NavBar from '@/components/navbar/NavBar.vue';
 import HomeTop from './cpns/HomeTop.vue';
 import HomeTitle from './cpns/HomeTitle.vue';
 import HomeMain from './cpns/HomeMain.vue';
@@ -33,7 +33,7 @@ export default {
   flex-direction: column;
   align-items: center;
   background: var(--bg);
-  height: calc(100vh);
+  // height: calc(100vh);
   transition: background-color 1s;
   box-shadow: 5px 2px 10px rgba(100, 100, 100, 0.7);
 }

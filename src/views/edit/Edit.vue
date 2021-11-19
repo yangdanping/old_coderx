@@ -73,5 +73,11 @@ export default {
   .preview {
     padding-top: 21px;
   }
+
+  .el-drawer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 </style>

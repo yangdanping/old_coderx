@@ -21,7 +21,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import NavBar from '@/components/NavBar.vue';
+import NavBar from '@/components/navbar/NavBar.vue';
 import ArticleList from './cpns/ArticleList.vue';
 export default {
   name: 'Article',

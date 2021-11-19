@@ -1,9 +1,9 @@
 <template>
   <div class="nav-dropdown">
-    <el-dropdown>
+    <el-dropdown @command="handleCommand">
       <el-button><i class="el-icon-arrow-down el-icon--center"></i></el-button>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item v-for="item in menus" :key="item.name">{{ item.name }}</el-dropdown-item>
+        <el-dropdown-item v-for="item in menus" :command="item.path" :key="item.name">{{ item.name }}</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </div>
@@ -15,15 +15,19 @@ export default {
   data() {
     return {
       menus: [
-        { name: '首页', path: '/main/home' },
-        { name: '专栏', path: '/main/article' },
-        { name: '收藏', path: '/main/collection' },
-        { name: '发现', path: '/main/discover' }
+        { name: '首页', path: '/home' },
+        { name: '专栏', path: '/article' }
+        // { name: '收藏', path: '/collection' },
+        // { name: '发现', path: '/discover' }
       ]
     };
   },
   components: {},
-  methods: {}
+  methods: {
+    handleCommand(path) {
+      this.$router.push({ path });
+    }
+  }
 };
 </script>
 
