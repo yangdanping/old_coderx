@@ -7,7 +7,6 @@
           <el-main>
             <article-list :articles="articles" :likedId="likedId" />
           </el-main>
-          <!-- <el-aside>aside</el-aside> -->
         </el-container>
       </template>
       <template v-else>
