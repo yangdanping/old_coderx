@@ -1,5 +1,5 @@
 <template>
-  <div class="article-container">
+  <div class="article-list">
     <template v-for="item in articles">
       <div class="article" :key="item.id">
         <div class="banner">
@@ -31,11 +31,13 @@
       </div>
     </template>
     <article-page />
+    <template v-if="articles.length < 5">
+      <div class="skeleton"></div>
+    </template>
   </div>
 </template>
 
 <script>
-// import { mapState } from 'vuex';
 import ArticlePage from './ArticlePage.vue';
 export default {
   name: 'ArticleList',
@@ -55,9 +57,6 @@ export default {
     };
   },
   components: { ArticlePage },
-  // computed: {
-  //   ...mapState({ isLiked: (state) => state.a.isLiked })
-  // },
   methods: {
     likeClick(articleId) {
       this.likeIndex = articleId;
@@ -71,9 +70,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-// .article-container {
-//   width: 100%;
-// }
 .article {
   display: flex;
   flex-direction: column;
@@ -175,5 +171,9 @@ export default {
   i {
     background-image: url('~@/assets/img/like-active.png') !important;
   }
+}
+.skeleton {
+  width: 1000px;
+  height: calc(100vh - 380px);
 }
 </style>

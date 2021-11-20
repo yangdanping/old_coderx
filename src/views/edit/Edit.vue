@@ -12,7 +12,7 @@
         <div class="btn">
           <el-button @click="drawer = true"><i class="el-icon-menu"></i></el-button>
         </div>
-        <el-drawer title="管理您的文章" :visible.sync="drawer" :direction="direction" :before-close="handleClose">
+        <el-drawer title="管理您的文章" :visible.sync="drawer" :direction="direction">
           <edit-form @formSubmit="formSubmit" />
         </el-drawer>
       </el-col>
@@ -39,13 +39,6 @@ export default {
   methods: {
     onListen(content) {
       this.preview = content;
-    },
-    handleClose(done) {
-      this.$confirm('确认关闭?')
-        .then((_) => {
-          done();
-        })
-        .catch((_) => {});
     },
     formSubmit(payload) {
       const sumbitPayload = { ...payload, content: this.preview };
