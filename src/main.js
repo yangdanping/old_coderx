@@ -4,7 +4,6 @@ import initialize from '@/global/initialize.js';
 import router from '@/router';
 import store from '@/store';
 
-Vue.config.productionTip = false;
 initialize.call(Vue);
 new Vue({
   router,

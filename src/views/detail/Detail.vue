@@ -14,8 +14,9 @@
           </div>
           <hr />
           <h1 class="article-title">{{ article.title }}</h1>
-          <p v-html="article.content"></p>
+          <div class="el-tiptap-editor__content" v-html="article.content"></div>
           <hr />
+          <comment-form />
           <template v-if="commentInfo.length">
             <comment-list :commentInfo="commentInfo" />
           </template>
@@ -40,6 +41,7 @@
 import NavBar from '@/components/navbar/NavBar.vue';
 import { mapState } from 'vuex';
 import CommentList from './cpns/CommentList.vue';
+import CommentForm from './cpns/CommentForm.vue';
 export default {
   name: 'Detail',
   data() {
@@ -55,7 +57,7 @@ export default {
   created() {
     this.$store.dispatch('a/getDetailAction', this.$route.params.articleId);
   },
-  components: { NavBar, CommentList },
+  components: { NavBar, CommentList, CommentForm },
   methods: {}
 };
 </script>
@@ -92,6 +94,7 @@ export default {
       }
       .article-title {
         font-size: 50px;
+        margin-bottom: 50px;
       }
     }
   }

@@ -4,22 +4,11 @@ class CXRequest {
   constructor(config) {
     console.log('我是CXRequest的构造器,每次项目启动我就会初始化一次');
     this.instance = axios.create(config); //this.instance才是其创建的实例
-    this.interceptors = config.interceptors;
-    console.log(this.interceptors);
-    [this.myReqIn, this.myReqInC, this.myResIn, this.myResInC] = [
-      this.interceptors.requestInterceptor,
-      this.interceptors.requestInterceptorCatch,
-      this.interceptors.responseInterceptor,
-      this.interceptors.responseInterceptorCatch
-    ];
-    // 从config中取出的拦截器是对应的实例的拦截器(只属于我CXRequest实例的拦截器,在demo中说了request/response拦截器都有它的响应成功/失败拦截)
-    this.myReqIn ? this.instance.interceptors.request.use(this.myReqIn, this.myReqInC) : null;
-    this.myResIn ? this.instance.interceptors.response.use(this.myResIn, this.myResInC) : null;
-    // 全局拦截器(一旦new CXRequest则立即执行)-------------------
+    // 全局拦截器-------------------
     this.instance.interceptors.request.use(
       (config) => {
         console.log('<全局请求拦截器>:请求拦截成功');
-        return config; //注意!!!拦截后你得把config原封不动得给别人还回去
+        return config;
       },
       (err) => {
         console.log('<全局请求拦截器>:请求拦截失败');
@@ -37,6 +26,16 @@ class CXRequest {
         return err;
       }
     );
+    this.interceptors = config.interceptors;
+    [this.myReqIn, this.myReqInC, this.myResIn, this.myResInC] = [
+      this.interceptors.requestInterceptor,
+      this.interceptors.requestInterceptorCatch,
+      this.interceptors.responseInterceptor,
+      this.interceptors.responseInterceptorCatch
+    ];
+    // 从config中取出的拦截器是对应的实例的拦截器(只属于我CXRequest实例的拦截器,在demo中说了request/response拦截器都有它的响应成功/失败拦截)
+    this.myReqIn && this.myReqInC ? this.instance.interceptors.request.use(this.myReqIn, this.myReqInC) : null;
+    this.myResIn && this.myResInC ? this.instance.interceptors.response.use(this.myResIn, this.myResInC) : null;
   }
   async request(config) {
     try {

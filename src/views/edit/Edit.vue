@@ -1,15 +1,14 @@
 <template>
   <div class="edit">
     <el-row>
-      <el-col :span="12">
-        <editor v-model="content" />
+      <el-col class="editor-box" :span="12">
+        <editor @onListen="onListen" />
       </el-col>
       <el-col :span="12">
-        <!-- <pre v-highlightjs><code class="lua" v-html="content"></code></pre> -->
         <div class="block">
           <i class="el-icon-s-platform">预览</i>
         </div>
-        <div class="preview" v-html="content"></div>
+        <div class="preview el-tiptap-editor__content" v-html="preview"></div>
         <div class="btn">
           <el-button @click="drawer = true"><i class="el-icon-menu"></i></el-button>
         </div>
@@ -33,11 +32,14 @@ export default {
       // modal: null,
       drawer: false,
       direction: 'ltr',
-      content: '<h2>请输入内容</h2>'
+      preview: `<h2>请输入内容</h2>`
     };
   },
   components: { Editor, EditForm },
   methods: {
+    onListen(content) {
+      this.preview = content;
+    },
     handleClose(done) {
       this.$confirm('确认关闭?')
         .then((_) => {
@@ -46,7 +48,7 @@ export default {
         .catch((_) => {});
     },
     formSubmit(payload) {
-      const sumbitPayload = { ...payload, content: this.value };
+      const sumbitPayload = { ...payload, content: this.preview };
       this.$store.dispatch('a/editAction', sumbitPayload);
     }
   }
@@ -56,6 +58,9 @@ export default {
 <style lang="less" scoped>
 .edit {
   width: 100%;
+  .editor-box {
+    background: var(--bg);
+  }
   .btn {
     position: fixed;
     bottom: 30px;
@@ -68,12 +73,12 @@ export default {
     background-image: linear-gradient(90deg, #222f3e, #03a9f4, transparent);
     color: #fff;
     font-size: 30px;
-    height: 79px;
+    height: 99px;
   }
   .preview {
-    padding-top: 21px;
+    padding: 0 20px;
+    white-space: pre-wrap;
   }
-
   .el-drawer {
     display: flex;
     flex-direction: column;

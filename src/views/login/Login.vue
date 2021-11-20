@@ -2,7 +2,7 @@
   <div class="login">
     <div class="login-panel">
       <div class="title">
-        <h2>{{ $store.state.l.Mdname }}</h2>
+        <h2>登陆</h2>
       </div>
       <el-form status-icon ref="loginForm" label-width="65px">
         <el-form-item label="用户名" prop="name">

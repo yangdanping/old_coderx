@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     logOut() {
-      this.$store.commit('l/changeToken');
+      this.$store.commit('l/logOut');
     },
     goEdit() {
       console.log('goEdit');

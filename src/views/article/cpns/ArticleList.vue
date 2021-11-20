@@ -21,7 +21,7 @@
               <li class="item like" @click="likeClick(item.id)" :class="{ liked: likedId.some((id) => id === item.id) ? true : false }">
                 <i></i><span>{{ item.likes }}</span>
               </li>
-              <li class="item comment">
+              <li class="item comment" @click="onDetail(item.id)">
                 <i></i><span>{{ item.commentCount }}</span>
               </li>
             </ul>
@@ -47,11 +47,12 @@ export default {
     likedId: {
       type: Array,
       default: () => []
-    },
-    likeIndex: null
+    }
   },
   data() {
-    return {};
+    return {
+      likeIndex: null
+    };
   },
   components: { ArticlePage },
   // computed: {

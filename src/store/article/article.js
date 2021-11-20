@@ -66,16 +66,18 @@ export default {
         commit('getCommentInfo', res2.data);
       }
     },
-    async likeAction({ commit }, articleId) {
+    async likeAction({ commit, dispatch }, articleId) {
       console.log('点赞的文章id:', articleId);
       const res = await likeArticle(articleId);
       console.log(res);
       if (res.statusCode) {
         console.log('点赞文章成功');
         commit('changeLike');
+        dispatch('getListAction');
       } else {
         console.log('取消点赞成功');
         commit('changeLike');
+        dispatch('getListAction');
       }
     },
     async editAction({ commit }, payload) {
