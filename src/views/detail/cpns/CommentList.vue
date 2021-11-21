@@ -3,8 +3,7 @@
     <span class="comment-title">最近评论({{ article.commentCount }})</span>
     <div v-for="item in commentInfo" :key="item.id" class="list">
       <div class="user">
-        <template v-if="item.user"><el-avatar :src="item.user.avatarUrl"></el-avatar></template>
-        <template v-else><el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar></template>
+        <avatar :info="item.user" />
         <div class="user-info-box">
           <span class="name">{{ item.user.name }}</span>
           <div class="floor">
@@ -14,7 +13,7 @@
         </div>
       </div>
       <div class="content">
-        <span>{{ item.content }}</span>
+        <p v-html="item.content"></p>
       </div>
     </div>
   </div>
@@ -22,6 +21,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import Avatar from '@/components/avatar/Avatar.vue';
 export default {
   name: 'CommentList',
   props: {
@@ -36,7 +36,7 @@ export default {
   computed: {
     ...mapState({ article: (state) => state.a.article })
   },
-  components: {},
+  components: { Avatar },
   methods: {}
 };
 </script>

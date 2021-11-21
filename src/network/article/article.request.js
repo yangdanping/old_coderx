@@ -37,3 +37,11 @@ export function likeArticle(articleId) {
     url: `/article/${articleId}/like`
   });
 }
+
+export function updateArticle(article) {
+  const { articleId, title, content } = article;
+  return cxRequest.put({
+    url: `/article/${articleId}`,
+    data: { title, content }
+  });
+}

@@ -3,7 +3,7 @@
     <header>
       <nav-bar-moblie style="display: none" />
       <div class="header-l">
-        <router-link to="/home"><span class="logo"></span></router-link>
+        <router-link to="/home"><img class="logo" :src="logo"></img></router-link>
         <slot name="left"><nav-menu /></slot>
       </div>
       <div class="header-r">
@@ -45,8 +45,12 @@ export default {
   },
   computed: {
     ...mapState({
-      isLogin: (state) => state.l.token //根据是否有token判断是否登陆(授权)
-    })
+      isLogin: (state) => state.l.token, //根据是否有token判断是否登陆(授权)
+      isDark: (state) => state.isDark
+    }),
+    logo() {
+      return require(`@/assets/img/logo${this.isDark ? '-fff' : ''}.png`);
+    }
   },
   methods: {
     // changeMode() { this.$store.commit('changeMode'); }
@@ -81,9 +85,8 @@ export default {
       display: flex;
       align-items: center;
       .logo {
-        padding: 32px 90px 20px 90px;
-        background: var(--logo);
-        background-size: 185px 60px;
+        width: 174px;
+        height: 60px;
       }
     }
     .header-r {

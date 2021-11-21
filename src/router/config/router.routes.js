@@ -5,7 +5,6 @@ const Article = () => import('../../views/article/Article.vue');
 const Detail = () => import('../../views/detail/Detail.vue');
 const Edit = () => import('../../views/edit/Edit.vue');
 const NotFount = () => import('../../views/NotFount.vue');
-
 const routes = [
   { path: '/', redirect: () => '/home' },
   {

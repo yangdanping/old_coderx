@@ -2,7 +2,7 @@
   <div class="edit">
     <el-row>
       <el-col class="editor-box" :span="12">
-        <editor @onListen="onListen" />
+        <editor :editData="editData" @onListen="onListen" />
       </el-col>
       <el-col :span="12">
         <div class="block">
@@ -13,7 +13,7 @@
           <el-button @click="drawer = true"><i class="el-icon-menu"></i></el-button>
         </div>
         <el-drawer title="管理您的文章" :visible.sync="drawer" :direction="direction">
-          <edit-form @formSubmit="formSubmit" />
+          <edit-form @formSubmit="formSubmit" :draft="preview" :editData="editData" />
         </el-drawer>
       </el-col>
     </el-row>
@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import localCache from '@/utils/cache';
 import Editor from '@/components/editor/Editor.vue';
 import EditForm from '@/components/form/EditForm.vue';
 export default {
@@ -28,21 +29,41 @@ export default {
   data() {
     return {
       tinymceFlag: 1,
-      //防止组件缓存导致编辑器不能正常使用,每次切换来都更改key,使其重新渲染
-      // modal: null,
       drawer: false,
       direction: 'ltr',
-      preview: `<h2>请输入内容</h2>`
+      preview: ''
     };
   },
   components: { Editor, EditForm },
+  mounted() {
+    if (localCache.getCache('draft')) {
+      const { draft } = localCache.getCache('draft');
+      this.preview = draft;
+    }
+  },
+  computed: {
+    editData() {
+      return this.$route.query.editData; //只有修改操作才能得到该数据
+    }
+  },
   methods: {
     onListen(content) {
-      this.preview = content;
+      this.preview = content; //content是watch监听到的最新文章内容
     },
     formSubmit(payload) {
-      const sumbitPayload = { ...payload, content: this.preview };
-      this.$store.dispatch('a/editAction', sumbitPayload);
+      const { title } = payload;
+      if (!title || !this.preview || this.preview === '<p></p>') {
+        console.log('内容不能为空!');
+      } else {
+        if (!this.editData) {
+          const sumbitPayload = { content: this.preview, ...payload };
+          this.$store.dispatch('a/editAction', sumbitPayload);
+        } else {
+          const { id } = this.editData;
+          const updatedPayload = { articleId: id, content: this.preview, ...payload };
+          this.$store.dispatch('a/updateAction', updatedPayload);
+        }
+      }
     }
   }
 };

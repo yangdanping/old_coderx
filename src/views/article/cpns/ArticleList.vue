@@ -3,8 +3,7 @@
     <template v-for="item in articles">
       <div class="article" :key="item.id">
         <div class="banner">
-          <template v-if="item.author.avatarUrl"><el-avatar :src="item.author.avatarUrl"></el-avatar></template>
-          <template v-else><el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar></template>
+          <avatar :info="item.author" :src="item.author.avatarUrl" />
           <span class="name">{{ item.author.name }}</span>
           <span class="update">{{ item.updateAt }}</span>
           <el-tag color v-for="tag in item.tags" size="small" :key="tag.name" type="success">{{ tag.name }}</el-tag>
@@ -39,6 +38,7 @@
 
 <script>
 import ArticlePage from './ArticlePage.vue';
+import Avatar from '@/components/avatar/Avatar.vue';
 export default {
   name: 'ArticleList',
   props: {
@@ -56,14 +56,14 @@ export default {
       likeIndex: null
     };
   },
-  components: { ArticlePage },
+  components: { Avatar, ArticlePage },
   methods: {
     likeClick(articleId) {
       this.likeIndex = articleId;
       this.$store.dispatch('a/likeAction', articleId);
     },
-    onDetail(aID) {
-      this.$router.push({ path: `/article/${aID}` });
+    onDetail(articleId) {
+      this.$router.push({ path: `/article/${articleId}` });
     }
   }
 };
@@ -82,6 +82,9 @@ export default {
     align-items: center;
     span {
       margin-right: 15px;
+    }
+    .name {
+      margin-left: 15px;
     }
     .name,
     .update {

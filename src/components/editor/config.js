@@ -93,4 +93,17 @@ const extensions = [
   new LineHeight(),
   new Indent()
 ];
-export default extensions;
+const commentExt = [
+  new Doc(),
+  new Text(),
+  new Paragraph(),
+  new Heading({ level: 6 }),
+  new Bold({ bubble: true }), // 在气泡菜单中渲染菜单按钮
+  new Underline({ bubble: true, menubar: false }), // 在气泡菜单而不在菜单栏中渲染菜单按钮
+  new Italic(),
+  new Strike(),
+  new ListItem(),
+  new BulletList(),
+  new OrderedList()
+];
+export { extensions, commentExt };

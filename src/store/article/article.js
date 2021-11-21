@@ -1,5 +1,6 @@
-import { createArticle, getList, getDetail, getComment, getLiked, likeArticle } from '@/network/article/article.request.js';
+import { createArticle, getList, getDetail, getComment, getLiked, likeArticle, updateArticle } from '@/network/article/article.request.js';
 import timeFormat from '@/utils/format';
+import router from '@/router'; //拿到router对象,进行路由跳转(.push)
 export default {
   namespaced: true,
   state: {
@@ -87,6 +88,17 @@ export default {
         console.log(res);
       } else {
         console.log('发布文章失败');
+        console.log(res);
+      }
+    },
+    async updateAction({ commit }, payload) {
+      const res = await updateArticle(payload);
+      if (res.statusCode) {
+        console.log('修改文章成功');
+        const { articleId } = payload;
+        router.push({ path: `/article/${articleId}` });
+      } else {
+        console.log('修改文章失败');
         console.log(res);
       }
     }

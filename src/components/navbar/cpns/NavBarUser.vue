@@ -2,7 +2,7 @@
   <div class="nav-bar-user">
     <el-button class="editbtn" @click="goEdit" type="primary">写文章</el-button>
     <el-dropdown>
-      <el-avatar :src="userInfo.avatar_url"></el-avatar>
+      <avatar :disabled="true" :info="userInfo"></avatar>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item>我的空间</el-dropdown-item>
         <el-dropdown-item @click.native="logOut">退出登陆</el-dropdown-item>
@@ -13,12 +13,14 @@
 
 <script>
 import { mapState } from 'vuex';
+import Avatar from '@/components/avatar/Avatar.vue';
+
 export default {
   name: 'NavBarUser',
   data() {
     return {};
   },
-  components: {},
+  components: { Avatar },
   computed: {
     ...mapState({
       userInfo: (state) => state.l.userInfo

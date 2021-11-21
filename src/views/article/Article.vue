@@ -85,6 +85,7 @@ export default {
   filter: blur(15px);
   z-index: -1;
 }
+
 // .el-aside {
 //   display: flex;
 //   justify-content: center;

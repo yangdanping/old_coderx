@@ -14,6 +14,7 @@
     "element-tiptap": "^1.26.2",
     "element-ui": "^2.15.6",
     "normalize.css": "^8.0.1",
+    "v-emoji-picker": "^2.3.3",
     "vue": "^2.6.11",
     "vue-router": "^3.5.2",
     "vuex": "^3.6.2"

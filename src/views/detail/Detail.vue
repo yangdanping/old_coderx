@@ -1,12 +1,13 @@
 <template>
   <div class="detail">
-    <nav-bar></nav-bar>
+    <nav-bar>
+      <template #left><detail-tool :article="article" /></template>
+    </nav-bar>
     <div class="article-detail">
       <el-container>
         <el-main>
           <div class="author-info-block">
-            <template v-if="article.author.avatarUrl"><el-avatar :size="70" :src="article.author.avatarUrl"></el-avatar></template>
-            <template v-else><el-avatar :size="70" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar></template>
+            <avatar :size="90" :info="article.author" />
             <div class="author-info-box">
               <h2>{{ article.author.name }}</h2>
               <span>{{ article.updateAt }}</span>
@@ -20,10 +21,11 @@
           <template v-if="commentInfo.length">
             <comment-list :commentInfo="commentInfo" />
           </template>
+          <template v-else-if="!noComment">
+            <div class="skeleton"><el-skeleton animated /></div>
+          </template>
           <template v-else>
-            <div class="skeleton">
-              <el-skeleton animated />
-            </div>
+            <div class="skeleton"><h1>评论区暂时为空~发表你的第一条评论吧~</h1></div>
           </template>
         </el-main>
       </el-container>
@@ -38,26 +40,35 @@
 </template>
 
 <script>
-import NavBar from '@/components/navbar/NavBar.vue';
 import { mapState } from 'vuex';
+import NavBar from '@/components/navbar/NavBar.vue';
+import Avatar from '@/components/avatar/Avatar.vue';
 import CommentList from './cpns/CommentList.vue';
 import CommentForm from './cpns/CommentForm.vue';
+import DetailTool from './cpns/DetailTool.vue';
 export default {
   name: 'Detail',
   data() {
-    return {};
+    return {
+      noComment: false
+    };
   },
   computed: {
     // this.$route拿到的是我们当前处于活跃状态的路由
     ...mapState({
+      isLogin: (state) => state.l.token, //根据是否有token判断是否登陆(授权)
+      userInfo: (state) => state.l.userInfo,
       article: (state) => state.a.article,
       commentInfo: (state) => state.a.commentInfo
     })
   },
   created() {
     this.$store.dispatch('a/getDetailAction', this.$route.params.articleId);
+    setTimeout(() => {
+      this.noComment = !this.noComment;
+    }, 2000);
   },
-  components: { NavBar, CommentList, CommentForm },
+  components: { NavBar, Avatar, CommentList, CommentForm, DetailTool },
   methods: {}
 };
 </script>
@@ -69,6 +80,11 @@ export default {
   align-items: center;
   transition: background-color 1s;
   background: var(--bg);
+  // .el-icon-back {
+  //   font-size: 40px;
+  //   margin-left: 20px;
+  //   cursor: pointer;
+  // }
   hr {
     margin: 40px auto;
     border: 0;
@@ -79,11 +95,9 @@ export default {
     margin-top: 80px;
     width: 1000px;
     .el-main {
-      // background-color: rgb(233, 238, 243);
       .author-info-block {
         display: flex;
         align-items: center;
-
         .author-info-box {
           display: flex;
           flex-direction: column;
