@@ -60,7 +60,7 @@ const extensions = [
   //   const fd = new FormData()
   //   fd.append('image', file)
   //   第1个 return 是返回 Promise 对象
-  //   为什么？因为 axios 本身就是返回 Promise 对象
+  //   为什么?因为 axios 本身就是返回 Promise 对象
   //   return uploadImage(fd).then(res => {
   //     // 这个 return 是返回最后的结果
   //     return res.data.data.url
@@ -101,9 +101,15 @@ const commentExt = [
   new Bold({ bubble: true }), // 在气泡菜单中渲染菜单按钮
   new Underline({ bubble: true, menubar: false }), // 在气泡菜单而不在菜单栏中渲染菜单按钮
   new Italic(),
-  new Strike(),
   new ListItem(),
   new BulletList(),
-  new OrderedList()
+  new OrderedList(),
+  new CodeBlock(),
+  new Blockquote(),
+  new TextAlign(),
+  new FontSize(),
+  new FontType(),
+  new HorizontalRule(),
+  new Preview()
 ];
 export { extensions, commentExt };

@@ -53,7 +53,7 @@ export default {
           if (!this.editData) {
             this.$router.push('/article');
             localCache.setCache('draft', { title: this.title, draft: this.draft });
-            this.$msg({ type: 'success', duration: 1500, message: '已保存并退出文章编辑!' });
+            this.$msg(1, '已保存并退出文章编辑!');
           } else {
             this.$router.back();
           }

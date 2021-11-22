@@ -1,13 +1,13 @@
 <template>
   <div class="comment-list">
-    <span class="comment-title">最近评论({{ article.commentCount }})</span>
-    <div v-for="item in commentInfo" :key="item.id" class="list">
+    <span class="comment-title">最近评论({{ commentInfo.length }})</span>
+    <div v-for="(item, index) in commentInfo" :key="item.id" class="list">
       <div class="user">
         <avatar :info="item.user" />
         <div class="user-info-box">
           <span class="name">{{ item.user.name }}</span>
           <div class="floor">
-            <span>{{ item.id }}楼</span>
+            <span>{{ index + 1 }}楼</span>
             <span>{{ item.updateAt }}</span>
           </div>
         </div>
@@ -15,13 +15,15 @@
       <div class="content">
         <p v-html="item.content"></p>
       </div>
+      <comment-tools :editData="item.content" :commentId="item.id" :userId="item.user.id" class="comment-tools" />
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import Avatar from '@/components/avatar/Avatar.vue';
+import Editor from '@/components/editor/Editor.vue';
+import CommentTools from './CommentTools.vue';
 export default {
   name: 'CommentList',
   props: {
@@ -33,10 +35,7 @@ export default {
   data() {
     return {};
   },
-  computed: {
-    ...mapState({ article: (state) => state.a.article })
-  },
-  components: { Avatar },
+  components: { Avatar, Editor, CommentTools },
   methods: {}
 };
 </script>
@@ -47,9 +46,9 @@ export default {
   font-size: 30px;
 }
 .list {
+  position: relative;
   display: flex;
   flex-direction: column;
-  height: 130px;
   margin-top: 30px;
   border-bottom: 1px solid #e5e6eb;
   .user {
@@ -63,6 +62,7 @@ export default {
       .name {
         font-weight: 700;
         font-size: 20px;
+        margin-bottom: 5px;
       }
       .floor span {
         margin-right: 12px;
@@ -72,7 +72,15 @@ export default {
   .content {
     display: flex;
     justify-content: left;
-    margin: 20px 0 0 55px;
+    padding: 40px 0 40px 54px;
   }
+  .comment-tools {
+    display: none;
+    position: absolute;
+    right: 0;
+  }
+}
+.list:hover .comment-tools {
+  display: block;
 }
 </style>

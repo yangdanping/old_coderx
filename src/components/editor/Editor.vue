@@ -8,6 +8,7 @@ import localCache from '@/utils/cache';
 export default {
   name: 'Editor',
   components: {},
+  // 由外界用props决定编辑器的使用
   props: {
     editData: {
       type: Object,
@@ -16,6 +17,10 @@ export default {
     isComment: {
       type: Boolean,
       default: false
+    },
+    editComment: {
+      type: String,
+      default: ''
     },
     emoji: {
       type: String,
@@ -40,24 +45,27 @@ export default {
     }
   },
   mounted() {
-    console.log(this.editData, localCache.getCache('draft'));
-    if (this.editData) {
-      const { content } = this.editData;
-      this.content = content;
-    } else if (localCache.getCache('draft')) {
+    // 来到编辑器首先查看是否是继续写/编辑文章/编辑评论
+    console.log(localCache.getCache('draft'), this.editData, this.editComment);
+    if (localCache.getCache('draft') && !this.editData) {
       const { draft } = localCache.getCache('draft');
       this.content = draft;
+    } else if (this.editData) {
+      const { content } = this.editData;
+      this.content = content;
+    } else if (this.editComment) {
+      this.content = this.editComment;
     }
   },
   watch: {
     emoji(newVal) {
       this.content += newVal;
     },
-    content(newVal) {
-      if (this.emoji) {
-        console.log(this.emoji);
-      }
-      this.$emit('onListen', newVal);
+    content: {
+      handler(newVal) {
+        this.$emit('onListen', newVal);
+      },
+      immediate: true
     }
   }
 };

@@ -1,6 +1,7 @@
-import { createArticle, getList, getDetail, getComment, getLiked, likeArticle, updateArticle } from '@/network/article/article.request.js';
-import timeFormat from '@/utils/format';
+import { createArticle, getList, getDetail, getComment, getLiked, likeArticle, updateArticle, addComment, updateComment } from '@/network/article/article.request.js';
 import router from '@/router'; //拿到router对象,进行路由跳转(.push)
+import timeFormat from '@/utils/format';
+import showMsg from '@/utils/showMsg';
 export default {
   namespaced: true,
   state: {
@@ -72,34 +73,57 @@ export default {
       const res = await likeArticle(articleId);
       console.log(res);
       if (res.statusCode) {
-        console.log('点赞文章成功');
         commit('changeLike');
         dispatch('getListAction');
+        showMsg(1, '点赞文章成功');
       } else {
-        console.log('取消点赞成功');
         commit('changeLike');
         dispatch('getListAction');
+        showMsg(1, '取消点赞成功');
       }
     },
     async editAction({ commit }, payload) {
       const res = await createArticle(payload);
       if (res.statusCode) {
-        console.log('发布文章成功');
         console.log(res);
+        showMsg(1, '发布文章成功!');
       } else {
-        console.log('发布文章失败');
         console.log(res);
+        showMsg(3, '发布文章失败!');
       }
     },
     async updateAction({ commit }, payload) {
       const res = await updateArticle(payload);
       if (res.statusCode) {
-        console.log('修改文章成功');
+        showMsg(1, '修改文章成功!');
         const { articleId } = payload;
         router.push({ path: `/article/${articleId}` });
       } else {
-        console.log('修改文章失败');
+        showMsg(3, '修改文章失败!');
         console.log(res);
+      }
+    },
+    // 评论相关
+    async commentAction({ commit }, payload) {
+      const res1 = await addComment(payload);
+      if (res1.statusCode) {
+        showMsg(1, '发表评论成功');
+        const { articleId } = payload;
+        const res2 = await getComment(articleId); //重新获取评论数据
+        res2.statusCode ? commit('getCommentInfo', res2.data) : showMsg(3, '获取评论列表失败');
+      } else {
+        showMsg(3, '发表评论失败');
+      }
+    },
+    async updateCommentAction({ commit }, payload) {
+      const res1 = await updateComment(payload);
+      if (res1.statusCode) {
+        showMsg(1, '修改评论成功');
+        const { articleId } = payload;
+        const res2 = await getComment(articleId); //重新获取评论数据
+        res2.statusCode ? commit('getCommentInfo', res2.data) : showMsg(3, '获取评论列表失败');
+      } else {
+        showMsg(3, '修改评论失败');
       }
     }
   }

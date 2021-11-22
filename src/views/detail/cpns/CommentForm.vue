@@ -4,9 +4,9 @@
     <div class="input">
       <editor :emoji="emoji" @onListen="onListen" :isComment="true" :height="190" :width="800" />
       <div class="input-action">
-        <img class="comment-emoji" @click="toogleDialogEmoji" src="~@/assets/img/emoticon.png" />
-        <v-emoji-picker v-show="showDialog" :style="{ width: '300px' }" labelSearch="Search" lang="pt-BR" @select="onSelectEmoji" />
-        <el-button type="primary">发表评论</el-button>
+        <!-- <img class="comment-emoji" @click="toogleDialogEmoji" src="~@/assets/img/emoticon.png" /> -->
+        <!-- <v-emoji-picker v-show="showDialog" :style="{ width: '300px' }" labelSearch="Search" lang="pt-BR" @select="onSelectEmoji" /> -->
+        <el-button @click="addComment" type="primary">发表评论</el-button>
       </div>
     </div>
   </div>
@@ -32,7 +32,8 @@ export default {
   },
   computed: {
     ...mapState({
-      userInfo: (state) => state.l.userInfo
+      userInfo: (state) => state.l.userInfo,
+      article: (state) => state.a.article
     })
   },
   components: { Avatar, Editor, VEmojiPicker },
@@ -45,6 +46,9 @@ export default {
     },
     onListen(content) {
       this.content = content;
+    },
+    addComment() {
+      this.$store.dispatch('a/commentAction', { content: this.content, articleId: this.article.id });
     }
   }
 };

@@ -53,7 +53,7 @@ export default {
     formSubmit(payload) {
       const { title } = payload;
       if (!title || !this.preview || this.preview === '<p></p>') {
-        console.log('内容不能为空!');
+        this.$msg(2, '内容不能为空!');
       } else {
         if (!this.editData) {
           const sumbitPayload = { content: this.preview, ...payload };

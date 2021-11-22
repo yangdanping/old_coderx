@@ -4,8 +4,9 @@ import store from '@/store';
 import { ElementTiptapPlugin } from 'element-tiptap';
 import 'element-tiptap/lib/index.css';
 import VEmojiPicker from 'v-emoji-picker';
+import showMsg from '@/utils/showMsg';
 import {
-  MessageBox,Message,
+  MessageBox,
   Container, Main, Aside,Row,Col,
   Form, FormItem, Dialog, Input, Button,
   Menu, MenuItem ,Badge,Popover,Tooltip,
@@ -26,7 +27,7 @@ export default function initialize() {
   this.use(ElementTiptapPlugin,{lang:'zh'})
   this.use(VEmojiPicker);
   this.prototype.$confirm = MessageBox.confirm;
-  this.prototype.$msg = Message;
+  this.prototype.$msg = showMsg;
   store.dispatch('l/loadLoginAction');
   cpns.forEach((cpn) => this.use(cpn));
 }

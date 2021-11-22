@@ -1,7 +1,7 @@
 <template>
   <div class="detail">
     <nav-bar>
-      <template #left><detail-tool :article="article" /></template>
+      <template #left><detail-tools :article="article" /></template>
     </nav-bar>
     <div class="article-detail">
       <el-container>
@@ -34,7 +34,7 @@
       <i class="like"></i>
       <span>{{ article.likes }}</span>
       <i class="comment"></i>
-      <span>{{ article.commentCount }}</span>
+      <span>{{ commentInfo.length }}</span>
     </div>
   </div>
 </template>
@@ -45,7 +45,7 @@ import NavBar from '@/components/navbar/NavBar.vue';
 import Avatar from '@/components/avatar/Avatar.vue';
 import CommentList from './cpns/CommentList.vue';
 import CommentForm from './cpns/CommentForm.vue';
-import DetailTool from './cpns/DetailTool.vue';
+import DetailTools from './cpns/DetailTools.vue';
 export default {
   name: 'Detail',
   data() {
@@ -68,7 +68,7 @@ export default {
       this.noComment = !this.noComment;
     }, 2000);
   },
-  components: { NavBar, Avatar, CommentList, CommentForm, DetailTool },
+  components: { NavBar, Avatar, CommentList, CommentForm, DetailTools },
   methods: {}
 };
 </script>
@@ -80,11 +80,6 @@ export default {
   align-items: center;
   transition: background-color 1s;
   background: var(--bg);
-  // .el-icon-back {
-  //   font-size: 40px;
-  //   margin-left: 20px;
-  //   cursor: pointer;
-  // }
   hr {
     margin: 40px auto;
     border: 0;

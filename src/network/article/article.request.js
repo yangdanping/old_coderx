@@ -45,3 +45,20 @@ export function updateArticle(article) {
     data: { title, content }
   });
 }
+// 评论相关
+export function addComment(commentInfo) {
+  const { articleId, content } = commentInfo;
+  console.log(articleId, content);
+  return cxRequest.post({
+    url: `/comment`,
+    data: { articleId, content }
+  });
+}
+
+export function updateComment(commentInfo) {
+  const { commentId, content } = commentInfo;
+  return cxRequest.put({
+    url: `/comment/${commentId}`,
+    data: { content }
+  });
+}
