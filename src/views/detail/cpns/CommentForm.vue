@@ -11,6 +11,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import { VEmojiPicker, emojisDefault, categoriesDefault } from 'v-emoji-picker';
 import { mapState } from 'vuex';
@@ -48,7 +49,11 @@ export default {
       this.content = content;
     },
     addComment() {
-      this.$store.dispatch('a/commentAction', { content: this.content, articleId: this.article.id });
+      if (!this.content || this.content === '<p></p>') {
+        this.$msg(2, '评论内容不能为空');
+      } else {
+        this.$store.dispatch('a/commentAction', { content: this.content, articleId: this.article.id });
+      }
     }
   }
 };

@@ -1,5 +1,3 @@
-const Register = () => import('../../views/register/Register.vue');
-const Login = () => import('../../views/login/Login.vue');
 const Home = () => import('../../views/home/Home.vue');
 const Article = () => import('../../views/article/Article.vue');
 const Detail = () => import('../../views/detail/Detail.vue');
@@ -30,18 +28,6 @@ const routes = [
     path: '/edit',
     meta: { title: '写文章' },
     component: Edit
-  },
-  {
-    name: 'register',
-    path: '/register',
-    meta: { title: '注册' },
-    component: Register
-  },
-  {
-    name: 'login',
-    path: '/login',
-    meta: { title: '登陆' },
-    component: Login
   },
   {
     name: 'notfound',

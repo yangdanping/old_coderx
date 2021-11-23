@@ -23,7 +23,7 @@
 <script>
 import localCache from '@/utils/cache';
 import Editor from '@/components/editor/Editor.vue';
-import EditForm from '@/components/form/EditForm.vue';
+import EditForm from './cpns/EditForm.vue';
 export default {
   name: 'Edit',
   data() {

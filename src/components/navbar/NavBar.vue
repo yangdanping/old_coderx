@@ -3,19 +3,20 @@
     <header>
       <nav-bar-moblie style="display: none" />
       <div class="header-l">
-        <router-link to="/home"><img class="logo" :src="logo"></img></router-link>
+        <router-link to="/home"><img class="logo" :src="logo" /></router-link>
         <slot name="left"><nav-menu /></slot>
       </div>
       <div class="header-r">
         <form class="search" action="">
           <input class="search-input" v-model="input" placeholder="探索Coder X" />
-          <img class="search-icon" src="../../assets/img/search.svg" alt="" />
+          <img class="search-icon" src="~@/assets/img/search.svg" alt="" />
         </form>
         <el-button @click="changeMode" class="change-mode">切换主题</el-button>
         <slot name="right">
           <template v-if="!isLogin">
-            <el-button @click="loginClick" class="login-btn">登陆</el-button>
-            <el-button @click="registerClick" class="register-btn">注册</el-button>
+            <!-- <el-button @click="loginBtn" class="login-btn">登陆</el-button> -->
+            <!-- <el-button @click="registerBtn" class="register-btn">注册</el-button> -->
+            <el-button @click="showLogin" class="register-btn">Hello CoderX</el-button>
           </template>
           <template v-else>
             <nav-bar-user />
@@ -23,6 +24,7 @@
         </slot>
       </div>
     </header>
+    <login />
   </div>
 </template>
 
@@ -31,6 +33,7 @@ import { mapState, mapMutations } from 'vuex';
 import NavMenu from './cpns/NavMenu.vue';
 import NavBarMoblie from './cpns/NavBarMoblie.vue';
 import NavBarUser from './cpns/NavBarUser.vue';
+import Login from '../login/Login.vue';
 export default {
   name: 'NavBar',
   data() {
@@ -41,7 +44,8 @@ export default {
   components: {
     NavMenu,
     NavBarMoblie,
-    NavBarUser
+    NavBarUser,
+    Login
   },
   computed: {
     ...mapState({
@@ -54,13 +58,13 @@ export default {
   },
   methods: {
     // changeMode() { this.$store.commit('changeMode'); }
-    ...mapMutations(['changeMode']),
-    loginClick() {
-      this.$router.push('/login');
-    },
-    registerClick() {
-      this.$router.push('/register');
-    }
+    ...mapMutations(['changeMode', 'showLogin'])
+    // loginBtn() {
+    //   this.$router.push('/login');
+    // },
+    // registerBtn() {
+    //   // this.$router.push('/register');
+    // }
   }
 };
 </script>
@@ -129,16 +133,16 @@ export default {
         background: transparent;
         color: rgb(170, 32, 104);
       }
-
       .register-btn {
         position: relative;
         padding: 10px 35px;
         border-radius: 50px;
         color: #fff;
-        font-size: 20px;
+        font-size: 16px;
         background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
         background-size: 400%;
         transition: all 0.3s;
+        font-weight: 100;
         z-index: 1;
       }
       .register-btn::before {

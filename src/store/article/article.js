@@ -1,7 +1,18 @@
-import { createArticle, getList, getDetail, getComment, getLiked, likeArticle, updateArticle, addComment, updateComment } from '@/network/article/article.request.js';
 import router from '@/router'; //拿到router对象,进行路由跳转(.push)
-import timeFormat from '@/utils/format';
 import showMsg from '@/utils/showMsg';
+import timeFormat from '@/utils/format';
+import {
+  createArticle,
+  getList,
+  getDetail,
+  getComment,
+  getLiked,
+  likeArticle,
+  updateArticle,
+  addComment,
+  updateComment,
+  removeComment
+} from '@/network/article/article.request.js';
 export default {
   namespaced: true,
   state: {
@@ -46,32 +57,22 @@ export default {
     async getListAction({ commit, state, rootState }) {
       // 1.获取文章列表信息以及文章数
       const res1 = await getList(state.pageNum, state.pageSize);
-      if (res1.statusCode) {
-        commit('getListMutation', { ...res1 });
-      }
+      res1.statusCode ? commit('getListMutation', { ...res1 }) : showMsg(3, '获取文章列表失败');
       // 2.若用户登陆获取登陆用户点赞过哪些文章
       if (rootState.l.userInfo.id) {
         const userId = rootState.l.userInfo.id;
         const res2 = await getLiked(userId);
-        if (res2.statusCode) {
-          commit('getLikedId', res2.data.liked);
-        }
+        res2.statusCode ? commit('getLikedId', res2.data.liked) : showMsg(3, '获取用户点赞失败');
       }
     },
     async getDetailAction({ commit }, articleId) {
       const res1 = await getDetail(articleId);
-      if (res1.statusCode) {
-        commit('getDetail', res1.data);
-      }
+      res1.statusCode ? commit('getDetail', res1.data) : showMsg(3, '获取文章详情失败');
       const res2 = await getComment(articleId);
-      if (res2.statusCode) {
-        commit('getCommentInfo', res2.data);
-      }
+      res2.statusCode ? commit('getCommentInfo', res2.data) : showMsg(3, '获取文章评论失败');
     },
     async likeAction({ commit, dispatch }, articleId) {
-      console.log('点赞的文章id:', articleId);
       const res = await likeArticle(articleId);
-      console.log(res);
       if (res.statusCode) {
         commit('changeLike');
         dispatch('getListAction');
@@ -124,6 +125,18 @@ export default {
         res2.statusCode ? commit('getCommentInfo', res2.data) : showMsg(3, '获取评论列表失败');
       } else {
         showMsg(3, '修改评论失败');
+      }
+    },
+    async removeCommentAction({ commit }, payload) {
+      const { commentId } = payload;
+      const res1 = await removeComment(commentId);
+      if (res1.statusCode) {
+        showMsg(1, '删除评论成功');
+        const { articleId } = payload;
+        const res2 = await getComment(articleId); //重新获取评论数据
+        res2.statusCode ? commit('getCommentInfo', res2.data) : showMsg(3, '获取评论列表失败');
+      } else {
+        showMsg(3, '删除评论失败');
       }
     }
   }

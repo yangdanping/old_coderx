@@ -15,6 +15,9 @@
       <div class="content">
         <p v-html="item.content"></p>
       </div>
+      <!-- <div class="comment-action">
+
+      </div> -->
       <comment-tools :editData="item.content" :commentId="item.id" :userId="item.user.id" class="comment-tools" />
     </div>
   </div>
@@ -58,7 +61,6 @@ export default {
       display: flex;
       flex-direction: column;
       margin: 0 15px;
-
       .name {
         font-weight: 700;
         font-size: 20px;

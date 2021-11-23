@@ -15,7 +15,8 @@ const store = new Vuex.Store({
   //modules放入划分好的模块,针对不同的模块在里面做一些相关数据的保存
   state() {
     return {
-      isDark: localCache.getCache('isDark') ?? false
+      isDark: localCache.getCache('isDark') ?? false,
+      isShowLogin: false
     };
   },
   mutations: {
@@ -23,12 +24,16 @@ const store = new Vuex.Store({
       state.isDark = !state.isDark;
       localCache.setCache('isDark', state.isDark);
       console.log(state.isDark);
+    },
+    showLogin(state) {
+      console.log('showLogin');
+      state.isShowLogin = !state.isShowLogin;
     }
   },
   modules: {
     r: registerModule, //注册模块
     l: loginModule, //登陆模块
-    a: articleModule
+    a: articleModule //文章模块
   }
 });
 

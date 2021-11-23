@@ -17,7 +17,13 @@
           <h1 class="article-title">{{ article.title }}</h1>
           <div class="el-tiptap-editor__content" v-html="article.content"></div>
           <hr />
-          <comment-form />
+          <template v-if="isLogin"><comment-form /></template>
+          <template v-else>
+            <div class="showLogin">
+              <h1>请先登陆后评论</h1>
+              <el-button @click="showLogin" type="primary">登陆</el-button>
+            </div>
+          </template>
           <template v-if="commentInfo.length">
             <comment-list :commentInfo="commentInfo" />
           </template>
@@ -36,11 +42,12 @@
       <i class="comment"></i>
       <span>{{ commentInfo.length }}</span>
     </div>
+    <!-- <login :show="isShow" @close="isShow = false" /> -->
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import NavBar from '@/components/navbar/NavBar.vue';
 import Avatar from '@/components/avatar/Avatar.vue';
 import CommentList from './cpns/CommentList.vue';
@@ -64,12 +71,12 @@ export default {
   },
   created() {
     this.$store.dispatch('a/getDetailAction', this.$route.params.articleId);
-    setTimeout(() => {
-      this.noComment = !this.noComment;
-    }, 2000);
+    setTimeout(() => (this.noComment = !this.noComment), 2000);
   },
   components: { NavBar, Avatar, CommentList, CommentForm, DetailTools },
-  methods: {}
+  methods: {
+    ...mapMutations(['showLogin'])
+  }
 };
 </script>
 
@@ -104,6 +111,15 @@ export default {
       .article-title {
         font-size: 50px;
         margin-bottom: 50px;
+      }
+      .showLogin {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 30px 0;
+        h1 {
+          padding-bottom: 20px;
+        }
       }
     }
   }

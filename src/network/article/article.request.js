@@ -62,3 +62,8 @@ export function updateComment(commentInfo) {
     data: { content }
   });
 }
+export function removeComment(commentId) {
+  return cxRequest.delete({
+    url: `/comment/${commentId}`
+  });
+}

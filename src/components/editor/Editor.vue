@@ -7,7 +7,6 @@ import { extensions, commentExt } from './config';
 import localCache from '@/utils/cache';
 export default {
   name: 'Editor',
-  components: {},
   // 由外界用props决定编辑器的使用
   props: {
     editData: {

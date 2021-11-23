@@ -8,7 +8,9 @@ import showMsg from '@/utils/showMsg';
 import {
   MessageBox,
   Container, Main, Aside,Row,Col,
-  Form, FormItem, Dialog, Input, Button,
+  Form, FormItem,
+  Dialog, Tabs,TabPane,
+  Input, Button,
   Menu, MenuItem ,Badge,Popover,Tooltip,
   Avatar,Tag,Pagination,Popconfirm,Drawer,
   Skeleton,SkeletonItem,
@@ -16,7 +18,9 @@ import {
 
 const cpns = [
   Container, Main, Aside,Row,Col,
-  Form, FormItem, Dialog, Input, Button,
+  Form, FormItem,
+  Dialog, Tabs,TabPane,
+  Input, Button,
   Menu, MenuItem,Badge,Popover,Tooltip,
   Avatar,Tag,Pagination,Popconfirm,Drawer,
   Skeleton,SkeletonItem,

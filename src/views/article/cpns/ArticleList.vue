@@ -4,8 +4,10 @@
       <div class="article" :key="item.id">
         <div class="banner">
           <avatar :info="item.author" :src="item.author.avatarUrl" />
-          <span class="name">{{ item.author.name }}</span>
-          <span class="update">{{ item.updateAt }}</span>
+          <div class="author-info-box">
+            <span class="name">{{ item.author.name }}</span>
+            <span>{{ item.updateAt }}</span>
+          </div>
           <el-tag color v-for="tag in item.tags" size="small" :key="tag.name" type="success">{{ tag.name }}</el-tag>
         </div>
         <div class="content-wrapper">
@@ -37,6 +39,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import ArticlePage from './ArticlePage.vue';
 import Avatar from '@/components/avatar/Avatar.vue';
 export default {
@@ -57,10 +60,20 @@ export default {
     };
   },
   components: { Avatar, ArticlePage },
+  computed: {
+    ...mapState({
+      isLogin: (state) => state.l.token //根据是否有token判断是否登陆(授权)
+    })
+  },
   methods: {
     likeClick(articleId) {
-      this.likeIndex = articleId;
-      this.$store.dispatch('a/likeAction', articleId);
+      if (this.isLogin) {
+        this.likeIndex = articleId;
+        this.$store.dispatch('a/likeAction', articleId);
+      } else {
+        this.$msg(2, '请先登录');
+        this.$store.commit('showLogin');
+      }
     },
     onDetail(articleId) {
       this.$router.push({ path: `/article/${articleId}` });
@@ -80,15 +93,16 @@ export default {
   .banner {
     display: flex;
     align-items: center;
+    .author-info-box {
+      display: flex;
+      align-items: center;
+      margin-left: 15px;
+      span {
+        color: var(--fc);
+      }
+    }
     span {
       margin-right: 15px;
-    }
-    .name {
-      margin-left: 15px;
-    }
-    .name,
-    .update {
-      color: var(--fc);
     }
   }
 

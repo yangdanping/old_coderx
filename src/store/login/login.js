@@ -34,7 +34,6 @@ export default {
       localCache.setCache('token', token); //注意拿到token第一时间先做缓存,然后就可以在axios实例拦截器中getCache了
       // 2.根据登录后获取到的用户id请求用户信息
       const res2 = await getUserInfo(id);
-      console.log(res2);
       if (res2.statusCode) {
         const { ...args } = res2.data;
         localCache.setCache('userInfo', { ...args });
@@ -43,7 +42,8 @@ export default {
         console.log('请求用户信息失败');
       }
       // 4.正式用路由跳转跳到首页-----------------------------------------------------
-      localCache.getCache('token') ? router.push('/') : console.log('登陆(授权)失败');
+      localCache.getCache('token') ? router.go(0) : console.log('登陆(授权)失败');
+      console.log(context);
     },
     // 官网不建议直接在state中改数据,所以最好不要在state中获取localStorage
     async loadLoginAction({ commit }) {

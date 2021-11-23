@@ -14,7 +14,6 @@
 <script>
 import { mapState } from 'vuex';
 import Avatar from '@/components/avatar/Avatar.vue';
-
 export default {
   name: 'NavBarUser',
   data() {
@@ -29,6 +28,7 @@ export default {
   methods: {
     logOut() {
       this.$store.commit('l/logOut');
+      this.$router.go(0);
     },
     goEdit() {
       console.log('goEdit');

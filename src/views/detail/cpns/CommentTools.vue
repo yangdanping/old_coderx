@@ -4,11 +4,11 @@
       <el-tooltip class="item" effect="dark" content="修改我的评论" placement="bottom">
         <i @click="showDiglog" class="el-icon-edit"></i>
       </el-tooltip>
-      <el-dialog width="750px" title="修改您的评论" :visible.sync="dialogVisible">
+      <el-dialog width="750px" title="修改我的评论" :visible.sync="dialogVisible">
         <editor @onListen="onListen" :editComment="editData" :isComment="true" :height="190" :width="700" />
         <el-button class="update" @click="update" type="primary">修改</el-button>
       </el-dialog>
-      <el-tooltip class="item" effect="dark" content="删除评论" placement="bottom">
+      <el-tooltip class="item" effect="dark" content="删除我的评论" placement="bottom">
         <i @click="remove" class="el-icon-delete"></i>
       </el-tooltip>
     </template>
@@ -61,7 +61,16 @@ export default {
       this.dialogVisible = !this.dialogVisible;
     },
     remove() {
-      console.log('删除评论');
+      this.$confirm(`是否删除评论`, '提示', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: `删除`,
+        cancelButtonText: `取消`,
+        type: 'info'
+      })
+        .then(() => {
+          this.$store.dispatch('a/removeCommentAction', { articleId: this.article.id, commentId: this.commentId });
+        })
+        .catch(() => {});
     }
   }
 };
