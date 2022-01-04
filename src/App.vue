@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="isDark">
     <router-view :class="isDark" />
   </div>
 </template>
@@ -15,4 +15,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="less" scoped>
+#app {
+  background: var(--bg);
+  transition: background-color 1s;
+}
+</style>

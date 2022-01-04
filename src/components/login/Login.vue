@@ -2,7 +2,7 @@
   <!-- <el-dialog :visible.sync="showDialog" @close="handleClose" :modal-append-to-body="false" center> -->
   <el-dialog :visible.sync="isShowLogin" @close="showLogin" :modal-append-to-body="false" center>
     <div class="welcome">
-      <h1>登陆CoderX,进入Coder世界</h1>
+      <h1>登录CoderX,进入Coder世界</h1>
       <img src="../../assets/img/welcome.svg" alt="" />
     </div>
     <login-panel />

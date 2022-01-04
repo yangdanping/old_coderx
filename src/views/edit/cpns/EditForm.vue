@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import localCache from '@/utils/cache';
+import { cache } from '@/utils';
 export default {
   name: 'EditForm',
   props: {
@@ -36,8 +36,8 @@ export default {
     if (this.editData) {
       const { title } = this.editData;
       this.title = title;
-    } else if (localCache.getCache('draft')) {
-      const { title } = localCache.getCache('draft');
+    } else if (cache.getCache('draft')) {
+      const { title } = cache.getCache('draft');
       this.title = title;
     }
   },
@@ -52,7 +52,7 @@ export default {
         .then(() => {
           if (!this.editData) {
             this.$router.push('/article');
-            localCache.setCache('draft', { title: this.title, draft: this.draft });
+            cache.setCache('draft', { title: this.title, draft: this.draft });
             this.$msg(1, '已保存并退出文章编辑!');
           } else {
             this.$router.back();
@@ -60,7 +60,7 @@ export default {
         })
         .catch((action) => {
           if (action === 'cancel' && !this.editData) {
-            localCache.removeCache('draft');
+            cache.removeCache('draft');
             this.$router.push('/article');
           }
         });

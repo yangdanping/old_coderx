@@ -7,6 +7,6 @@
 
 **/*.svg
 **/*.sh
-**/initialize.js
+**/global/index.js
 
 /public/*

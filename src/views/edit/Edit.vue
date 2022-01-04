@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import localCache from '@/utils/cache';
+import { cache } from '@/utils';
 import Editor from '@/components/editor/Editor.vue';
 import EditForm from './cpns/EditForm.vue';
 export default {
@@ -36,8 +36,8 @@ export default {
   },
   components: { Editor, EditForm },
   mounted() {
-    if (localCache.getCache('draft')) {
-      const { draft } = localCache.getCache('draft');
+    if (cache.getCache('draft')) {
+      const { draft } = cache.getCache('draft');
       this.preview = draft;
     }
   },
@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     onListen(content) {
-      this.preview = content; //content是watch监听到的最新文章内容
+      this.preview = content; //content是editor中watch监听到的最新文章内容
     },
     formSubmit(payload) {
       const { title } = payload;

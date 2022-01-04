@@ -1,10 +1,10 @@
 <template>
-  <el-tiptap v-model="content" :extensions="extensions" placeholder="请输入内容..." :height="height" :width="width"></el-tiptap>
+  <el-tiptap v-model="content" :extensions="extensions" placeholder="请输入内容..." :height="height"></el-tiptap>
 </template>
 
 <script>
 import { extensions, commentExt } from './config';
-import localCache from '@/utils/cache';
+import { cache, eventBus } from '@/utils';
 export default {
   name: 'Editor',
   // 由外界用props决定编辑器的使用
@@ -21,16 +21,9 @@ export default {
       type: String,
       default: ''
     },
-    emoji: {
-      type: String,
-      default: ''
-    },
     height: {
       type: [Number, String],
       default: '100vh'
-    },
-    width: {
-      type: [Number, String]
     }
   },
   data() {
@@ -45,9 +38,9 @@ export default {
   },
   mounted() {
     // 来到编辑器首先查看是否是继续写/编辑文章/编辑评论
-    console.log(localCache.getCache('draft'), this.editData, this.editComment);
-    if (localCache.getCache('draft') && !this.editData) {
-      const { draft } = localCache.getCache('draft');
+    // console.log(cache.getCache('draft'), this.editData, this.editComment);
+    if (cache.getCache('draft') && !this.editData && !this.isComment) {
+      const { draft } = cache.getCache('draft');
       this.content = draft;
     } else if (this.editData) {
       const { content } = this.editData;
@@ -55,11 +48,9 @@ export default {
     } else if (this.editComment) {
       this.content = this.editComment;
     }
+    eventBus.$on('cleanContent', () => (this.content = ''));
   },
   watch: {
-    emoji(newVal) {
-      this.content += newVal;
-    },
     content: {
       handler(newVal) {
         this.$emit('onListen', newVal);
@@ -71,4 +62,3 @@ export default {
 </script>
 
 <style lang="less" scoped></style>
-

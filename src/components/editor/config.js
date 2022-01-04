@@ -38,7 +38,7 @@ import {
   LineHeight,
   Indent
 } from 'element-tiptap';
-
+import { uploadPicture } from '@/network/file/file.request.js';
 const extensions = [
   new Doc(),
   new Text(),
@@ -52,13 +52,24 @@ const extensions = [
   new BulletList(),
   new OrderedList(),
   new Link(),
-  new Image(),
+  new Image({
+    uploadRequest(file) {
+      //   如果接口要求 Content-Type 是 multipart/form-data，则请求体必须使用 FormData
+      const fd = new FormData();
+      fd.append('picture', file);
+      //   第1个 return 是返回 Promise 对象
+      //   为什么?因为 axios 本身就是返回 Promise 对象
+      uploadPicture(fd);
+      // return uploadPicture(fd).then((res) => res.data);
+      // } // 图片的上传方法，返回一个 Promise<url>
+    }
+  }),
   // {
   // 默认会把图片生成 base64 字符串和内容存储在一起，如果需要自定义图片上传
   // uploadRequest(file) {
   //   如果接口要求 Content-Type 是 multipart/form-data，则请求体必须使用 FormData
-  //   const fd = new FormData()
-  //   fd.append('image', file)
+  // const fd = new FormData()
+  //   fd.append('picture', file)
   //   第1个 return 是返回 Promise 对象
   //   为什么?因为 axios 本身就是返回 Promise 对象
   //   return uploadImage(fd).then(res => {

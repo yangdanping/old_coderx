@@ -1,37 +1,12 @@
 <template>
   <div class="article-list">
     <template v-for="item in articles">
-      <div class="article" :key="item.id">
-        <div class="banner">
-          <avatar :info="item.author" :src="item.author.avatarUrl" />
-          <div class="author-info-box">
-            <span class="name">{{ item.author.name }}</span>
-            <span>{{ item.updateAt }}</span>
-          </div>
-          <el-tag color v-for="tag in item.tags" size="small" :key="tag.name" type="success">{{ tag.name }}</el-tag>
-        </div>
-        <div class="content-wrapper">
-          <div class="content-main">
-            <a @click="onDetail(item.id)">
-              <h2 class="title">{{ item.title }}</h2>
-            </a>
-            <div class="abstract">
-              <p>{{ item.content }}</p>
-            </div>
-            <ul class="action-list">
-              <li class="item like" @click="likeClick(item.id)" :class="{ liked: likedId.some((id) => id === item.id) ? true : false }">
-                <i></i><span>{{ item.likes }}</span>
-              </li>
-              <li class="item comment" @click="onDetail(item.id)">
-                <i></i><span>{{ item.commentCount }}</span>
-              </li>
-            </ul>
-          </div>
-          <div class="img"><img src="~@/assets/img/test.jpg" /></div>
-        </div>
-      </div>
+      <article-list-item :item="item" />
     </template>
-    <article-page />
+    <page @changePage="changePage" :total="total" />
+    <template v-if="!articles.length">
+      <div class="skeleton"><el-skeleton animated /></div>
+    </template>
     <template v-if="articles.length < 5">
       <div class="skeleton"></div>
     </template>
@@ -40,157 +15,58 @@
 
 <script>
 import { mapState } from 'vuex';
-import ArticlePage from './ArticlePage.vue';
-import Avatar from '@/components/avatar/Avatar.vue';
+import ArticleListItem from './ArticleListItem.vue';
+import Page from '@/components/Page.vue';
 export default {
   name: 'ArticleList',
   props: {
     articles: {
       type: [Array, Number],
       default: () => []
-    },
-    likedId: {
-      type: Array,
-      default: () => []
     }
   },
   data() {
-    return {
-      likeIndex: null
-    };
+    return {};
   },
-  components: { Avatar, ArticlePage },
   computed: {
     ...mapState({
-      isLogin: (state) => state.l.token //根据是否有token判断是否登陆(授权)
+      total: (state) => state.a.total //文章总数
     })
   },
+  components: { ArticleListItem, Page },
   methods: {
-    likeClick(articleId) {
-      if (this.isLogin) {
-        this.likeIndex = articleId;
-        this.$store.dispatch('a/likeAction', articleId);
-      } else {
-        this.$msg(2, '请先登录');
-        this.$store.commit('showLogin');
-      }
-    },
-    onDetail(articleId) {
-      this.$router.push({ path: `/article/${articleId}` });
+    changePage() {
+      this.$store.dispatch('a/getListAction');
     }
   }
 };
 </script>
 
 <style lang="less" scoped>
-.article {
+.article-list {
+  position: relative;
   display: flex;
   flex-direction: column;
-  transition: all 0.3s;
-  padding: 20px 15px 0;
-  margin: 15px 0;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  transition: background-color 1s;
+  color: #333;
   border-radius: 10px;
-  .banner {
-    display: flex;
-    align-items: center;
-    .author-info-box {
-      display: flex;
-      align-items: center;
-      margin-left: 15px;
-      span {
-        color: var(--fc);
-      }
-    }
-    span {
-      margin-right: 15px;
-    }
-  }
-
-  .content-wrapper {
-    display: flex;
-    border-bottom: 1px solid #e5e6eb;
-    .content-main {
-      margin: 10px 0;
-      .title {
-        cursor: pointer;
-      }
-      .abstract {
-        height: 20px;
-        width: 800px;
-        padding: 15px 0;
-        p {
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
-
-      .action-list,
-      .action-list > .item {
-        display: flex;
-        align-items: center;
-        i {
-          width: 20px;
-          height: 20px;
-          background-size: contain;
-        }
-        span {
-          margin-left: 4px;
-          color: var(--fc);
-        }
-        .like i {
-          background-image: url('~@/assets/img/like.png');
-        }
-        .comment i {
-          background-image: url('~@/assets/img/comment.png');
-        }
-        .like:hover i {
-          background-image: url('~@/assets/img/like-active.png');
-        }
-        .comment:hover i {
-          background-image: url('~@/assets/img/comment-active.png');
-        }
-        .like:hover,
-        .comment:hover {
-          span {
-            color: #509afb;
-          }
-        }
-      }
-      .action-list > .item {
-        margin-right: 30px;
-        font-size: 16px;
-        cursor: pointer;
-      }
-    }
-    .img {
-      width: 150px;
-      height: 100px;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-left: 24px;
-      img {
-        width: 100%;
-        height: 100%;
-      }
-    }
-  }
+  animation: moveDown 1s forwards;
 }
-.article:hover {
-  transform: scale(1.01);
-  box-shadow: 3px 3px 8px rgba(100, 100, 100, 0.7);
-}
-
-.liked {
-  span {
-    color: #509afb !important;
-  }
-  i {
-    background-image: url('~@/assets/img/like-active.png') !important;
-  }
+.article-list::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background: var(--bg);
+  filter: blur(15px);
+  z-index: -1;
 }
 .skeleton {
-  width: 1000px;
-  height: calc(100vh - 380px);
+  width: 60%;
+  height: calc(100vh - 120px);
 }
 </style>

@@ -1,38 +1,75 @@
 <template>
   <div class="login-account">
-    <el-form status-icon ref="loginForm" label-width="65px">
+    <el-form :rules="rules" :model="form" status-icon ref="loginForm" label-width="90px">
       <el-form-item label="用户名" prop="name">
-        <el-input v-model="userInfo.name"></el-input>
+        <el-input v-model="form.name" clearable></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="pwd">
-        <el-input type="password" v-model="userInfo.password" clearable show-password></el-input>
+      <el-form-item label="密码" prop="password">
+        <el-input type="password" v-model="form.password" clearable show-password></el-input>
+      </el-form-item>
+      <el-form-item>
+        <div class="valid-code">
+          <el-input prefix-icon="el-icon-key" v-model="form.validCode" placeholder="请输入验证码"></el-input>
+          <valid-code @input="createValidCode" />
+        </div>
       </el-form-item>
       <el-form-item class="btn-box">
-        <el-button type="primary" @click="submit">登陆</el-button>
+        <el-button type="primary" @click="login">登录</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
-import localCache from '@/utils/cache.js';
+import { cache, eventBus } from '@/utils';
+import ValidCode from '@/components/ValidCode.vue';
 
 export default {
   name: 'LoginAccount',
   data() {
     return {
-      userInfo: {
-        name: localCache.getCache('name') ?? '',
-        password: localCache.getCache('password') ?? ''
-      }
+      form: {
+        name: cache.getCache('user') ? cache.getCache('user').name : '',
+        password: cache.getCache('user') ? cache.getCache('user').password : '',
+        validCode: ''
+      },
+      rules: {
+        name: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+        password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+      },
+      currentValidCode: ''
     };
   },
-  components: {},
+  mounted() {
+    eventBus.$on('registerSuccess', (payload) => {
+      const { name, password } = payload;
+      this.form.name = name;
+      this.form.password = password;
+      console.log(payload);
+    });
+  },
+  components: { ValidCode },
   methods: {
-    submit() {
-      localCache.setCache('name', this.userInfo.name);
-      localCache.setCache('password', this.userInfo.password);
-      this.$store.dispatch('l/loginAction', this.userInfo);
+    createValidCode(code) {
+      this.currentValidCode = code;
+    },
+    login() {
+      this.$refs['loginForm'].validate((valid) => {
+        if (valid) {
+          if (!this.form.validCode) {
+            this.$msg(3, '请输入验证码');
+            return;
+          } else if (this.form.validCode.toLowerCase() !== this.currentValidCode.toLowerCase()) {
+            this.$msg(3, '验证码错误');
+            return;
+          } else {
+            // cache.setCache('user', this.form);
+            this.$store.dispatch('u/loginAction', this.form);
+          }
+        } else {
+          this.$msg(2, '请输入正确的用户名和密码');
+        }
+      });
     }
   }
 };
@@ -43,13 +80,20 @@ export default {
   margin-top: 40px;
   .el-form {
     .el-input {
-      width: 200px;
+      width: 100%;
     }
     .el-form-item {
       margin-bottom: 30px;
     }
     ::v-deep .el-form-item__label {
       font-size: 17px;
+    }
+    .valid-code {
+      display: flex;
+      justify-content: space-around;
+      .el-input {
+        width: 50%;
+      }
     }
     .btn-box {
       display: flex;

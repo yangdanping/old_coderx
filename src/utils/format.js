@@ -4,6 +4,6 @@ import 'dayjs/locale/zh-cn';
 dayjs.locale('zh-cn');
 dayjs.extend(relativeTime);
 
-export default function timeFormat(time, template = 'YYYY.MM.DD') {
-  return dayjs().to(dayjs(time).format(template));
+export default function timeFormat(time) {
+  return dayjs(time).fromNow();
 }

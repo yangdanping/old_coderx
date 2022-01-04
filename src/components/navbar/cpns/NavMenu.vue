@@ -27,6 +27,7 @@ export default {
   },
   methods: {
     handleSelect(key, keyPath) {
+      // key === '/article' && this.$store.commit('changePageNum', 1);
       this.$router.push({ path: key });
     }
   }

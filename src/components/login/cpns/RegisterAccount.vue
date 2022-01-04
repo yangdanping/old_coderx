@@ -1,14 +1,17 @@
 <template>
   <div class="login-account">
-    <el-form status-icon ref="registerForm" label-width="65px">
+    <el-form :rules="rules" :model="form" status-icon ref="registerForm" label-width="100px">
       <el-form-item label="用户名" prop="name">
-        <el-input v-model="userInfo.name"></el-input>
+        <el-input v-model="form.name" clearable prefix-icon="el-icon-user-solid"></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="pwd">
-        <el-input type="password" v-model="userInfo.password" clearable show-password></el-input>
+      <el-form-item label="密码" prop="password">
+        <el-input v-model="form.password" clearable show-password type="password" prefix-icon="el-icon-lock"></el-input>
+      </el-form-item>
+      <el-form-item label="确认密码" prop="confirm">
+        <el-input v-model="form.confirm" clearable show-password type="password" prefix-icon="el-icon-lock"></el-input>
       </el-form-item>
       <el-form-item class="btn-box">
-        <el-button type="primary" @click="register">注册并登陆</el-button>
+        <el-button type="primary" @click="register">注册并登录</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -19,20 +22,36 @@ export default {
   name: 'RegisterAccount',
   data() {
     return {
-      userInfo: { name: '', password: '' }
+      form: { name: '', password: '', confirm: '' },
+      rules: {
+        name: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+        password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+        confirm: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+      }
     };
   },
   components: {},
   methods: {
     register() {
-      this.$store.dispatch('r/registerAction', this.userInfo).then((res) => {
-        if (res) {
-          this.$router.replace('/login'); // 拿到res表示注册成功 --> 跳到登陆页面登陆
-          console.log(res); //拿到了服务器返回的真实数据
+      this.$refs['registerForm'].validate((valid) => {
+        if (valid) {
+          if (this.form.password !== this.form.confirm) {
+            this.$msg(3, '两次密码输入不一致');
+          } else {
+            this.$store.dispatch('u/registerAction', this.form);
+          }
         } else {
-          console.log('注册失败', res);
+          this.$msg(2, '请输入正确的用户名和密码');
         }
       });
+      // this.$store.dispatch('u/registerAction', this.form).then((res) => {
+      //   if (res) {
+      //     this.$router.replace('/login'); // 拿到res表示注册成功 --> 跳到登录页面登录
+      //     console.log(res); //拿到了服务器返回的真实数据
+      //   } else {
+      //     console.log('注册失败', res);
+      //   }
+      // });
     }
   }
 };
@@ -43,7 +62,7 @@ export default {
   margin-top: 40px;
   .el-form {
     .el-input {
-      width: 200px;
+      width: 100%;
     }
     .el-form-item {
       margin-bottom: 30px;
@@ -58,4 +77,3 @@ export default {
   }
 }
 </style>
-

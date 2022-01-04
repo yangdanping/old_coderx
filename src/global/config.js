@@ -1,5 +1,6 @@
 const TIME_OUT = 15000;
-const BASE_URL = process.env.NODE_ENV === 'development' ? '/api-dev' : '/api';
+const BASE_URL = process.env.NODE_ENV === 'development' ? '/dev-api' : '/api';
+console.log('当前环境', process.env.NODE_ENV, '当前BASE_URL', BASE_URL);
 export { BASE_URL, TIME_OUT };
 
 /* process.env.NODE_ENV会根据DefinePlugin注入不同的值

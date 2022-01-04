@@ -11,6 +11,9 @@ export default function showMsg(key, message, duration = 1500) {
     case 3:
       type = 'error';
       break;
+    case 4:
+      type = 'info';
+      break;
     default:
       break;
   }

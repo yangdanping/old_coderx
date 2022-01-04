@@ -21,6 +21,16 @@ export default {
   destroyed() {
     window.removeEventListener('scroll', this.handleScroll);
   },
+  watch: {
+    isHind(newV, oldV) {
+      console.log('newV', newV, 'oldV', oldV);
+      // if (!oldV) {
+      //   this.isShow = false;
+      // } else if (!newV && newV !== oldV) {
+      //   this.isShow = !this.isShow;
+      // }
+    }
+  },
   methods: {
     handleScroll() {
       let scrollY = window.pageYOffset;
@@ -88,7 +98,7 @@ export default {
 }
 @media screen and (max-width: 630px) {
   .title {
-    font-size: 50px;
+    font-size: 40px;
   }
 }
 </style>

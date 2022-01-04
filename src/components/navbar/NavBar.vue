@@ -14,8 +14,6 @@
         <el-button @click="changeMode" class="change-mode">切换主题</el-button>
         <slot name="right">
           <template v-if="!isLogin">
-            <!-- <el-button @click="loginBtn" class="login-btn">登陆</el-button> -->
-            <!-- <el-button @click="registerBtn" class="register-btn">注册</el-button> -->
             <el-button @click="showLogin" class="register-btn">Hello CoderX</el-button>
           </template>
           <template v-else>
@@ -30,6 +28,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
+import { cache } from '@/utils';
 import NavMenu from './cpns/NavMenu.vue';
 import NavBarMoblie from './cpns/NavBarMoblie.vue';
 import NavBarUser from './cpns/NavBarUser.vue';
@@ -49,7 +48,7 @@ export default {
   },
   computed: {
     ...mapState({
-      isLogin: (state) => state.l.token, //根据是否有token判断是否登陆(授权)
+      isLogin: (state) => state.u.token, //根据是否有token判断是否登录(授权)
       isDark: (state) => state.isDark
     }),
     logo() {
@@ -57,14 +56,7 @@ export default {
     }
   },
   methods: {
-    // changeMode() { this.$store.commit('changeMode'); }
     ...mapMutations(['changeMode', 'showLogin'])
-    // loginBtn() {
-    //   this.$router.push('/login');
-    // },
-    // registerBtn() {
-    //   // this.$router.push('/register');
-    // }
   }
 };
 </script>

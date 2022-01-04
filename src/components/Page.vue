@@ -17,28 +17,31 @@
 import { mapState } from 'vuex';
 export default {
   name: 'ArticlePage',
+  props: {
+    total: {
+      type: Number,
+      default: 0
+    }
+  },
   data() {
     return {};
   },
   components: {},
   computed: {
     ...mapState({
-      total: (state) => state.a.total, //文章总数
-      pageNum: (state) => state.a.pageNum, //页数
-      pageSize: (state) => state.a.pageSize //每页显示条目个数
+      pageNum: (state) => state.pageNum, //页数
+      pageSize: (state) => state.pageSize //每页显示条目个数
     })
   },
   methods: {
     handleCurrentChange(pageNum) {
-      this.$store.commit('a/changePageNum', pageNum);
-      this.changePage();
+      this.$store.commit('changePageNum', pageNum);
+      window.scrollTo(0, 0);
+      this.$emit('changePage');
     },
     handleSizeChange(pageSize) {
-      this.$store.commit('a/changePageSize', pageSize);
-      this.changePage();
-    },
-    changePage() {
-      this.$store.dispatch('a/getListAction');
+      this.$store.commit('changePageSize', pageSize);
+      this.$emit('changePage');
     }
   }
 };

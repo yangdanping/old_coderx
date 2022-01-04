@@ -4,8 +4,8 @@
     <el-dropdown>
       <avatar :disabled="true" :info="userInfo"></avatar>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>我的空间</el-dropdown-item>
-        <el-dropdown-item @click.native="logOut">退出登陆</el-dropdown-item>
+        <el-dropdown-item @click.native="goSpace">我的空间</el-dropdown-item>
+        <el-dropdown-item @click.native="logOut">退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </div>
@@ -22,19 +22,18 @@ export default {
   components: { Avatar },
   computed: {
     ...mapState({
-      userInfo: (state) => state.l.userInfo
+      userInfo: (state) => state.u.userInfo
     })
   },
   methods: {
     logOut() {
-      this.$store.commit('l/logOut');
-      this.$router.go(0);
+      this.$store.commit('u/logOut');
     },
     goEdit() {
-      console.log('goEdit');
-      this.$router.push({
-        path: '/edit'
-      });
+      this.$router.push({ path: '/edit' });
+    },
+    goSpace() {
+      this.$router.push({ path: `/user/${this.userInfo.id}` });
     }
   }
 };

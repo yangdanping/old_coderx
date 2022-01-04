@@ -3,9 +3,12 @@
     <el-tooltip class="item" effect="dark" content="返回文章列表" placement="bottom">
       <i @click="goBack" class="el-icon-back"></i>
     </el-tooltip>
-    <template v-if="isAuthor">
+    <template v-if="isLogin && isAuthor">
       <el-tooltip class="item" effect="dark" content="修改我的文章" placement="bottom">
         <i @click="goEdit" class="el-icon-edit"></i>
+      </el-tooltip>
+      <el-tooltip class="item" effect="dark" content="删除我的文章" placement="bottom">
+        <i @click="goDelete" class="el-icon-delete"></i>
       </el-tooltip>
     </template>
   </div>
@@ -17,6 +20,10 @@ import { mapState } from 'vuex';
 export default {
   name: 'DetailTool',
   props: {
+    isAuthor: {
+      type: Boolean,
+      default: false
+    },
     article: {
       type: Object,
       default: () => {}
@@ -26,13 +33,10 @@ export default {
     return {};
   },
   computed: {
+    // this.$route拿到的是我们当前处于活跃状态的路由
     ...mapState({
-      isLogin: (state) => state.l.token, //根据是否有token判断是否登陆(授权)
-      userInfo: (state) => state.l.userInfo
-    }),
-    isAuthor() {
-      return this.isLogin && this.article.author.id === this.userInfo.id;
-    }
+      isLogin: (state) => state.u.token
+    })
   },
   components: {},
   methods: {
@@ -49,6 +53,15 @@ export default {
           editData: { id, title, content }
         }
       });
+    },
+    goDelete() {
+      this.$confirm(`是否删除文章`, '提示', {
+        confirmButtonText: `删除`,
+        cancelButtonText: `取消`,
+        type: 'info'
+      }).then(() => {
+        this.$store.dispatch('a/removeAction', this.article.id);
+      });
     }
   }
 };
@@ -58,21 +71,26 @@ export default {
 .detail-tool {
   display: flex;
   align-items: center;
-  .el-icon-back {
-    font-size: 40px;
-    margin-left: 20px;
+  .el-icon-back,
+  .el-icon-edit,
+  .el-icon-delete {
     cursor: pointer;
     transition: all 0.3s;
+    margin-left: 25px;
   }
   .el-icon-edit:hover,
-  .el-icon-back:hover {
+  .el-icon-back:hover,
+  .el-icon-delete:hover {
     transform: translate(-6px, 0);
   }
+  .el-icon-back {
+    font-size: 40px;
+  }
   .el-icon-edit {
-    margin-left: 30px;
     font-size: 30px;
-    cursor: pointer;
-    transition: all 0.3s;
+  }
+  .el-icon-delete {
+    font-size: 30px;
   }
 }
 </style>
