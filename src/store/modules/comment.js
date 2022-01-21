@@ -38,6 +38,10 @@ export default {
     getCommentLikedId(state, payload) {
       const { commentLiked } = payload;
       state.commentLikedId = commentLiked;
+    },
+    initComment(state) {
+      state.commentInfo = [];
+      state.replyInfo = [];
     }
   },
   actions: {

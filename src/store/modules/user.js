@@ -1,4 +1,5 @@
 import { userRegister, userLogin, checkAuth, getUserInfo, getFollow, follow, getArticle, getComment } from '@/network/user/user.request.js';
+import { getCollect, addCollect } from '@/network/user/collect.request.js';
 import { cache, eventBus, showMsg, timeFormat } from '@/utils';
 import router from '@/router'; //拿到router对象,进行路由跳转
 export default {
@@ -11,7 +12,8 @@ export default {
       isFollowed: false,
       followInfo: '',
       articles: [],
-      comments: []
+      comments: [],
+      collects: []
     };
   },
   mutations: {
@@ -39,6 +41,10 @@ export default {
       payload.forEach((comment) => (comment.createAt = timeFormat(comment.createAt)));
       state.comments = payload;
       console.log(state.comments);
+    },
+    changeCollect(state, payload) {
+      state.collects = payload;
+      console.log(state.collects);
     },
     logOut(state, refresh = true) {
       state.token = '';
@@ -123,6 +129,23 @@ export default {
         commit('changeComment', res.data);
       } else {
         showMsg(3, '获取用户发表评论失败');
+      }
+    },
+    async getCollectAction({ commit }) {
+      const res = await getCollect();
+      if (res.code === '0') {
+        commit('changeCollect', res.data);
+      } else {
+        showMsg(3, '获取用户收藏夹失败');
+      }
+    },
+    async collectAction({ dispatch }, collectName) {
+      const res = await addCollect(collectName);
+      if (res.code === '0') {
+        showMsg(1, '添加收藏夹成功');
+        dispatch('getCollectAction');
+      } else {
+        showMsg(3, res.msg);
       }
     }
   }

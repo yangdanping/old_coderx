@@ -8,8 +8,6 @@ export default {
     return {
       articles: [],
       article: {},
-      pageNum: 1,
-      pageSize: 5,
       total: null,
       articleLikedId: [] //该用户点赞过的文章id,通过computed计算是否有点赞
     };
@@ -36,15 +34,12 @@ export default {
       article.updateAt = timeFormat(article.updateAt);
       state.article = article;
     },
-    changePageNum(state, newPageNum) {
-      state.pageNum = newPageNum; //改变页数
-    },
-    changePageSize(state, newPageSize) {
-      state.pageSize = newPageSize; //改变每页显示条目个数
-    },
     getArticleLikedId(state, payload) {
       const { articleLiked } = payload;
       state.articleLikedId = articleLiked;
+    },
+    initArticle(state) {
+      state.article = {};
     }
   },
   actions: {

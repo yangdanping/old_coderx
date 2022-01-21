@@ -32,6 +32,10 @@ export default {
   created() {
     this.$store.dispatch('a/getDetailAction', this.$route.params.articleId);
   },
+  // beforeRouteEnter(to, from, next) {
+  //   console.log(from, to);
+  //   next((vm) => vm.$store.dispatch('a/getDetailAction', parseInt(to.params.articleId)));
+  // },
   components: { NavBar, DetailTools, DetailContent, Comment },
   methods: {}
 };

@@ -49,15 +49,15 @@ export function follow(id) {
 
 export function getArticle(id, pageNum, pageSize) {
   const offset = pageNum <= 1 ? 0 : (pageNum - 1) * pageSize;
-  const size = pageSize;
+  const limit = pageSize;
   return cxRequest.get({
-    url: `${urlHead}/${id}/article?offset=${offset}&size=${size}`
+    url: `${urlHead}/${id}/article?offset=${offset}&limit=${limit}`
   });
 }
 export function getComment(id, pageNum, pageSize) {
   const offset = pageNum <= 1 ? 0 : (pageNum - 1) * pageSize;
-  const size = pageSize;
+  const limit = pageSize;
   return cxRequest.get({
-    url: `${urlHead}/${id}/comment?offset=${offset}&size=${size}`
+    url: `${urlHead}/${id}/comment?offset=${offset}&limit=${limit}`
   });
 }

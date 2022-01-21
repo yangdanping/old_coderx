@@ -10,9 +10,9 @@ export function createArticle(article) {
 
 export function getList(pageNum, pageSize) {
   const offset = pageNum <= 1 ? 0 : (pageNum - 1) * pageSize;
-  const size = pageSize;
+  const limit = pageSize;
   return cxRequest.get({
-    url: `${urlHead}?offset=${offset}&size=${size}`
+    url: `${urlHead}?offset=${offset}&limit=${limit}`
   });
 }
 
