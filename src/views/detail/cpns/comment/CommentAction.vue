@@ -16,7 +16,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
-import { eventBus } from '@/utils';
+import { eventBus, Msg } from '@/utils';
 import ActionList from '@/components/action/ActionList.vue';
 
 export default {
@@ -44,16 +44,16 @@ export default {
       if (this.isLogin) {
         eventBus.$emit('collapse', commentId); //commentId非常重要,控制编辑器的切换
       } else {
-        this.$msg(2, '请先登录');
-        this.$store.commit('showLogin');
+        Msg.showInfo('请先登录');
+        this.$store.commit('changeDialog');
       }
     },
     likeComment(commentId) {
       if (this.isLogin) {
         this.$store.dispatch('c/likeAction', { commentId, articleId: this.article.id });
       } else {
-        this.$msg(2, '请先登录');
-        this.$store.commit('showLogin');
+        Msg.showInfo('请先登录');
+        this.$store.commit('changeDialog');
       }
     }
   }

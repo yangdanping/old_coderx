@@ -7,56 +7,84 @@
         <slot name="left"><nav-menu /></slot>
       </div>
       <div class="header-r">
-        <form class="search" action="">
-          <input class="search-input" v-model="input" placeholder="探索Coder X" />
-          <img class="search-icon" src="~@/assets/img/search.svg" alt="" />
-        </form>
+        <div class="search-box">
+          <form class="search" action="">
+            <el-input class="search-input" v-model="searchValue" @input="debounceInput" clearable placeholder="探索Coder X" />
+            <!-- <img class="search-icon" src="~@/assets/img/search.svg" alt="" /> -->
+          </form>
+          <el-card class="box-card" v-if="showCard">
+            <div slot="header" class="clearfix">
+              <span>搜索:"{{ searchValue }}"</span>
+            </div>
+            <template v-if="searchResults.length">
+              <div v-for="item in searchResults" @click="handleSelect(item.id)" :key="item.id" class="search-item">{{ item.title }}</div>
+            </template>
+          </el-card>
+        </div>
         <el-button @click="changeMode" class="change-mode">切换主题</el-button>
         <slot name="right">
-          <template v-if="!isLogin">
-            <el-button @click="showLogin" class="register-btn">Hello CoderX</el-button>
-          </template>
-          <template v-else>
-            <nav-bar-user />
-          </template>
+          <template v-if="!isLogin"><el-button @click="changeDialog" class="register-btn">Hello CoderX</el-button></template>
+          <template v-else><nav-bar-user /></template>
         </slot>
       </div>
     </header>
-    <login />
+    <slot name="article"></slot>
+    <user-dialog />
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex';
-import { cache } from '@/utils';
+import { debounce } from '@/utils';
 import NavMenu from './cpns/NavMenu.vue';
 import NavBarMoblie from './cpns/NavBarMoblie.vue';
 import NavBarUser from './cpns/NavBarUser.vue';
-import Login from '../login/Login.vue';
+import UserDialog from '../user/UserDialog.vue';
+
 export default {
   name: 'NavBar',
   data() {
     return {
-      input: ''
+      searchValue: '',
+      showCard: false
     };
   },
   components: {
     NavMenu,
     NavBarMoblie,
     NavBarUser,
-    Login
+    UserDialog
+  },
+  watch: {
+    searchValue(newV, oldV) {
+      if (newV) {
+        this.showCard = !this.showCard;
+      } else {
+        this.showCard = false;
+        this.$store.commit('a/clearResults');
+      }
+    }
   },
   computed: {
     ...mapState({
       isLogin: (state) => state.u.token, //根据是否有token判断是否登录(授权)
-      isDark: (state) => state.isDark
+      isDark: (state) => state.isDark,
+      searchResults: (state) => state.a.searchResults
     }),
     logo() {
       return require(`@/assets/img/logo${this.isDark ? '-fff' : ''}.png`);
     }
   },
   methods: {
-    ...mapMutations(['changeMode', 'showLogin'])
+    ...mapMutations(['changeMode', 'changeDialog']),
+    debounceInput: debounce(function () {
+      if (this.searchValue) {
+        this.$store.dispatch('a/searchAction', this.searchValue);
+      }
+    }, 1000),
+    handleSelect(articleId) {
+      this.$router.push({ path: `/article/${articleId}` });
+    }
   }
 };
 </script>
@@ -71,6 +99,27 @@ export default {
   z-index: 999;
   background-color: rgba(255, 255, 255, 0.7);
   box-shadow: 0 2px 80px rgba(0, 0, 0, 0.1);
+
+  .search-box {
+    position: relative;
+    .box-card {
+      position: absolute;
+      bottom: 70;
+      width: 200px;
+      z-index: 99;
+      .search-item {
+        padding: 15px 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: pointer;
+      }
+      .search-item:hover {
+        border-bottom: 1px solid #ccc;
+        color: #03a9f4;
+      }
+    }
+  }
 
   header {
     display: flex;

@@ -7,7 +7,7 @@
     <i class="views"></i>
     <span>{{ article.views }}</span>
     <el-popover @show="handleShow" @after-leave="handleHide" placement="right" width="400" trigger="click" :disabled="disabled">
-      <article-collect :collects="collects" />
+      <article-collect />
       <i class="el-icon-star-off collect" slot="reference" @click="showLogin"></i>
     </el-popover>
   </div>
@@ -15,7 +15,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
-import { eventBus } from '@/utils';
+import { eventBus, Msg } from '@/utils';
 import ArticleCollect from './ArticleCollect.vue';
 export default {
   name: 'DetailPanel',
@@ -35,10 +35,7 @@ export default {
     this.disabled = this.isLogin ? !this.disabled : this.disabled;
   },
   computed: {
-    ...mapState({
-      isLogin: (state) => state.u.token,
-      collects: (state) => state.u.collects
-    }),
+    ...mapState({ isLogin: (state) => state.u.token, userInfo: (state) => state.u.userInfo }),
     ...mapGetters({ isLiked: 'a/isArticleUserLiked' })
   },
   methods: {
@@ -46,8 +43,8 @@ export default {
       if (this.isLogin) {
         this.$store.dispatch('a/likeAction', articleId);
       } else {
-        this.$msg(2, '请先登录');
-        this.$store.commit('showLogin');
+        Msg.showInfo('请先登录');
+        this.$store.commit('changeDialog');
       }
     },
     gotoComment() {
@@ -55,7 +52,7 @@ export default {
     },
     handleShow() {
       console.log('handleShow');
-      this.$store.dispatch('u/getCollectAction');
+      this.$store.dispatch('u/getCollectAction', this.userInfo.id);
     },
     handleHide() {
       console.log('handleHide');
@@ -63,8 +60,8 @@ export default {
     },
     showLogin() {
       if (this.disabled && !this.isLogin) {
-        this.$msg(2, '请先登录');
-        this.$store.commit('showLogin');
+        Msg.showInfo('请先登录');
+        this.$store.commit('changeDialog');
       }
     }
   }

@@ -9,7 +9,7 @@ export default {
   name: 'App',
   computed: {
     isDark() {
-      return { darktheme: this.$store.state.isDark };
+      return { dark: this.$store.state.isDark };
     }
   }
 };

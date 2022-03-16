@@ -1,10 +1,10 @@
-import { cxRequest } from '@/network';
+import { cxRequest } from '@/service';
 const urlHead = '/article';
 
-export function createArticle(article) {
+export function createArticle(title, content) {
   return cxRequest.post({
     url: `${urlHead}`,
-    data: { ...article }
+    data: { title, content }
   });
 }
 
@@ -46,5 +46,23 @@ export function removeArticle(articleId) {
 export function addView(articleId) {
   return cxRequest.put({
     url: `${urlHead}/${articleId}/view`
+  });
+}
+
+export function getTags(offset = 0, limit = 10) {
+  return cxRequest.get({
+    url: `/tag?offset=${offset}&limit=${limit}`
+  });
+}
+export function addTags(articleId, tags) {
+  console.log('addTags!!!!!!!!!!!!!!!!!!!!!', articleId, tags);
+  return cxRequest.post({
+    url: `${urlHead}/${articleId}/tag`,
+    data: { tags }
+  });
+}
+export function search(keywords) {
+  return cxRequest.get({
+    url: `${urlHead}/search?keywords=${keywords}`
   });
 }

@@ -12,7 +12,7 @@
         <div class="btn">
           <el-button @click="drawer = true"><i class="el-icon-menu"></i></el-button>
         </div>
-        <el-drawer title="管理您的文章" :visible.sync="drawer" :direction="direction">
+        <el-drawer title="管理您的文章" :visible.sync="drawer" direction="ltr">
           <edit-form @formSubmit="formSubmit" :draft="preview" :editData="editData" />
         </el-drawer>
       </el-col>
@@ -21,16 +21,16 @@
 </template>
 
 <script>
-import { cache } from '@/utils';
+import { cache, Msg } from '@/utils';
 import Editor from '@/components/editor/Editor.vue';
 import EditForm from './cpns/EditForm.vue';
+
 export default {
   name: 'Edit',
   data() {
     return {
       tinymceFlag: 1,
       drawer: false,
-      direction: 'ltr',
       preview: ''
     };
   },
@@ -40,6 +40,11 @@ export default {
       const { draft } = cache.getCache('draft');
       this.preview = draft;
     }
+  },
+  destroyed() {
+    window.removeEventListener('beforeunload', () => {
+      console.log('destroyed');
+    });
   },
   computed: {
     editData() {
@@ -53,12 +58,14 @@ export default {
     formSubmit(payload) {
       const { title } = payload;
       if (!title || !this.preview || this.preview === '<p></p>') {
-        this.$msg(2, '内容不能为空!');
+        Msg.showInfo('内容不能为空!');
       } else {
         if (!this.editData) {
+          //创建文章
           const sumbitPayload = { content: this.preview, ...payload };
           this.$store.dispatch('a/editAction', sumbitPayload);
         } else {
+          //修改文章
           const { id } = this.editData;
           const updatedPayload = { articleId: id, content: this.preview, ...payload };
           this.$store.dispatch('a/updateAction', updatedPayload);

@@ -4,7 +4,7 @@
     <template v-else>
       <div class="showLogin">
         <h1>请先登录后评论</h1>
-        <el-button @click="showLogin" type="primary">登录</el-button>
+        <el-button @click="changeDialog" type="primary">登录</el-button>
       </div>
     </template>
     <!-- -------------------------------------------------------------------- -->
@@ -40,7 +40,7 @@ export default {
   },
   components: { CommentList, CommentForm },
   methods: {
-    ...mapMutations(['showLogin'])
+    ...mapMutations(['changeDialog'])
   }
 };
 </script>

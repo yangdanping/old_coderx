@@ -1,14 +1,14 @@
 <template>
-  <div class="login-account">
+  <div class="register-account">
     <el-form :rules="rules" :model="form" status-icon ref="registerForm" label-width="100px">
       <el-form-item label="用户名" prop="name">
-        <el-input v-model="form.name" clearable prefix-icon="el-icon-user-solid"></el-input>
+        <el-input v-model.trim="form.name" clearable prefix-icon="el-icon-user-solid"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input v-model="form.password" clearable show-password type="password" prefix-icon="el-icon-lock"></el-input>
+        <el-input v-model.trim="form.password" clearable show-password type="password" prefix-icon="el-icon-lock"></el-input>
       </el-form-item>
       <el-form-item label="确认密码" prop="confirm">
-        <el-input v-model="form.confirm" clearable show-password type="password" prefix-icon="el-icon-lock"></el-input>
+        <el-input v-model.trim="form.confirm" clearable show-password type="password" prefix-icon="el-icon-lock"></el-input>
       </el-form-item>
       <el-form-item class="btn-box">
         <el-button type="primary" @click="register">注册并登录</el-button>
@@ -36,12 +36,12 @@ export default {
       this.$refs['registerForm'].validate((valid) => {
         if (valid) {
           if (this.form.password !== this.form.confirm) {
-            this.$msg(3, '两次密码输入不一致');
+            this.$showFail('两次密码输入不一致');
           } else {
             this.$store.dispatch('u/registerAction', this.form);
           }
         } else {
-          this.$msg(2, '请输入正确的用户名和密码');
+          this.$showFail('请输入正确的用户名和密码');
         }
       });
       // this.$store.dispatch('u/registerAction', this.form).then((res) => {
@@ -58,7 +58,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.login-account {
+.register-account {
   margin-top: 40px;
   .el-form {
     .el-input {

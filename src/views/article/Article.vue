@@ -1,6 +1,8 @@
 <template>
   <div class="article">
-    <nav-bar />
+    <nav-bar>
+      <template #article><article-nav /></template>
+    </nav-bar>
     <div class="article-wrapper">
       <template v-if="articles.length"><article-list :articles="articles" /></template>
       <template v-else>
@@ -14,6 +16,8 @@
 import { mapState } from 'vuex';
 import NavBar from '@/components/navbar/NavBar.vue';
 import ArticleList from './cpns/ArticleList.vue';
+import ArticleNav from './cpns/ArticleNav.vue';
+
 export default {
   name: 'Article',
   data() {
@@ -26,7 +30,7 @@ export default {
     ...mapState({ articles: (state) => state.a.articles })
   },
   mounted() {},
-  components: { NavBar, ArticleList },
+  components: { NavBar, ArticleList, ArticleNav },
   methods: {
     getArticles() {
       this.$store.dispatch('a/getListAction');

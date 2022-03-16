@@ -10,9 +10,8 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state() {
     return {
-      // isDark: cache.getCache('isDark') ?? false,
       isDark: false,
-      isShowLogin: false,
+      showDialog: false,
       pageNum: 1,
       pageSize: 5
     };
@@ -26,9 +25,9 @@ const store = new Vuex.Store({
       cache.setCache('isDark', state.isDark);
       console.log(state.isDark);
     },
-    showLogin(state) {
-      console.log('showLogin');
-      state.isShowLogin = !state.isShowLogin;
+    changeDialog(state) {
+      console.log('changeDialog');
+      state.showDialog = !state.showDialog;
     },
     changePageNum(state, pageNum) {
       state.pageNum = pageNum;

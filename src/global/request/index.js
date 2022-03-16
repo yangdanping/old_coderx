@@ -11,6 +11,7 @@ class CXRequest {
     this.instance.interceptors.request.use(config.interceptors.reqSuccess, config.interceptors.reqFailure);
     this.instance.interceptors.response.use(config.interceptors.resSuccess, config.interceptors.resFailure);
   }
+
   async request(config) {
     const result = await this.instance.request(config);
     return result;

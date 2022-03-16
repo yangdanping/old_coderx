@@ -1,9 +1,16 @@
 <template>
   <div class="form">
-    <el-form ref="form" label-width="80px">
-      <el-form-item label="文章标题">
-        <el-input v-model="title"></el-input>
+    <el-form :rules="rules" :model="form" ref="editForm" label-width="80px">
+      <el-form-item label="标题" prop="title">
+        <el-input v-model="form.title" clearable></el-input>
       </el-form-item>
+      <el-form-item label="标签" prop="tags">
+        <el-select v-model="form.tags" multiple filterable default-first-option clearable :multiple-limit="5" placeholder="添加文章标签(最多5个)">
+          <span class="tip">你还能添加{{ 5 - form.tags.length }}个标签</span>
+          <el-option v-for="item in tags" :key="item.id" :label="item.name" :value="item.name"> </el-option>
+        </el-select>
+      </el-form-item>
+      <!-- ---------------------------------------------------------------------------------- -->
       <el-form-item class="btn">
         <el-button type="primary" @click="onSubmit">{{ this.editData ? '修改' : '创建' }}</el-button>
         <el-button @click="goBack">退出{{ this.editData ? '修改' : '编辑' }}</el-button>
@@ -13,7 +20,8 @@
 </template>
 
 <script>
-import { cache } from '@/utils';
+import { cache, eventBus } from '@/utils';
+import { mapState } from 'vuex';
 export default {
   name: 'EditForm',
   props: {
@@ -28,32 +36,53 @@ export default {
   },
   data() {
     return {
-      title: ''
+      form: {
+        title: '',
+        tags: []
+      },
+      rules: {
+        title: [{ required: true, message: '请输入标题', trigger: 'blur' }]
+      },
+      beforeEditTags: []
     };
   },
   components: {},
+  computed: {
+    ...mapState({ tags: (state) => state.a.tags, pictures: (state) => state.a.pictures })
+  },
   mounted() {
+    this.$store.dispatch('a/getTagsAction');
     if (this.editData) {
-      const { title } = this.editData;
-      this.title = title;
+      const { title, tags } = this.editData;
+      this.form.title = title;
+      this.form.tags = tags;
+      this.beforeEditTags = tags;
     } else if (cache.getCache('draft')) {
-      const { title } = cache.getCache('draft');
-      this.title = title;
+      this.form = cache.getCache('draft');
     }
   },
   methods: {
+    onSubmit() {
+      const articleDraft = {
+        title: this.form.title,
+        tags: this.form.tags,
+        beforeEditTags: this.beforeEditTags
+      };
+      this.$emit('formSubmit', articleDraft);
+    },
     goBack() {
       this.$confirm(`是否${this.editData ? '取消修改' : '退出并保存草稿'}`, '提示', {
+        type: 'info',
         distinguishCancelAndClose: true,
         confirmButtonText: `${this.editData ? '取消修改' : '保存退出'}`,
-        cancelButtonText: `${this.editData ? '再想想' : '不保存退出'}`,
-        type: 'info'
+        cancelButtonText: `${this.editData ? '再想想' : '不保存退出'}`
       })
         .then(() => {
           if (!this.editData) {
             this.$router.push('/article');
-            cache.setCache('draft', { title: this.title, draft: this.draft });
-            this.$msg(1, '已保存并退出文章编辑!');
+            const draftObj = { ...this.form, draft: this.draft };
+            cache.setCache('draft', draftObj);
+            this.$showSuccess('已保存并退出文章编辑!');
           } else {
             this.$router.back();
           }
@@ -61,14 +90,10 @@ export default {
         .catch((action) => {
           if (action === 'cancel' && !this.editData) {
             cache.removeCache('draft');
+            cache.removeCache('pictures');
             this.$router.push('/article');
           }
         });
-    },
-    onSubmit() {
-      this.$emit('formSubmit', {
-        title: this.title
-      });
     }
   }
 };
@@ -76,10 +101,15 @@ export default {
 
 <style lang="less" scoped>
 .el-form {
-  padding-right: 30px;
+  padding: 0 10px;
   .btn {
     display: flex;
     justify-content: space-around;
   }
+}
+.tip {
+  display: flex;
+  justify-content: center;
+  color: #c9cdd4;
 }
 </style>

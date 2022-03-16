@@ -2,8 +2,8 @@
   <div class="home">
     <nav-bar />
     <home-title />
-    <home-top />
-    <home-main />
+    <!-- <home-top />
+    <home-main /> -->
   </div>
 </template>
 

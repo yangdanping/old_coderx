@@ -1,4 +1,4 @@
-import { cxRequest } from '@/network';
+import { cxRequest } from '@/service';
 const urlHead = '/user';
 
 export function checkAuth() {
@@ -59,5 +59,25 @@ export function getComment(id, pageNum, pageSize) {
   const limit = pageSize;
   return cxRequest.get({
     url: `${urlHead}/${id}/comment?offset=${offset}&limit=${limit}`
+  });
+}
+export function updateProfile(profile) {
+  return cxRequest.put({
+    url: `${urlHead}/profile`,
+    data: profile
+  });
+}
+
+export function reportUser(userId, report) {
+  return cxRequest.post({
+    url: `${urlHead}/${userId}/report`,
+    data: report
+  });
+}
+
+export function feedback(userId, content) {
+  return cxRequest.post({
+    url: `${urlHead}/${userId}/feedback`,
+    data: { content }
   });
 }

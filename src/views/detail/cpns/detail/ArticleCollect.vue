@@ -2,17 +2,17 @@
   <div class="article-collect">
     <div class="title"><h2>添加到收藏夹</h2></div>
     <div class="collect-list">
-      <template v-if="!collects.length">
-        <div class="show-msg"><h2>暂无收藏夹☺新建一个吧~</h2></div>
-      </template>
-      <template v-else>
-        <div v-for="item in collects" class="item">
+      <template v-if="collects.length">
+        <div v-for="item in collects" :key="item.id" @click="addToCollect(item.id)" class="item">
           <div class="item-left">
             <span>{{ item.name }}</span>
-            <div v-if="item.count" class="count">1</div>
+            <div v-if="item.count" class="count">{{ item.count.length }}</div>
           </div>
-          <i class="el-icon-success" style="color: #81c995; font-size: 22px"></i>
+          <i v-if="isCollected(item.count)" class="el-icon-success" style="color: #81c995; font-size: 22px"></i>
         </div>
+      </template>
+      <template v-else>
+        <div class="show-msg"><h2>暂无收藏夹☺新建一个吧~</h2></div>
       </template>
     </div>
     <div class="new-btn">
@@ -28,15 +28,10 @@
 
 <script>
 import { eventBus } from '@/utils';
+import { mapState } from 'vuex';
 
 export default {
   name: 'ArticleCollect',
-  props: {
-    collects: {
-      type: Array,
-      default: () => []
-    }
-  },
   data() {
     return {
       newCollect: false,
@@ -46,11 +41,7 @@ export default {
     };
   },
   mounted() {
-    eventBus.$on('hideCollect', () => {
-      if (this.newCollect) {
-        this.newCollect = false;
-      }
-    });
+    eventBus.$on('hideCollect', () => (this.newCollect = false));
   },
   watch: {
     input(newV, oldV) {
@@ -58,10 +49,21 @@ export default {
     }
   },
   components: {},
-  computed: {},
+  computed: {
+    ...mapState({ article: (state) => state.a.article, collects: (state) => state.u.collects }),
+    isCollected() {
+      return (count) => count && count.some((v) => v === this.article.id);
+    }
+  },
   methods: {
     add() {
-      this.$store.dispatch('u/collectAction', this.input);
+      this.$store.dispatch('u/addCollectAction', this.input);
+      this.input = '';
+      this.newCollect = false;
+    },
+    addToCollect(collectId) {
+      console.log(collectId);
+      this.$store.dispatch('u/collectAction', { collectId, articleId: this.article.id });
     }
   }
 };
@@ -74,6 +76,7 @@ export default {
   align-items: center;
   padding: 10px 0;
 }
+
 .collect-list {
   height: 140px;
   width: 100%;

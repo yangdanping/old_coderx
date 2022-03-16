@@ -1,4 +1,4 @@
-import { cxRequest } from '@/network';
+import { cxRequest } from '@/service';
 const urlHead = '/comment';
 
 export function getComment(articleId) {
@@ -43,8 +43,8 @@ export function addReply(replyInfo) {
   return cxRequest.post({ url, data });
 }
 
-export function like(payload) {
-  const { commentId, replyId } = payload;
+export function like(likeInfo) {
+  const { commentId, replyId } = likeInfo;
   const url = commentId ? `${urlHead}/${commentId}/like` : `/reply/${replyId}/like`;
   return cxRequest.post({ url });
 }

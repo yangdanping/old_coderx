@@ -1,23 +1,28 @@
 <template>
   <div class="user-profile">
     <div class="profile-header">
-      <avatar :disabled="true" :info="profile" :size="200" />
+      <user-avatar :info="profile" />
       <div class="profile-info">
         <div class="profile-1">
           <span class="name">{{ profile.name }}</span>
           <img :src="userSex" alt="" />
+          <el-tag v-if="isUser(profile.id)" @click="updateProfile" type="info" size="mini"><i class="el-icon-edit"></i>修改个人信息</el-tag>
         </div>
         <div class="profile-2">
+          <i class="el-icon-coin"></i>
+          <span>年龄:{{ profile.age ? profile.age : '无' }}</span>
+        </div>
+        <div class="profile-3">
           <i class="el-icon-suitcase"></i>
           <span>职业:{{ profile.career ? profile.career : 'Coder' }}</span>
         </div>
-        <div class="profile-3">
-          <i class="el-icon-coordinate"></i>
-          <span>居住地:{{ profile.province ? profile.province : 'CoderX星球' }}</span>
-        </div>
         <div class="profile-4">
-          <i class="el-icon-price-tag"></i>
-          <span>个人简介:{{ profile.sign ? profile.sign : '这个人没有填简介啊~~~' }}</span>
+          <i class="el-icon-coordinate"></i>
+          <span>居住地:{{ profile.address ? profile.address : 'CoderX星球' }}</span>
+        </div>
+        <div class="profile-5">
+          <i class="el-icon-takeaway-box"></i>
+          <span>邮箱:{{ profile.email ? profile.email : '无' }}</span>
         </div>
       </div>
     </div>
@@ -28,8 +33,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import { eventBus } from '@/utils';
 import Avatar from '@/components/avatar/Avatar.vue';
 import UserProfileMenu from './UserProfileMenu.vue';
+import UserAvatar from './UserAvatar.vue';
 export default {
   name: 'UserSpace',
   props: {
@@ -41,17 +49,30 @@ export default {
   data() {
     return {};
   },
-  components: { Avatar, UserProfileMenu },
+  components: { Avatar, UserProfileMenu, UserAvatar },
   computed: {
     userSex() {
       const { sex } = this.profile;
-      return require(`@/assets/img/user/${sex === '女' ? 'female' : 'male'}.webp`);
-    }
+      return require(`@/assets/img/user/${sex === '女' ? 'female' : 'male'}-icon.webp`);
+    },
+    ...mapGetters({ isUser: 'u/isUser' })
   },
   methods: {
+    updateProfile() {
+      this.$store.commit('changeDialog');
+      eventBus.$emit('updateProfile', JSON.parse(JSON.stringify(this.profile))); //深拷贝
+    },
     tabClick(index) {
-      if (index === '2') {
-        this.$store.dispatch('u/getCommentAction', this.profile.id);
+      const userId = this.profile.id;
+      switch (index) {
+        case '2':
+          this.$store.dispatch('u/getCommentAction', userId);
+          break;
+        case '3':
+          this.$store.dispatch('u/getCollectAction', userId);
+          break;
+        default:
+          break;
       }
     }
   }
@@ -76,6 +97,10 @@ export default {
       .name {
         font-weight: 700;
         font-size: 35px;
+      }
+      .el-tag {
+        font-size: 17px;
+        cursor: pointer;
       }
       [class^='profile-'] {
         display: flex;

@@ -2,7 +2,7 @@
   <div class="avatar">
     <el-popover :disabled="disabled" placement="top-start" trigger="hover" :open-delay="400">
       <div class="user">
-        <el-avatar :src="avatarUrl" :size="60"></el-avatar>
+        <el-avatar :src="avatarUrl" :size="60" />
         <div>
           <div class="user-info">
             <h2>{{ info.name }}</h2>
@@ -14,20 +14,21 @@
       </div>
       <div class="user-profile">
         <span>{{ info.career ? info.career : 'Coder' }}</span>
-        <template v-if="!isUser">
+        <template v-if="!isUser(info.id)">
           <el-button :type="!isFollowed ? 'primary' : ''" @click="follow" size="mini">
             {{ !isFollowed ? '关注' : '已关注' }}
           </el-button>
         </template>
       </div>
-      <el-avatar @mouseenter.native="mouseenter" @click.native="goProfile" :src="avatarUrl" :size="size" slot="reference"></el-avatar>
+      <el-avatar @mouseenter.native="mouseenter" @click.native="goProfile" :src="avatarUrl" :size="size" slot="reference" />
     </el-popover>
+    <div class="avatar-set" v-if="showSet && isUser(info.id)"><i class="el-icon-edit"></i></div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import { debounce } from '@/utils';
+import { mapState, mapGetters } from 'vuex';
+import { debounce, Msg } from '@/utils';
 export default {
   name: 'Avatar',
   props: {
@@ -37,6 +38,10 @@ export default {
     },
     size: {
       type: [Number, String]
+    },
+    showSet: {
+      type: Boolean,
+      default: false
     },
     disabled: {
       type: Boolean,
@@ -49,21 +54,18 @@ export default {
   components: {},
   computed: {
     ...mapState({
-      isLogin: (state) => state.u.token, //根据是否有token判断是否登录(授权)
-      userInfo: (state) => state.u.userInfo, //判断是否是当前用户
       isFollowed: (state) => state.u.isFollowed,
-      followInfo: (state) => state.u.followInfo
+      followInfo: (state) => state.u.followInfo,
+      userInfo: (state) => state.u.userInfo
     }),
-    isUser() {
-      return this.isLogin && this.info.id === this.userInfo.id;
-    },
+    ...mapGetters({ isUser: 'u/isUser' }),
     avatarUrl() {
       const { avatarUrl } = this.info;
       return avatarUrl ?? require('@/assets/img/user/avatar.png');
     },
     userSex() {
       const { sex } = this.info;
-      return require(`@/assets/img/user/${sex === '女' ? 'female' : 'male'}.webp`);
+      return require(`@/assets/img/user/${sex === '女' ? 'female' : 'male'}-icon.webp`);
     },
     isFollow() {
       return (type) => (this.followInfo[type] ? this.followInfo[type].length : 0);
@@ -73,22 +75,20 @@ export default {
     // mouseenter() {}, //改完bug后记得注释掉这行
     mouseenter: debounce(
       function () {
-        !this.disabled ? this.$store.dispatch('u/getFollowAction', this.info.id) : null;
+        !this.disabled && this.$store.dispatch('u/getFollowAction', this.info.id);
       },
       400,
       true
     ),
     goProfile() {
-      if (!this.disabled) {
-        this.$router.push({ path: `/user/${this.info.id}` });
-      }
+      !this.disabled && this.$router.push({ path: `/user/${this.info.id}` });
     },
     follow() {
-      if (this.isLogin) {
+      if (this.userInfo.id) {
         this.$store.dispatch('u/followAction', this.info.id);
       } else {
-        this.$msg(2, '请先登录');
-        this.$store.commit('showLogin');
+        this.$showFail('请先登录');
+        this.$store.commit('changeDialog');
       }
     }
   }
@@ -97,8 +97,27 @@ export default {
 
 <style lang="less">
 .avatar {
+  position: relative;
   .el-avatar {
     cursor: pointer;
+  }
+  .avatar-set {
+    position: absolute;
+    display: none;
+    top: 0;
+    line-height: 200px;
+    font-size: 50px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.2);
+    color: #fff;
+    user-select: none;
+  }
+}
+.avatar:hover {
+  .avatar-set {
+    display: block;
   }
 }
 .el-popover {

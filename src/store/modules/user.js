@@ -1,6 +1,7 @@
-import { userRegister, userLogin, checkAuth, getUserInfo, getFollow, follow, getArticle, getComment } from '@/network/user/user.request.js';
-import { getCollect, addCollect } from '@/network/user/collect.request.js';
-import { cache, eventBus, showMsg, timeFormat } from '@/utils';
+import { userRegister, userLogin, checkAuth, getUserInfo, getFollow, follow, getArticle, getComment, updateProfile, reportUser, feedback } from '@/service/user/user.request.js';
+import { getCollect, addCollect, addToCollect } from '@/service/user/collect.request.js';
+import { uploadAvatar, loadAvatar } from '@/service/file/file.request.js';
+import { cache, eventBus, timeFormat, Msg } from '@/utils';
 import router from '@/router'; //拿到router对象,进行路由跳转
 export default {
   namespaced: true,
@@ -15,6 +16,11 @@ export default {
       comments: [],
       collects: []
     };
+  },
+  getters: {
+    isUser(state) {
+      return (userId) => state.token && userId === state.userInfo.id; //判断是否是当前已登陆用户
+    }
   },
   mutations: {
     changeToken(state, token) {
@@ -43,6 +49,7 @@ export default {
       console.log(state.comments);
     },
     changeCollect(state, payload) {
+      payload.forEach((collect) => (collect.createAt = timeFormat(collect.createAt)));
       state.collects = payload;
       console.log(state.collects);
     },
@@ -52,22 +59,28 @@ export default {
       cache.removeCache('token'); //退出登录要清除token和用户信息
       cache.removeCache('userInfo');
       refresh && router.go(0);
+    },
+    initProfile(state) {
+      state.profile = {};
     }
   },
   actions: {
-    async registerAction({ commit }, payload) {
+    async registerAction({ commit, dispatch }, payload) {
       const { name, password } = payload;
-      const res = await userRegister(name, password); //在Register.vue中判断是否注册成功
+      const res = await userRegister(name, password);
+      console.log(res);
       if (res.code === '0') {
-        showMsg(1, '注册成功');
-        eventBus.$emit('registerSuccess', { name, password });
+        console.log('registerAction!!!!!!!!!!', res.data);
+        dispatch('loginAction', payload); //注册成功后自动登陆
+        // eventBus.$emit('registerSuccess');
       } else {
-        showMsg(3, '注册失败');
+        Msg.showFail(res.msg);
       }
     },
     async loginAction({ commit }, payload) {
       // 1.实现登录逻辑----------------------
       const { name, password } = payload;
+      console.log('loginAction!!!!!!!!!!!!!!', payload);
       const res1 = await userLogin(name, password);
       if (res1.code === '0') {
         const { id } = res1.data; //拿到id,后面要根据该id查询是谁登录了,以获取该用户的信息
@@ -82,17 +95,17 @@ export default {
           // 3.成功登录后刷新页面-----------------------------------------------------
           cache.getCache('token') ? router.go(0) : console.log('登录(授权)失败');
         } else {
-          showMsg(3, '请求登录用户信息失败'); //若是登录用户信息则不用再请求了
+          Msg.showFail('请求登录用户信息失败'); //若是登录用户信息则不用再请求了
         }
       } else {
-        showMsg(3, '授权失败'); //若是登录用户信息则不用再请求了
+        Msg.showFail(res1.msg); //若是登录用户信息则不用再请求了
       }
     },
     async checkAuthAction({ commit }) {
       const res = await checkAuth();
       if (res.code !== '0') {
         commit('logOut', false);
-        // showMsg(3, `${res.code}:${res.msg}`);
+        // Msg.showFail(`${res.code}:${res.msg}`);
       }
     },
     async getProfileAction({ commit, dispatch }, userId) {
@@ -101,51 +114,89 @@ export default {
         commit('changeProfile', res.data);
         dispatch('getArticleAction', res.data.id);
       } else {
-        showMsg(3, '请求用户信息失败');
+        Msg.showFail('请求用户信息失败');
       }
+    },
+    async updateProfileAction({}, payload) {
+      const res = await updateProfile(payload);
+      console.log(res.data);
+      res.code === '0' ? router.go(0) : Msg.showFail('修改信息失败');
     },
     async getFollowAction({ commit }, userId) {
       const res = await getFollow(userId); //注意!这个不是登录用户的信息,而是普通用户信息
       // 若改用户中的follower的id中有当前登录用户的id,则isFollowed为true
-      res.code === '0' ? commit('changeFollowInfo', res.data) : showMsg(3, '请求用户关注信息失败');
+      res.code === '0' ? commit('changeFollowInfo', res.data) : Msg.showFail('请求用户关注信息失败');
     },
     async followAction({ dispatch }, userId) {
       const res = await follow(userId); //注意!这个不是登录用户的信息,而是普通用户信息
       if (res.code === '0') {
         dispatch('getFollowAction', userId); //更新关注信息
-        showMsg(1, '关注成功');
+        Msg.showSuccess('关注成功');
       } else {
         dispatch('getFollowAction', userId); //更新关注信息
-        showMsg(2, '取关成功');
+        Msg.showWarn('取关成功');
       }
     },
     async getArticleAction({ commit, rootState }, userId) {
       const res = await getArticle(userId, rootState.pageNum, rootState.pageSize);
-      res.code === '0' ? commit('changeArticle', res.data) : showMsg(3, '获取用户发表文章失败');
+      res.code === '0' ? commit('changeArticle', res.data) : Msg.showFail('获取用户发表文章失败');
     },
     async getCommentAction({ commit, rootState }, userId) {
       const res = await getComment(userId, rootState.pageNum, rootState.pageSize);
       if (res.code === '0') {
         commit('changeComment', res.data);
       } else {
-        showMsg(3, '获取用户发表评论失败');
+        Msg.showFail('获取用户发表评论失败');
       }
     },
-    async getCollectAction({ commit }) {
-      const res = await getCollect();
+    async getCollectAction({ commit }, userId) {
+      const res = await getCollect(userId);
       if (res.code === '0') {
         commit('changeCollect', res.data);
       } else {
-        showMsg(3, '获取用户收藏夹失败');
+        Msg.showFail('获取用户收藏夹失败');
       }
     },
-    async collectAction({ dispatch }, collectName) {
+    async addCollectAction({ dispatch, rootState }, collectName) {
+      const userId = rootState.u.userInfo.id;
       const res = await addCollect(collectName);
       if (res.code === '0') {
-        showMsg(1, '添加收藏夹成功');
-        dispatch('getCollectAction');
+        Msg.showSuccess('添加收藏夹成功');
+        dispatch('getCollectAction', userId);
       } else {
-        showMsg(3, res.msg);
+        Msg.showFail(res.msg);
+      }
+    },
+    async collectAction({ dispatch, rootState }, payload) {
+      const userId = rootState.u.userInfo.id;
+      const res = await addToCollect(payload);
+      dispatch('getCollectAction', userId);
+    },
+    async uploadAvatarAction({ dispatch }, payload) {
+      const res = await uploadAvatar(payload);
+      if (res.code === '0') {
+        Msg.showSuccess('更换头像成功');
+        // router.go(0);
+      } else {
+        Msg.showFail('更换头像失败');
+      }
+    },
+    async reportAction({ dispatch }, payload) {
+      const { userId, report } = payload;
+      const res = await reportUser(userId, report);
+      if (res.code === '0') {
+        Msg.showSuccess('举报用户成功');
+      } else {
+        Msg.showFail('举报用户失败');
+      }
+    },
+    async feedbackAction({ dispatch }, payload) {
+      const { userId, content } = payload;
+      const res = await feedback(userId, content);
+      if (res.code === '0') {
+        Msg.showSuccess('提交反馈成功');
+      } else {
+        Msg.showFail('提交反馈失败');
       }
     }
   }

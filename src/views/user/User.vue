@@ -17,14 +17,13 @@ export default {
   created() {
     this.$store.dispatch('u/getProfileAction', parseInt(this.$route.params.userId));
     if (this.userInfo.id === parseInt(this.$route.params.userId)) {
-      this.$msg(1, '获取的是登录用户的信息');
+      this.$showSuccess('获取的是登录用户的信息!');
     }
   },
   computed: {
     ...mapState({
       userInfo: (state) => state.u.userInfo,
-      profile: (state) => state.u.profile,
-      articles: (state) => state.u.articles
+      profile: (state) => state.u.profile
     })
   },
   components: { NavBar, UserProfile },

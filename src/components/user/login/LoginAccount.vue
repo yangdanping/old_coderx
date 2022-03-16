@@ -2,17 +2,17 @@
   <div class="login-account">
     <el-form :rules="rules" :model="form" status-icon ref="loginForm" label-width="90px">
       <el-form-item label="用户名" prop="name">
-        <el-input v-model="form.name" clearable></el-input>
+        <el-input v-model.trim="form.name" clearable></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="form.password" clearable show-password></el-input>
+        <el-input v-model.trim="form.password" type="password" clearable show-password></el-input>
       </el-form-item>
-      <el-form-item>
+      <!-- <el-form-item>
         <div class="valid-code">
           <el-input prefix-icon="el-icon-key" v-model="form.validCode" placeholder="请输入验证码"></el-input>
           <valid-code @input="createValidCode" />
         </div>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item class="btn-box">
         <el-button type="primary" @click="login">登录</el-button>
       </el-form-item>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { cache, eventBus } from '@/utils';
+import { cache, Msg } from '@/utils';
 import ValidCode from '@/components/ValidCode.vue';
 
 export default {
@@ -40,14 +40,6 @@ export default {
       currentValidCode: ''
     };
   },
-  mounted() {
-    eventBus.$on('registerSuccess', (payload) => {
-      const { name, password } = payload;
-      this.form.name = name;
-      this.form.password = password;
-      console.log(payload);
-    });
-  },
   components: { ValidCode },
   methods: {
     createValidCode(code) {
@@ -56,18 +48,19 @@ export default {
     login() {
       this.$refs['loginForm'].validate((valid) => {
         if (valid) {
-          if (!this.form.validCode) {
-            this.$msg(3, '请输入验证码');
-            return;
-          } else if (this.form.validCode.toLowerCase() !== this.currentValidCode.toLowerCase()) {
-            this.$msg(3, '验证码错误');
-            return;
-          } else {
-            // cache.setCache('user', this.form);
-            this.$store.dispatch('u/loginAction', this.form);
-          }
+          this.$store.dispatch('u/loginAction', this.form);
+          console.log('测试时将验证码关闭');
+          // if (!this.form.validCode) {
+          //   this.$showFail('请输入验证码');
+          //   return;
+          // } else if (this.form.validCode.toLowerCase() !== this.currentValidCode.toLowerCase()) {
+          //   this.$showFail('验证码错误');
+          //   return;
+          // } else {
+          //   this.$store.dispatch('u/loginAction', this.form);
+          // }
         } else {
-          this.$msg(2, '请输入正确的用户名和密码');
+          Msg.showInfo('请输入正确的用户名和密码');
         }
       });
     }
