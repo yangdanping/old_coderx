@@ -23,3 +23,10 @@ export function uploadAvatar(payload) {
     data: fd
   });
 }
+
+export function addPictureForArticle(articleId, uploaded) {
+  return cxRequest.post({
+    url: `${urlHead}/picture/${articleId}`,
+    data: { uploaded }
+  });
+}

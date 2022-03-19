@@ -1,9 +1,9 @@
 <template>
   <div class="home">
-    <nav-bar />
-    <home-title />
-    <!-- <home-top />
-    <home-main /> -->
+    <NavBar />
+    <HomeTitle />
+    <!-- <HomeTop />
+    <HomeMain /> -->
   </div>
 </template>
 

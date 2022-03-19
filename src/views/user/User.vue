@@ -1,7 +1,7 @@
 <template>
   <div class="user">
-    <nav-bar />
-    <user-profile :profile="profile" />
+    <NavBar />
+    <UserProfile :profile="profile" />
   </div>
 </template>
 

@@ -5,7 +5,7 @@
     </el-tooltip>
     <el-button class="editbtn" @click="goEdit" type="primary">写文章</el-button>
     <el-dropdown>
-      <avatar :disabled="true" :info="userInfo"></avatar>
+      <Avatar :disabled="true" :info="userInfo"></Avatar>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item @click.native="goProfile">我的空间</el-dropdown-item>
         <el-dropdown-item @click.native="logOut">退出登录</el-dropdown-item>

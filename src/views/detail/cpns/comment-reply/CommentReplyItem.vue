@@ -1,6 +1,6 @@
 <template>
   <div class="reply" :key="item.id">
-    <avatar :info="item.user" :size="35" />
+    <Avatar :info="item.user" :size="35" />
     <div class="reply-box">
       <div class="user-info-box">
         <span class="name">{{ item.user.name }}</span>
@@ -10,10 +10,10 @@
       </div>
       <div class="reply-content">
         <p v-html="item.content"></p>
-        <comment-action :comment="item" />
+        <CommentAction :comment="item" />
       </div>
-      <comment-form v-if="replythis(item.id)" :commentId="commentId" />
-      <comment-child-reply v-if="childReply(item)" :replyInfo="childReply(item)" />
+      <CommentForm v-if="replythis(item.id)" :commentId="commentId" />
+      <CommentChildReply v-if="childReply(item)" :replyInfo="childReply(item)" />
     </div>
     <comment-tools :editData="item.content" :commentId="item.id" :userId="item.user.id" />
   </div>

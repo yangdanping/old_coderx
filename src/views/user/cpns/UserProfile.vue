@@ -1,7 +1,7 @@
 <template>
   <div class="user-profile">
     <div class="profile-header">
-      <user-avatar :info="profile" />
+      <UserAvatar :info="profile" />
       <div class="profile-info">
         <div class="profile-1">
           <span class="name">{{ profile.name }}</span>
@@ -27,7 +27,7 @@
       </div>
     </div>
     <div class="profile-main">
-      <user-profile-menu @tabClick="tabClick" />
+      <UserProfileMenu @tabClick="tabClick" />
     </div>
   </div>
 </template>

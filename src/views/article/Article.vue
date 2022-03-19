@@ -1,13 +1,10 @@
 <template>
   <div class="article">
-    <nav-bar>
-      <template #article><article-nav /></template>
-    </nav-bar>
+    <NavBar />
     <div class="article-wrapper">
-      <template v-if="articles.length"><article-list :articles="articles" /></template>
-      <template v-else>
-        <div class="skeleton"><el-skeleton animated /></div>
-      </template>
+      <div class="article-nav"><ArticleNav /></div>
+      <ArticleList ref="list" v-if="articles.length" :articles="articles" />
+      <div v-else class="skeleton"><el-skeleton animated /></div>
     </div>
   </div>
 </template>
@@ -20,20 +17,20 @@ import ArticleNav from './cpns/ArticleNav.vue';
 
 export default {
   name: 'Article',
+  components: { NavBar, ArticleList, ArticleNav },
   data() {
     return {};
   },
   created() {
-    this.getArticles();
+    this.$store.dispatch('a/getListAction');
   },
   computed: {
     ...mapState({ articles: (state) => state.a.articles })
   },
-  mounted() {},
-  components: { NavBar, ArticleList, ArticleNav },
   methods: {
-    getArticles() {
-      this.$store.dispatch('a/getListAction');
+    getPageHeight() {
+      console.log(document.body.offsetHeight);
+      console.log(this.$refs.list.offsetHeight);
     }
   }
 };
@@ -41,13 +38,23 @@ export default {
 
 <style lang="less" scoped>
 .article {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   background: var(--bg);
   transition: background-color 1s;
   .article-wrapper {
-    margin-top: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 60px;
+    .article-nav {
+      position: fixed;
+      left: 2vw;
+      top: 240px;
+      .test {
+        height: 200px;
+        width: 200px;
+        background: #000;
+      }
+    }
     .skeleton {
       width: 50vw;
       height: calc(100vh - 120px);

@@ -1,5 +1,5 @@
 <template>
-  <action-list :isComment="true">
+  <ActionList :isComment="true">
     <template #reply>
       <ul class="reply-action">
         <li @click="likeReply(reply.id)" class="item like">
@@ -8,7 +8,7 @@
         <li @click="wantReply(reply.id)" class="item comment"><i></i><span>回复</span></li>
       </ul>
     </template>
-  </action-list>
+  </ActionList>
 </template>
 
 <script>

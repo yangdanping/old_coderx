@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <header>
-      <nav-bar-moblie style="display: none" />
+      <NavBarMoblie style="display: none" />
       <div class="header-l">
         <router-link to="/home"><img class="logo" :src="logo" /></router-link>
         <slot name="left"><nav-menu /></slot>
@@ -23,12 +23,11 @@
         <el-button @click="changeMode" class="change-mode">切换主题</el-button>
         <slot name="right">
           <template v-if="!isLogin"><el-button @click="changeDialog" class="register-btn">Hello CoderX</el-button></template>
-          <template v-else><nav-bar-user /></template>
+          <template v-else><NavBarUser /></template>
         </slot>
       </div>
     </header>
-    <slot name="article"></slot>
-    <user-dialog />
+    <UserDialog />
   </div>
 </template>
 

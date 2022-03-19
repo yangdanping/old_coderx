@@ -16,7 +16,7 @@
         <i @click="showReport = true" class="el-icon-warning-outline"></i>
       </el-tooltip>
     </template>
-    <report-dialog @submit="submitReport" @cancel="cancelReport" :show="showReport" />
+    <ReportDialog @submit="submitReport" @cancel="cancelReport" :show="showReport" />
   </div>
 </template>
 

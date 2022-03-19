@@ -13,7 +13,8 @@ const store = new Vuex.Store({
       isDark: false,
       showDialog: false,
       pageNum: 1,
-      pageSize: 5
+      pageSize: 5,
+      pageHeight: 3000
     };
   },
   mutations: {

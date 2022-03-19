@@ -1,5 +1,5 @@
 <template>
-  <action-list :isComment="true">
+  <ActionList :isComment="true">
     <template #comment>
       <ul class="comment-action">
         <li @click="likeComment(comment.id)" class="item like" :class="isLiked(comment.id)">
@@ -11,7 +11,7 @@
         </li>
       </ul>
     </template>
-  </action-list>
+  </ActionList>
 </template>
 
 <script>

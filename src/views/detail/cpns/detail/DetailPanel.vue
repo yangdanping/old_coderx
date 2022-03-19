@@ -7,7 +7,7 @@
     <i class="views"></i>
     <span>{{ article.views }}</span>
     <el-popover @show="handleShow" @after-leave="handleHide" placement="right" width="400" trigger="click" :disabled="disabled">
-      <article-collect />
+      <ArticleCollect />
       <i class="el-icon-star-off collect" slot="reference" @click="showLogin"></i>
     </el-popover>
   </div>

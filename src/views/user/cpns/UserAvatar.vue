@@ -7,7 +7,7 @@
     :on-success="handleAvatarSuccess"
     :before-upload="beforeAvatarUpload"
   >
-    <avatar :disabled="true" :info="info" :size="200" :showSet="true" />
+    <Avatar :disabled="true" :info="info" :size="200" :showSet="true" />
   </el-upload>
 </template>
 

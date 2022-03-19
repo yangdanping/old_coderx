@@ -1,7 +1,7 @@
 <template>
   <div class="child-reply-item">
     <div class="child-reply-box">
-      <avatar :info="reply.user" :size="28"></avatar>
+      <Avatar :info="reply.user" :size="28"></Avatar>
       <div class="user-info-box">
         <span class="name"> {{ reply.user.name }}</span>
         <el-tag v-if="isAuthor(reply.user.id)" color size="small">作者</el-tag>
@@ -16,7 +16,7 @@
       <p v-html="reply.content"></p>
       <child-reply-action :reply="reply" />
     </div>
-    <comment-form v-if="replythis(reply.id)" :commentId="reply.fatherComment" :replyId="reply.id" />
+    <CommentForm v-if="replythis(reply.id)" :commentId="reply.fatherComment" :replyId="reply.id" />
   </div>
 </template>
 

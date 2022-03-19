@@ -1,22 +1,20 @@
 <template>
   <div class="edit">
     <el-row>
-      <el-col class="editor-box" :span="12">
-        <editor :editData="editData" @onListen="onListen" />
+      <el-col :span="12">
+        <Editor :editData="editData" @onListen="onListen" />
       </el-col>
       <el-col :span="12">
-        <div class="block">
-          <i class="el-icon-s-platform">预览</i>
+        <div class="preview">
+          <div class="title"><i class="el-icon-s-platform">预览</i></div>
+          <div class="content el-tiptap-editor__content" v-html="preview"></div>
         </div>
-        <div class="preview el-tiptap-editor__content" v-html="preview"></div>
-        <div class="btn">
-          <el-button @click="drawer = true"><i class="el-icon-menu"></i></el-button>
-        </div>
-        <el-drawer title="管理您的文章" :visible.sync="drawer" direction="ltr">
-          <edit-form @formSubmit="formSubmit" :draft="preview" :editData="editData" />
-        </el-drawer>
       </el-col>
     </el-row>
+    <el-button class="btn" @click="drawer = true"><i class="el-icon-menu"></i><span>提交</span></el-button>
+    <el-drawer title="管理您的文章" :visible.sync="drawer" direction="ltr">
+      <EditForm @formSubmit="formSubmit" :draft="preview" :editData="editData" />
+    </el-drawer>
   </div>
 </template>
 
@@ -40,11 +38,6 @@ export default {
       const { draft } = cache.getCache('draft');
       this.preview = draft;
     }
-  },
-  destroyed() {
-    window.removeEventListener('beforeunload', () => {
-      console.log('destroyed');
-    });
   },
   computed: {
     editData() {
@@ -79,27 +72,34 @@ export default {
 <style lang="less" scoped>
 .edit {
   width: 100%;
-  .editor-box {
-    background: var(--bg);
-  }
   .btn {
     position: fixed;
-    bottom: 30px;
-    right: 0;
-  }
-  .block {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: linear-gradient(90deg, #222f3e, #03a9f4, transparent);
-    color: #fff;
-    font-size: 30px;
-    height: 99px;
+    bottom: 0;
+    left: 0;
+    border: 0;
   }
   .preview {
-    padding: 0 20px;
-    white-space: pre-wrap;
+    .title {
+      position: fixed;
+      top: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: linear-gradient(90deg, #222f3e, #03a9f4, transparent);
+      color: #fff;
+      font-size: 30px;
+      height: 99px;
+      width: 50vw;
+    }
+    .content {
+      padding: 99px 0 0 0;
+      height: 100vh;
+      background: #fff;
+      white-space: pre-wrap;
+    }
   }
+
   .el-drawer {
     display: flex;
     flex-direction: column;

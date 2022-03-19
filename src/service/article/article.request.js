@@ -8,11 +8,11 @@ export function createArticle(title, content) {
   });
 }
 
-export function getList(pageNum, pageSize) {
+export function getList(pageNum, pageSize, tagId) {
   const offset = pageNum <= 1 ? 0 : (pageNum - 1) * pageSize;
   const limit = pageSize;
   return cxRequest.get({
-    url: `${urlHead}?offset=${offset}&limit=${limit}`
+    url: `${urlHead}?offset=${offset}&limit=${limit}&tagId=${tagId}`
   });
 }
 

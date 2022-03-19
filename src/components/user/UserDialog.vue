@@ -1,7 +1,7 @@
 <template>
   <el-dialog :visible.sync="showDialog" @close="hindDialog" @closed="closedDialog" :modal-append-to-body="false" center>
-    <login-panel v-if="!showProfile" />
-    <complete-profile v-else :editForm="editForm" />
+    <LoginPanel v-if="!showProfile" />
+    <CompleteProfile v-else :editForm="editForm" />
   </el-dialog>
 </template>
 

@@ -1,8 +1,8 @@
 <template>
   <div class="comment-form">
-    <avatar :info="userInfo" />
+    <Avatar :info="userInfo" />
     <div class="input">
-      <editor @onListen="onListen" :isComment="true" height="100%" />
+      <Editor @onListen="onListen" :isComment="true" height="100%" />
       <div class="input-action">
         <el-button :disabled="disabled" @click="addComment" type="primary">{{ disabled ? '提交中' : '发表评论' }}</el-button>
       </div>

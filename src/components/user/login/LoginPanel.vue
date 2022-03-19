@@ -6,10 +6,10 @@
     </div>
     <el-tabs stretch v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="登录" name="login">
-        <login-account />
+        <LoginAccount />
       </el-tab-pane>
       <el-tab-pane label="注册" name="register">
-        <register-account />
+        <RegisterAccount />
       </el-tab-pane>
     </el-tabs>
   </div>

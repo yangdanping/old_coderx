@@ -1,10 +1,8 @@
 <template>
-  <div class="article-nav">
-    <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="综合" name="综合"></el-tab-pane>
-      <el-tab-pane v-for="item in tags" :key="tags.name" :label="item.name" :name="item.name"></el-tab-pane>
-    </el-tabs>
-  </div>
+  <el-tabs tab-position="left" v-model="activeName" @tab-click="handleClick">
+    <el-tab-pane label="综合" name="综合"></el-tab-pane>
+    <el-tab-pane v-for="item in tags" :key="tags.id" :data-id="tags.id" :label="item.name" :name="item.name"></el-tab-pane>
+  </el-tabs>
 </template>
 
 <script>
@@ -19,15 +17,18 @@ export default {
   created() {
     this.$store.dispatch('a/getTagsAction');
   },
-  components: {},
   computed: {
-    ...mapState({
-      tags: (state) => state.a.tags
-    })
+    ...mapState({ tags: (state) => state.a.tags })
   },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
+    handleClick(tab, e) {
+      if (parseInt(tab.index)) {
+        this.$store.commit('initPage');
+        this.$store.dispatch('a/getListAction', tab.index);
+      } else {
+        this.$store.commit('initPage');
+        this.$store.dispatch('a/getListAction');
+      }
     }
   }
 };

@@ -1,10 +1,10 @@
 <template>
   <div class="detail">
-    <nav-bar>
-      <template #left><detail-tools :article="article" :isAuthor="isAuthor(userInfo.id)" /></template>
-    </nav-bar>
-    <detail-content :article="article" />
-    <comment :commentInfo="commentInfo" />
+    <NavBar>
+      <template #left><DetailTools :article="article" :isAuthor="isAuthor(userInfo.id)" /></template>
+    </NavBar>
+    <DetailContent :article="article" />
+    <Comment :commentInfo="commentInfo" />
   </div>
 </template>
 

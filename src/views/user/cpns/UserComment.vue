@@ -16,7 +16,7 @@
         </div>
       </div>
     </template>
-    <page @changePage="changePage" :total="profile.commentCount" />
+    <Page @changePage="changePage" :total="profile.commentCount" />
   </div>
 </template>
 

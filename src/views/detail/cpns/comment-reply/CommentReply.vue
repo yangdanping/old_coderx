@@ -1,8 +1,8 @@
 <template>
   <div class="comment-reply">
     <template v-for="(item, index) in commentReply(comment)">
-      <template v-if="index < 2"><comment-reply-item :item="item" :fatherComment="comment" /></template>
-      <template v-if="index >= 2 && collapse"><comment-reply-item :item="item" :fatherComment="comment" /></template>
+      <template v-if="index < 2"><CommentReplyItem :item="item" :fatherComment="comment" /></template>
+      <template v-if="index >= 2 && collapse"><CommentReplyItem :item="item" :fatherComment="comment" /></template>
     </template>
     <div v-if="commentReply(comment).length > 2" @click="wantMore" class="collapse">
       <span>{{ isCollapse('span') }}</span>

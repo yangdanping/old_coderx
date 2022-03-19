@@ -1,5 +1,5 @@
 <template>
-  <action-list>
+  <ActionList>
     <template #article>
       <ul class="article-action">
         <li class="item view" @click="goDetail(article.id)">
@@ -13,7 +13,7 @@
         </li>
       </ul>
     </template>
-  </action-list>
+  </ActionList>
 </template>
 
 <script>

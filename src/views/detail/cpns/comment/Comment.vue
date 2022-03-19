@@ -1,6 +1,6 @@
 <template>
   <div class="comment">
-    <template v-if="isLogin"><comment-form /></template>
+    <template v-if="isLogin"><CommentForm /></template>
     <template v-else>
       <div class="showLogin">
         <h1>请先登录后评论</h1>

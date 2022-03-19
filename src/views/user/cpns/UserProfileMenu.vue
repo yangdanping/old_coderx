@@ -2,13 +2,13 @@
   <div class="user-profile-menu">
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="文章" name="1">
-        <user-article />
+        <UserArticle />
       </el-tab-pane>
       <el-tab-pane label="回答" name="2">
-        <user-comment />
+        <UserComment />
       </el-tab-pane>
       <el-tab-pane label="收藏" name="3">
-        <user-collect />
+        <UserCollect />
       </el-tab-pane>
       <el-tab-pane label="关注" name="4">关注</el-tab-pane>
     </el-tabs>

@@ -7,7 +7,7 @@
           <el-dropdown-item command="showDiglog">
             <i class="el-icon-edit">修改</i>
             <el-dialog width="50%" title="修改我的评论" :visible.sync="dialogVisible" append-to-body>
-              <editor @onListen="onListen" :editComment="editData" :isComment="true" :height="190" />
+              <Editor @onListen="onListen" :editComment="editData" :isComment="true" :height="190" />
               <el-button class="update" @click="update" type="primary">修改</el-button>
             </el-dialog>
           </el-dropdown-item>

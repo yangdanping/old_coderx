@@ -3,12 +3,12 @@
     <template v-for="(reply, index) in replyInfo">
       <!-- 若replyId为null,说明是fatherReply的回复,其他的就是回复的回复 -->
       <template v-if="index < 2">
-        <template v-if="!reply.replyId"><child-reply-item :reply="reply" /></template>
-        <template v-if="reply.replyId"><child-reply-item :reply="reply" :replyInfo="replyInfo" /></template>
+        <template v-if="!reply.replyId"><ChildReplyItem :reply="reply" /></template>
+        <template v-if="reply.replyId"><ChildReplyItem :reply="reply" :replyInfo="replyInfo" /></template>
       </template>
       <template v-if="index >= 2 && collapse">
-        <template v-if="!reply.replyId"><child-reply-item :reply="reply" /></template>
-        <template v-if="reply.replyId"><child-reply-item :reply="reply" :replyInfo="replyInfo" /></template>
+        <template v-if="!reply.replyId"><ChildReplyItem :reply="reply" /></template>
+        <template v-if="reply.replyId"><ChildReplyItem :reply="reply" :replyInfo="replyInfo" /></template>
       </template>
     </template>
     <div v-if="replyInfo.length > 2" @click="wantMore" class="collapse">

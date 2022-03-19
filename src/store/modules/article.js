@@ -1,6 +1,7 @@
 import router from '@/router'; //拿到router对象,进行路由跳转(.push)
 import { timeFormat, Msg } from '@/utils';
 import { createArticle, getList, getDetail, likeArticle, updateArticle, removeArticle, addView, getTags, addTags, search } from '@/service/article/article.request.js';
+import { addPictureForArticle } from '@/service/file/file.request.js';
 import { getLiked } from '@/service/user/user.request.js';
 export default {
   namespaced: true,
@@ -56,20 +57,19 @@ export default {
     changeUploaded(state, imgId) {
       if (imgId) {
         state.uploaded.push(imgId);
-        console.log('我要为该文章添加图片的id', state.uploaded);
       } else {
         state.uploaded = [];
-        console.log('changeUploaded已清0!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        console.log('changeUploaded已清0!!!!!!!!!!!!!!!!');
       }
     }
   },
   actions: {
-    async getListAction({ commit, rootState, dispatch }) {
-      const res = await getList(rootState.pageNum, rootState.pageSize); //获取文章列表信息以及文章数
+    async getListAction({ commit, rootState, dispatch }, tagId = '') {
+      const res = await getList(rootState.pageNum, rootState.pageSize, tagId); //获取文章列表信息以及文章数
       if (res.code === '0') {
         commit('getListMutation', { ...res });
         dispatch('refreshLikeAction'); //若用户登录获取登录用户点赞过哪些文章
-        // router.push({ path: '/article', query: { page: rootState.pageNum } });
+        window.scrollTo(0, 0);
       } else {
         Msg.showFail('获取文章列表失败');
       }
@@ -105,17 +105,19 @@ export default {
     },
     async editAction({ dispatch, commit, state }, payload) {
       const { title, content, tags } = payload;
-
-      const res1 = await createArticle(title, content);
-      if (res1.code === '0') {
-        const articleId = res1.data.insertId;
+      const res = await createArticle(title, content);
+      if (res.code === '0') {
+        const articleId = res.data.insertId;
         if (state.uploaded.length) {
           console.log(`articleId为${articleId}的文章已创建,要为该文章添加以下图片id`, state.uploaded);
+          const res = await addPictureForArticle(articleId, state.uploaded);
+          console.log(res);
+          res.code === '0' && console.log(`id为${articleId}的文章成功添加${res.data.affectedRows}张图片`);
           commit('changeUploaded', 0);
         }
         if (tags.length) {
-          const res2 = await addTags(articleId, tags);
-          res2.code === '0' && Msg.showSuccess('添加标签成功');
+          const res = await addTags(articleId, tags);
+          res.code === '0' && Msg.showSuccess('添加标签成功');
         }
         router.replace(`/article/${articleId}`);
         dispatch('getDetailAction', articleId);

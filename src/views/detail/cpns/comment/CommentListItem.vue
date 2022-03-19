@@ -1,6 +1,6 @@
 <template>
   <div class="comment-list-item" :key="item.id">
-    <avatar :info="item.user" />
+    <Avatar :info="item.user" />
     <div class="comment-box">
       <div class="user-info-box">
         <div class="user-info">
@@ -14,9 +14,9 @@
       </div>
       <div class="comment-content">
         <div class="content" v-html="item.content"></div>
-        <comment-action :comment="item" />
+        <CommentAction :comment="item" />
       </div>
-      <comment-form v-if="replythis(item.id)" :commentId="commentId" :isReply="true" />
+      <CommentForm v-if="replythis(item.id)" :commentId="commentId" :isReply="true" />
       <comment-reply :comment="item" />
       <!-- comment-reply里面也有comment-form -->
     </div>
