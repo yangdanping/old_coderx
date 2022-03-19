@@ -1,12 +1,7 @@
 <template>
   <div class="article-list">
-    <template v-for="item in articles">
-      <ArticleList-item :item="item" />
-    </template>
+    <template v-for="item in articles"><ArticleListItem :item="item" /></template>
     <Page @changePage="changePage" :total="total" />
-    <template v-if="!articles.length">
-      <div class="skeleton"><el-skeleton animated /></div>
-    </template>
   </div>
 </template>
 

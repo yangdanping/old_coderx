@@ -1,8 +1,20 @@
 import router from '@/router'; //拿到router对象,进行路由跳转(.push)
-import { timeFormat, Msg } from '@/utils';
-import { createArticle, getList, getDetail, likeArticle, updateArticle, removeArticle, addView, getTags, addTags, search } from '@/service/article/article.request.js';
-import { addPictureForArticle } from '@/service/file/file.request.js';
-import { getLiked } from '@/service/user/user.request.js';
+import {timeFormat, Msg} from '@/utils';
+import {
+  createArticle,
+  getList,
+  getDetail,
+  likeArticle,
+  updateArticle,
+  removeArticle,
+  addView,
+  getTags,
+  addTags,
+  search
+} from '@/service/article/article.request.js';
+import {addPictureForArticle} from '@/service/file/file.request.js';
+import {getLiked} from '@/service/user/user.request.js';
+
 export default {
   namespaced: true,
   state() {
@@ -22,13 +34,13 @@ export default {
     },
     isArticleUserLiked(state) {
       return (articleId) => {
-        return { liked: state.articleLikedId.some((id) => id === articleId) };
+        return {liked: state.articleLikedId.some((id) => id === articleId)};
       };
     }
   },
   mutations: {
     getListMutation(state, payload) {
-      const { data, total } = payload;
+      const {data, total} = payload;
       data.forEach((article) => (article.createAt = timeFormat(article.createAt)));
       state.articles = data;
       state.total = total;
@@ -64,28 +76,28 @@ export default {
     }
   },
   actions: {
-    async getListAction({ commit, rootState, dispatch }, tagId = '') {
+    async getListAction({commit, rootState, dispatch}, tagId = '') {
       const res = await getList(rootState.pageNum, rootState.pageSize, tagId); //获取文章列表信息以及文章数
       if (res.code === '0') {
-        commit('getListMutation', { ...res });
+        commit('getListMutation', {...res});
         dispatch('refreshLikeAction'); //若用户登录获取登录用户点赞过哪些文章
         window.scrollTo(0, 0);
       } else {
         Msg.showFail('获取文章列表失败');
       }
     },
-    async refreshLikeAction({ commit, rootState }) {
+    async refreshLikeAction({commit, rootState}) {
       const userId = rootState.u.userInfo.id;
       const res = await getLiked(userId);
       res.code === '0' && commit('getArticleLikedId', res.data.articleLiked);
     },
-    async getDetailAction({ commit, dispatch }, articleId) {
+    async getDetailAction({commit, dispatch}, articleId) {
       const res1 = await addView(articleId);
       if (res1.code === '0') {
         const res2 = await getDetail(articleId);
         if (res2.code === '0') {
           commit('getDetail', res2.data);
-          dispatch('c/getCommentAction', articleId, { root: true });
+          dispatch('c/getCommentAction', articleId, {root: true});
         } else {
           Msg.showFail('获取文章详情失败');
         }
@@ -93,7 +105,7 @@ export default {
         Msg.showFail('浏览量增加失败');
       }
     },
-    async likeAction({ dispatch }, articleId) {
+    async likeAction({dispatch}, articleId) {
       const res = await likeArticle(articleId);
       if (res.code === '0') {
         dispatch('getListAction');
@@ -103,8 +115,8 @@ export default {
         Msg.showInfo('已取消点赞文章');
       }
     },
-    async editAction({ dispatch, commit, state }, payload) {
-      const { title, content, tags } = payload;
+    async editAction({dispatch, commit, state}, payload) {
+      const {title, content, tags} = payload;
       const res = await createArticle(title, content);
       if (res.code === '0') {
         const articleId = res.data.insertId;
@@ -128,7 +140,7 @@ export default {
     },
     async updateAction({}, payload) {
       console.log('updateAction!!!!!!!', payload);
-      const { beforeEditTags, tags } = payload;
+      const {beforeEditTags, tags} = payload;
       if (beforeEditTags !== tags) {
         console.log('要修改tags');
       } else {
@@ -144,21 +156,21 @@ export default {
       //   console.log(res);
       // }
     },
-    async removeAction({ state }, articleId) {
+    async removeAction({state}, articleId) {
       const res = await removeArticle(articleId);
       if (res.code === '0') {
         Msg.showSuccess('删除文章成功');
-        state.articles.length ? router.push({ path: `/article` }) : router.go(0);
+        state.articles.length ? router.push({path: `/article`}) : router.go(0);
       } else {
         console.log(res);
         Msg.showFail('删除文章失败');
       }
     },
-    async getTagsAction({ commit }) {
+    async getTagsAction({commit}) {
       const res = await getTags();
       res.code === '0' && commit('initTag', res.data);
     },
-    async searchAction({ commit }, keywords) {
+    async searchAction({commit}, keywords) {
       const res = await search(keywords);
       res.code === '0' && commit('changeSearchResults', res.data);
     }

@@ -1,5 +1,5 @@
 <template>
-  <el-tabs tab-position="left" v-model="activeName" @tab-click="handleClick">
+  <el-tabs tab-position="right" v-model="activeName" @tab-click="handleClick">
     <el-tab-pane label="综合" name="综合"></el-tab-pane>
     <el-tab-pane v-for="item in tags" :key="tags.id" :data-id="tags.id" :label="item.name" :name="item.name"></el-tab-pane>
   </el-tabs>
@@ -36,17 +36,27 @@ export default {
 
 <style lang="less" scoped>
 .el-tabs {
-  ::v-deep .el-tabs__content {
-    display: none;
-  }
   ::v-deep .el-tabs__nav-scroll {
     display: flex;
     justify-content: center;
+    background: #fafafa;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  ::v-deep .el-tabs__nav-wrap::after {
+    position: static !important;
   }
   ::v-deep .el-tabs__item {
     font-size: 20px;
     width: 150px;
     text-align: center;
+  }
+  ::v-deep .el-tabs__item.is-active {
+    color: #fff;
+  }
+  ::v-deep .el-tabs__active-bar {
+    width: 150px;
+    z-index: -99;
   }
 }
 </style>

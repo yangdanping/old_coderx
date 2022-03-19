@@ -1,6 +1,5 @@
 <template>
-  <!-- <div id="app" :class="isDark" :style="`height: ${pageHeight}px`"> -->
-  <div id="app" :class="isDark">
+  <div id="app" class="wrapper" :class="isDark">
     <router-view :class="isDark" />
   </div>
 </template>
