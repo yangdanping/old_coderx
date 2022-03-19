@@ -39,7 +39,7 @@ export default {
       if (this.isLogin) {
         eventBus.$emit('collapseReply', replyId); //replyId非常重要,控制编辑器的切换
       } else {
-        Msg.showInfo('请先登录');
+        this.$showInfo('请先登录');
         this.$store.commit('changeDialog');
       }
     },
@@ -48,7 +48,7 @@ export default {
       if (this.isLogin) {
         this.$store.dispatch('c/likeAction', { replyId, articleId: this.article.id });
       } else {
-        Msg.showInfo('请先登录');
+        this.$showInfo('请先登录');
         this.$store.commit('changeDialog');
       }
     }

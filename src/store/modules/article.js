@@ -11,7 +11,8 @@ export default {
       total: null,
       articleLikedId: [], //该用户点赞过的文章id,通过computed计算是否有点赞
       tags: [],
-      searchResults: []
+      searchResults: [],
+      uploaded: []
     };
   },
   getters: {
@@ -51,6 +52,15 @@ export default {
     },
     clearResults(state) {
       state.searchResults = [];
+    },
+    changeUploaded(state, imgId) {
+      if (imgId) {
+        state.uploaded.push(imgId);
+        console.log('我要为该文章添加图片的id', state.uploaded);
+      } else {
+        state.uploaded = [];
+        console.log('changeUploaded已清0!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+      }
     }
   },
   actions: {
@@ -93,11 +103,16 @@ export default {
         Msg.showInfo('已取消点赞文章');
       }
     },
-    async editAction({ dispatch }, payload) {
+    async editAction({ dispatch, commit, state }, payload) {
       const { title, content, tags } = payload;
+
       const res1 = await createArticle(title, content);
       if (res1.code === '0') {
         const articleId = res1.data.insertId;
+        if (state.uploaded.length) {
+          console.log(`articleId为${articleId}的文章已创建,要为该文章添加以下图片id`, state.uploaded);
+          commit('changeUploaded', 0);
+        }
         if (tags.length) {
           const res2 = await addTags(articleId, tags);
           res2.code === '0' && Msg.showSuccess('添加标签成功');
@@ -106,7 +121,6 @@ export default {
         dispatch('getDetailAction', articleId);
         Msg.showSuccess('发布文章成功');
       } else {
-        console.log(res);
         Msg.showFail('发布文章失败');
       }
     },

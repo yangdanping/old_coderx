@@ -13,7 +13,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { Msg } from '@/utils';
+
 import Avatar from '@/components/avatar/Avatar.vue';
 export default {
   name: 'UserAvatar',
@@ -41,7 +41,7 @@ export default {
     },
     beforeAvatarUpload(file) {
       const isLt2M = file.size / 1024 / 1024 < 2;
-      !isLt2M && Msg.showInfo('上传头像图片大小不能超过 2MB!');
+      !isLt2M && this.$showInfo('上传头像图片大小不能超过 2MB!');
       return isLt2M;
     }
   }

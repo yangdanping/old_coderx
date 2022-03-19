@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { cache, Msg } from '@/utils';
+import { cache } from '@/utils';
 import ValidCode from '@/components/ValidCode.vue';
 
 export default {
@@ -60,7 +60,7 @@ export default {
           //   this.$store.dispatch('u/loginAction', this.form);
           // }
         } else {
-          Msg.showInfo('请输入正确的用户名和密码');
+          this.$showInfo('请输入正确的用户名和密码');
         }
       });
     }

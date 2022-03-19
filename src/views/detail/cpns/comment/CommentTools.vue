@@ -30,7 +30,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
-import { Msg } from '@/utils';
+
 import Editor from '@/components/editor/Editor.vue';
 import ReportDialog from '@/components/dialog/ReportDialog.vue';
 export default {
@@ -94,7 +94,7 @@ export default {
         this.$store.dispatch('u/reportAction', { userId: this.userId, report });
         this.showReport = false;
       } else {
-        Msg.showInfo('您没有提交任何举报信息');
+        this.$showInfo('您没有提交任何举报信息');
         this.showReport = false;
       }
     },

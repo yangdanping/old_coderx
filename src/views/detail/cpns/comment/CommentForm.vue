@@ -12,7 +12,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { Msg } from '@/utils';
+
 import Avatar from '@/components/avatar/Avatar.vue';
 import Editor from '@/components/editor/Editor.vue';
 export default {
@@ -48,7 +48,7 @@ export default {
     },
     addComment() {
       if (!this.content || this.content === '<p></p>') {
-        Msg.showInfo('评论内容不能为空');
+        this.$showInfo('评论内容不能为空');
       } else {
         this.disabled = !this.disabled;
         setTimeout(() => {

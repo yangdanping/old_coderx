@@ -23,7 +23,7 @@ export default {
   mounted() {
     // eventBus.$on('registerSuccess', () => {
     // this.showProfile = !this.showProfile;
-    // Msg.showSuccess('注册成功!,请完善您的信息');
+    // this.$showSuccess('注册成功!,请完善您的信息');
     // });
     eventBus.$on('updateProfile', (payload) => {
       this.showProfile = !this.showProfile;

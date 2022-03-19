@@ -16,7 +16,8 @@
         </div>
         <article-action :article="item" />
       </div>
-      <img @click="goDetail(item.id)" src="~@/assets/img/article/test.jpg" />
+      <!-- <img @click="goDetail(item.id)" src="~@/assets/img/article/test.jpg" /> -->
+      <img @click="goDetail(item.id)" :src="'http://localhost:8000/article/images/1647604464185.jpg?type=small'" />
     </div>
   </div>
 </template>

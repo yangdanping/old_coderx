@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { cache, Msg } from '@/utils';
+import { cache } from '@/utils';
 import Editor from '@/components/editor/Editor.vue';
 import EditForm from './cpns/EditForm.vue';
 
@@ -58,7 +58,7 @@ export default {
     formSubmit(payload) {
       const { title } = payload;
       if (!title || !this.preview || this.preview === '<p></p>') {
-        Msg.showInfo('内容不能为空!');
+        this.$showInfo('内容不能为空!');
       } else {
         if (!this.editData) {
           //创建文章

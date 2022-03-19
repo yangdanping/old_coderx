@@ -10,7 +10,6 @@
         <div class="search-box">
           <form class="search" action="">
             <el-input class="search-input" v-model="searchValue" @input="debounceInput" clearable placeholder="探索Coder X" />
-            <!-- <img class="search-icon" src="~@/assets/img/search.svg" alt="" /> -->
           </form>
           <el-card class="box-card" v-if="showCard">
             <div slot="header" class="clearfix">
@@ -100,27 +99,6 @@ export default {
   background-color: rgba(255, 255, 255, 0.7);
   box-shadow: 0 2px 80px rgba(0, 0, 0, 0.1);
 
-  .search-box {
-    position: relative;
-    .box-card {
-      position: absolute;
-      bottom: 70;
-      width: 200px;
-      z-index: 99;
-      .search-item {
-        padding: 15px 0;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        cursor: pointer;
-      }
-      .search-item:hover {
-        border-bottom: 1px solid #ccc;
-        color: #03a9f4;
-      }
-    }
-  }
-
   header {
     display: flex;
     justify-content: space-around;
@@ -137,42 +115,43 @@ export default {
     .header-r {
       display: flex;
       font-family: Georgia, 'Times New Roman', Times, serif;
-      .search {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-right: 15px;
-        .search-icon {
-          width: 25px;
-          height: 25px;
-          cursor: pointer;
+
+      .search-box {
+        position: relative;
+        .search {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-right: 15px;
+          .search-input ::placeholder {
+            color: #f1f1f1;
+          }
         }
-        .search-input {
+        .box-card {
+          position: absolute;
+          bottom: 70;
           width: 200px;
-          background: none;
-          height: 100%;
-          transition: width 0.3s;
-        }
-        .search-input:focus {
-          border-bottom: 1px solid #e6e6e6;
-          width: 260px;
-        }
-        .search-input ::placeholder {
-          color: #f1f1f1;
+          z-index: 99;
+          .search-item {
+            padding: 15px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+          }
+          .search-item:hover {
+            border-bottom: 1px solid #ccc;
+            color: #03a9f4;
+          }
         }
       }
+
       .change-mode {
         background: transparent;
       }
       .change-mode:hover {
         color: rgb(170, 32, 104);
         background: #f8eff8;
-      }
-      .login-btn {
-        margin: 0 15px;
-        font-size: 20px;
-        background: transparent;
-        color: rgb(170, 32, 104);
       }
       .register-btn {
         position: relative;

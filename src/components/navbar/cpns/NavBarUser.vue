@@ -17,7 +17,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import { Msg } from '@/utils';
 import Avatar from '@/components/avatar/Avatar.vue';
 import FeedbackDialog from '@/components/dialog/FeedbackDialog.vue';
 export default {
@@ -55,7 +54,7 @@ export default {
         this.$store.dispatch('u/feedbackAction', { userId: this.userInfo.id, content });
         this.showFeedBack = false;
       } else {
-        Msg.showInfo('您没有提交任何反馈');
+        this.$showInfo('您没有提交任何反馈');
         this.showFeedBack = false;
       }
     },

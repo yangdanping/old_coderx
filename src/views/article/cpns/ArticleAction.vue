@@ -18,7 +18,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
-import { Msg } from '@/utils';
+
 import ActionList from '@/components/action/ActionList.vue';
 
 export default {
@@ -43,7 +43,7 @@ export default {
       if (this.isLogin) {
         this.$store.dispatch('a/likeAction', articleId);
       } else {
-        Msg.showInfo('请先登录');
+        this.$showInfo('请先登录');
         this.$store.commit('changeDialog');
       }
     },

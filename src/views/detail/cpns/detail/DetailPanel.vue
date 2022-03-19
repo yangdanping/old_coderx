@@ -43,7 +43,7 @@ export default {
       if (this.isLogin) {
         this.$store.dispatch('a/likeAction', articleId);
       } else {
-        Msg.showInfo('请先登录');
+        this.$showInfo('请先登录');
         this.$store.commit('changeDialog');
       }
     },
@@ -60,7 +60,7 @@ export default {
     },
     showLogin() {
       if (this.disabled && !this.isLogin) {
-        Msg.showInfo('请先登录');
+        this.$showInfo('请先登录');
         this.$store.commit('changeDialog');
       }
     }
