@@ -5,35 +5,35 @@ import store from '@/store';
 Vue.use(VueRouter);
 
 const routes = [
-  {path: '/', redirect: () => '/home'},
+  { path: '/', redirect: () => '/home' },
   {
     name: 'home',
     path: '/home',
-    meta: {title: '首页'},
+    meta: { title: '首页' },
     component: () => import('../views/home/Home.vue')
   },
   {
     name: 'article',
     path: '/article',
-    meta: {title: '文章'},
+    meta: { title: '文章' },
     component: () => import('../views/article/Article.vue')
   },
   {
     name: 'detail',
     path: '/article/:articleId',
-    meta: {title: '文章详情'},
+    meta: { title: '文章详情' },
     component: () => import('../views/detail/Detail.vue')
   },
   {
     name: 'edit',
     path: '/edit',
-    meta: {title: '写文章'},
+    meta: { title: '写文章' },
     component: () => import('../views/edit/Edit.vue')
   },
   {
     name: 'user',
     path: '/user/:userId',
-    meta: {title: '个人空间'},
+    meta: { title: '个人空间' },
     component: () => import('../views/user/User.vue')
   },
   {
@@ -43,7 +43,7 @@ const routes = [
   }
 ];
 
-const router = new VueRouter({routes, mode: 'history'});
+const router = new VueRouter({ routes, mode: 'history' });
 
 // 路由前置守卫
 router.beforeEach((to, from, next) => {
