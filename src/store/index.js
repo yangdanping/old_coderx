@@ -14,7 +14,7 @@ const store = new Vuex.Store({
       showDialog: false,
       pageNum: 1,
       pageSize: 5,
-      pageHeight: 3000
+      tagId: ''
     };
   },
   mutations: {
@@ -36,9 +36,13 @@ const store = new Vuex.Store({
     changePageSize(state, pageSize) {
       state.pageSize = pageSize;
     },
+    changeTag(state, tagId) {
+      state.tagId = tagId;
+    },
     initPage(state) {
       state.pageNum = 1;
       state.pageSize = 5;
+      state.tagId = '';
     }
   },
   //异步操作必须要通过actions,类似Mutation,但是是用来代替Mutation进行异步操作的

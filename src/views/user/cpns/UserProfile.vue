@@ -82,7 +82,7 @@ export default {
 <style lang="less" scoped>
 .user-profile {
   margin-top: 80px;
-  height: 100vh;
+  // height: 100vh;//高度是个坑!!!不要设置高度!!!
   width: 60%;
   .profile-header,
   .profile-main {

@@ -1,13 +1,13 @@
 <template>
   <div class="detail">
     <NavBar>
-      <template #left><DetailTools :article="article" :isAuthor="isAuthor(userInfo.id)" /></template>
+      <template #left>
+        <DetailTools :article="article" :isAuthor="isAuthor(userInfo.id)" /></template>
     </NavBar>
     <DetailContent :article="article" />
     <Comment :commentInfo="commentInfo" />
   </div>
 </template>
-
 <script>
 import { mapState, mapGetters } from 'vuex';
 import NavBar from '@/components/navbar/NavBar.vue';
@@ -39,8 +39,8 @@ export default {
   components: { NavBar, DetailTools, DetailContent, Comment },
   methods: {}
 };
-</script>
 
+</script>
 <style lang="less" scoped>
 .detail {
   display: flex;
@@ -49,5 +49,7 @@ export default {
   transition: background-color 1s;
   background: var(--bg);
 }
+
 @import url('@/assets/css/theme/dark.less');
+
 </style>

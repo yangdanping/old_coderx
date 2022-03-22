@@ -16,7 +16,8 @@
         </div>
         <ArticleAction :article="item" />
       </div>
-      <img @click="goDetail(item.id)" :src="articleCover(item)" />
+      <img v-if="item.cover" @click="goDetail(item.id)" :src="item.cover[0]" />
+      <div v-else style="width: 170px; height: 120px"></div>
     </div>
   </div>
 </template>
@@ -26,6 +27,7 @@ import Avatar from '@/components/avatar/Avatar.vue';
 import ArticleAction from './ArticleAction.vue';
 export default {
   name: 'ArticleListItem',
+  components: { Avatar, ArticleAction },
   props: {
     item: {
       type: Object,
@@ -35,12 +37,6 @@ export default {
   data() {
     return {};
   },
-  computed: {
-    articleCover() {
-      return (item) => (item.cover ? item.cover[0] : require('@/assets/img/article/test.jpg'));
-    }
-  },
-  components: { Avatar, ArticleAction },
   methods: {
     goDetail(articleId) {
       this.$router.push({ path: `/article/${articleId}` });

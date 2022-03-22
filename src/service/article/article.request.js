@@ -28,8 +28,7 @@ export function likeArticle(articleId) {
   });
 }
 
-export function updateArticle(article) {
-  const { articleId, title, content } = article;
+export function updateArticle(articleId, title, content) {
   return cxRequest.put({
     url: `${urlHead}/${articleId}`,
     data: { title, content }
@@ -54,10 +53,10 @@ export function getTags(offset = 0, limit = 10) {
     url: `/tag?offset=${offset}&limit=${limit}`
   });
 }
-export function addTags(articleId, tags) {
-  console.log('addTags!!!!!!!!!!!!!!!!!!!!!', articleId, tags);
+export function changeTags(articleId, tags, hasOldTags = '') {
+  console.log('changeTags!!!!!!!!!!!!!!!!!!!!!', articleId, tags);
   return cxRequest.post({
-    url: `${urlHead}/${articleId}/tag`,
+    url: `${urlHead}/${articleId}/tag?hasOldTags=${hasOldTags}`,
     data: { tags }
   });
 }

@@ -47,20 +47,27 @@ export function follow(id) {
   });
 }
 
-export function getArticle(id, pageNum, pageSize) {
+export function getArticle(userId, pageNum, pageSize) {
   const offset = pageNum <= 1 ? 0 : (pageNum - 1) * pageSize;
   const limit = pageSize;
   return cxRequest.get({
-    url: `${urlHead}/${id}/article?offset=${offset}&limit=${limit}`
+    url: `${urlHead}/${userId}/article?offset=${offset}&limit=${limit}`
   });
 }
-export function getComment(id, pageNum, pageSize) {
+export function getComment(userId, pageNum, pageSize) {
   const offset = pageNum <= 1 ? 0 : (pageNum - 1) * pageSize;
   const limit = pageSize;
   return cxRequest.get({
-    url: `${urlHead}/${id}/comment?offset=${offset}&limit=${limit}`
+    url: `${urlHead}/${userId}/comment?offset=${offset}&limit=${limit}`
   });
 }
+
+export function getArtcileByCollectId(userId, collectId, offset = 0, limit = 10) {
+  return cxRequest.get({
+    url: `${urlHead}/${userId}/collect?collectId=${collectId}&offset=${offset}&limit=${limit}`
+  });
+}
+
 export function updateProfile(profile) {
   return cxRequest.put({
     url: `${urlHead}/profile`,

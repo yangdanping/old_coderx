@@ -51,14 +51,14 @@ export default {
     formSubmit(payload) {
       const { title } = payload;
       if (!title || !this.preview || this.preview === '<p></p>') {
-        this.$showInfo('内容不能为空!');
+        this.$showFail('内容不能为空!');
       } else {
         if (!this.editData) {
-          //创建文章
+          //创建文章------------------------------------------
           const sumbitPayload = { content: this.preview, ...payload };
           this.$store.dispatch('a/editAction', sumbitPayload);
         } else {
-          //修改文章
+          //修改文章------------------------------------------
           const { id } = this.editData;
           const updatedPayload = { articleId: id, content: this.preview, ...payload };
           this.$store.dispatch('a/updateAction', updatedPayload);

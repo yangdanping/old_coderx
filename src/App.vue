@@ -13,9 +13,6 @@ export default {
   computed: {
     isDark() {
       return { dark: this.$store.state.isDark };
-    },
-    pageHeight() {
-      return this.$store.state.pageHeight;
     }
   }
 };

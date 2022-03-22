@@ -24,7 +24,8 @@ export default {
     handleClick(tab, e) {
       if (parseInt(tab.index)) {
         this.$store.commit('initPage');
-        this.$store.dispatch('a/getListAction', tab.index);
+        this.$store.commit('changeTag', tab.index);
+        this.$store.dispatch('a/getListAction');
       } else {
         this.$store.commit('initPage');
         this.$store.dispatch('a/getListAction');
@@ -47,15 +48,15 @@ export default {
     position: static !important;
   }
   ::v-deep .el-tabs__item {
-    font-size: 20px;
-    width: 150px;
+    font-size: 18px;
+    width: 80px;
     text-align: center;
   }
   ::v-deep .el-tabs__item.is-active {
     color: #fff;
   }
   ::v-deep .el-tabs__active-bar {
-    width: 150px;
+    width: 80px;
     z-index: -99;
   }
 }
