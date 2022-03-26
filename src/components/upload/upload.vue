@@ -9,7 +9,6 @@
   </el-upload>
 </template>
 
-
 <script>
 import uploadMinix from './uploadMinix.js';
 export default {

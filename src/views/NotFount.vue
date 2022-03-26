@@ -10,6 +10,5 @@ export default {
   components: {},
   methods: {}
 };
-
 </script>
 <style scoped></style>

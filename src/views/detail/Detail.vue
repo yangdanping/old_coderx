@@ -1,8 +1,7 @@
 <template>
   <div class="detail">
     <NavBar>
-      <template #left>
-        <DetailTools :article="article" :isAuthor="isAuthor(userInfo.id)" /></template>
+      <template #left> <DetailTools :article="article" :isAuthor="isAuthor(userInfo.id)" /></template>
     </NavBar>
     <DetailContent :article="article" />
     <Comment :commentInfo="commentInfo" />
@@ -39,7 +38,6 @@ export default {
   components: { NavBar, DetailTools, DetailContent, Comment },
   methods: {}
 };
-
 </script>
 <style lang="less" scoped>
 .detail {
@@ -51,5 +49,4 @@ export default {
 }
 
 @import url('@/assets/css/theme/dark.less');
-
 </style>

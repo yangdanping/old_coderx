@@ -78,7 +78,6 @@ export default {
     }
   }
 };
-
 </script>
 <style lang="less" scoped>
 ::v-deep .el-dialog__body {
@@ -94,5 +93,4 @@ export default {
     margin: 10px 0;
   }
 }
-
 </style>
