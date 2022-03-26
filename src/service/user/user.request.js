@@ -88,3 +88,8 @@ export function feedback(userId, content) {
     data: { content }
   });
 }
+export function getFeedbackReply(userId) {
+  return cxRequest.get({
+    url: `${urlHead}/feedback/${userId}`
+  });
+}

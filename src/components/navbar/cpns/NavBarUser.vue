@@ -1,6 +1,6 @@
 <template>
   <div class="nav-bar-user">
-    <el-tooltip class="item" effect="dark" content="提交反馈" placement="bottom">
+    <el-tooltip class="item" effect="dark" content="反馈中心" placement="bottom">
       <i @click="showFeedBack = true" class="el-icon-message"></i>
     </el-tooltip>
     <el-button class="editbtn" @click="goEdit" type="primary">写文章</el-button>
@@ -11,7 +11,7 @@
         <el-dropdown-item @click.native="logOut">退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
-    <feedback-dialog @submit="submitFeedback" @cancel="cancelFeedback" :show="showFeedBack" />
+    <FeedbackDialog @submit="submitFeedback" @cancel="cancelFeedback" :show="showFeedBack" />
   </div>
 </template>
 
@@ -55,7 +55,6 @@ export default {
         this.showFeedBack = false;
       } else {
         this.$showInfo('您没有提交任何反馈');
-        this.showFeedBack = false;
       }
     },
     cancelFeedback() {

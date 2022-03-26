@@ -15,7 +15,7 @@
       <div class="user-profile">
         <span>{{ info.career ? info.career : 'Coder' }}</span>
         <template v-if="!isUser(info.id)">
-          <el-button :type="!isFollowed ? 'primary' : ''" @click="follow" size="mini">
+          <el-button @click="follow" :type="!isFollowed ? 'primary' : ''" size="mini">
             {{ !isFollowed ? '关注' : '已关注' }}
           </el-button>
         </template>

@@ -52,11 +52,6 @@ export default {
       position: fixed;
       left: 8vw;
       top: 200px;
-      .test {
-        height: 200px;
-        width: 200px;
-        background: #000;
-      }
     }
     .skeleton {
       width: 50vw;

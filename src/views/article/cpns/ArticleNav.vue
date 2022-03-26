@@ -49,14 +49,14 @@ export default {
   }
   ::v-deep .el-tabs__item {
     font-size: 18px;
-    width: 80px;
+    padding: 0 20px;
     text-align: center;
   }
   ::v-deep .el-tabs__item.is-active {
     color: #fff;
   }
   ::v-deep .el-tabs__active-bar {
-    width: 80px;
+    padding: 0 80px;
     z-index: -99;
   }
 }

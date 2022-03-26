@@ -1,7 +1,6 @@
 <template>
   <div class="">NotFount</div>
 </template>
-
 <script>
 export default {
   name: 'NotFount',
@@ -11,6 +10,6 @@ export default {
   components: {},
   methods: {}
 };
-</script>
 
+</script>
 <style scoped></style>

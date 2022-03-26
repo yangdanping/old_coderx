@@ -10,7 +10,9 @@
       <el-tab-pane label="收藏" name="3">
         <UserCollect />
       </el-tab-pane>
-      <el-tab-pane label="关注" name="4">关注</el-tab-pane>
+      <el-tab-pane label="关注" name="4">
+        <UserFollow />
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -19,6 +21,7 @@
 import UserArticle from './UserArticle.vue';
 import UserCollect from './UserCollect.vue';
 import UserComment from './UserComment.vue';
+import UserFollow from './UserFollow.vue';
 export default {
   name: 'UserProfileMenu',
   data() {
@@ -26,7 +29,7 @@ export default {
       activeName: '1'
     };
   },
-  components: { UserArticle, UserComment, UserCollect },
+  components: { UserArticle, UserComment, UserCollect, UserFollow },
   methods: {
     handleClick(tab, event) {
       this.$emit('tabClick', tab.name);
