@@ -62,7 +62,7 @@ const extensions = [
       const fd = new FormData();
       fd.append('picture', file);
       const res = await uploadPicture(fd);
-      if (res.code === '0') {
+      if (res.code === 0) {
         console.log('上传图片成功!', res);
         console.log('获取到了上传的图片', res.data[0].url);
         const imgId = res.data[0].result.insertId;

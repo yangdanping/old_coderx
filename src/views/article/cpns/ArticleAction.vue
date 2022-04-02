@@ -15,12 +15,9 @@
     </template>
   </ActionList>
 </template>
-
 <script>
 import { mapState, mapGetters } from 'vuex';
-
 import ActionList from '@/components/action/ActionList.vue';
-
 export default {
   name: 'ArticleAction',
   props: {

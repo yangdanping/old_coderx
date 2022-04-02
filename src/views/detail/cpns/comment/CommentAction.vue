@@ -3,7 +3,7 @@
     <template #comment>
       <ul class="comment-action">
         <li @click="likeComment(comment.id)" class="item like" :class="isLiked(comment.id)">
-          <i></i><span>{{ comment.likes ? comment.likes : '点赞' }}</span>
+          <i></i><span>{{ comment.likes ?? '点赞' }}</span>
         </li>
         <li @click="wantReply(comment.id)" class="item comment">
           <i></i><span>{{ commentReplyCount(comment) }}</span>

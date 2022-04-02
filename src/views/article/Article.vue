@@ -5,7 +5,7 @@
       <div class="article-nav">
         <ArticleNav />
       </div>
-      <ArticleList ref="list" v-if="articles.length" :articles="articles" />
+      <ArticleList ref="list" v-if="hasArticles" :articles="articles" />
       <div v-else class="skeleton">
         <el-skeleton animated />
       </div>
@@ -28,14 +28,12 @@ export default {
     this.$store.dispatch('a/getListAction');
   },
   computed: {
-    ...mapState({ articles: (state) => state.a.articles })
-  },
-  methods: {
-    getPageHeight() {
-      console.log(document.body.offsetHeight);
-      console.log(this.$refs.list.offsetHeight);
+    ...mapState({ articles: (state) => state.a.articles }),
+    hasArticles() {
+      return this.articles?.result.length;
     }
-  }
+  },
+  methods: {}
 };
 </script>
 <style lang="less" scoped>

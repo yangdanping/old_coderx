@@ -3,9 +3,9 @@
     <el-container>
       <el-main>
         <div class="author-info-block">
-          <Avatar :size="90" :info="article.author ? article.author : {}" />
+          <Avatar :size="90" :info="article.author ?? {}" />
           <div class="author-info-box">
-            <h2>{{ article.author ? article.author.name : '佚名' }}</h2>
+            <h2>{{ article.author?.name ?? '佚名' }}</h2>
             <span>{{ article.createAt }}创建</span>
           </div>
         </div>

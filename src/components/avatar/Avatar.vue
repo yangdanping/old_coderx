@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="user-profile">
-        <span>{{ info.career ? info.career : 'Coder' }}</span>
+        <span>{{ info.career ?? 'Coder' }}</span>
         <template v-if="!isUser(info.id)">
           <el-button @click="follow" :type="!isFollowed ? 'primary' : ''" size="mini">
             {{ !isFollowed ? '关注' : '已关注' }}
@@ -68,7 +68,7 @@ export default {
       return require(`@/assets/img/user/${sex === '女' ? 'female' : 'male'}-icon.webp`);
     },
     isFollow() {
-      return (type) => (this.followInfo[type] ? this.followInfo[type].length : 0);
+      return (type) => this.followInfo[type]?.length ?? 0;
     }
   },
   methods: {

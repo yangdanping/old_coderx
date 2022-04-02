@@ -9,6 +9,7 @@ export function createArticle(title, content) {
 }
 
 export function getList(pageNum, pageSize, tagId) {
+  console.log(pageNum, pageSize, tagId);
   const offset = pageNum <= 1 ? 0 : (pageNum - 1) * pageSize;
   const limit = pageSize;
   return cxRequest.get({

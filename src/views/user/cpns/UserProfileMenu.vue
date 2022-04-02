@@ -1,6 +1,6 @@
 <template>
   <div class="user-profile-menu">
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tabs class="user-tabs" v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="文章" name="1">
         <UserArticle />
       </el-tab-pane>
@@ -39,9 +39,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
-::v-deep .el-tabs__item {
-  font-size: 20px;
-  width: 300px;
-  text-align: center;
+.user-tabs {
+  ::v-deep .el-tabs__item {
+    font-size: 20px;
+    width: 300px;
+    text-align: center;
+  }
 }
 </style>

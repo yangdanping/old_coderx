@@ -49,21 +49,21 @@ export default {
       // 1.获取文章的评论列表信息
       console.log(articleId);
       const res = await getComment(articleId);
-      res.code === '0' ? commit('getCommentInfo', res.data) : Msg.showFail('获取文章评论失败');
+      res.code === 0 ? commit('getCommentInfo', res.data) : Msg.showFail('获取文章评论失败');
       // 2.若用户登录获取登录用户点赞过哪些评论
       dispatch('refreshLikeAction');
     },
     async refreshLikeAction({ commit, rootState }) {
       const userId = rootState.u.userInfo.id;
       const res = await getLiked(userId);
-      res.code === '0' && commit('getCommentLikedId', res.data.commentLiked); //重新获取评论数据
+      res.code === 0 && commit('getCommentLikedId', res.data.commentLiked); //重新获取评论数据
     },
     async commentAction({ dispatch }, payload) {
       const { articleId, commentId, replyId } = payload;
       if (!commentId && !replyId) {
         console.log('我是一条即将发出的对文章的普通评论');
         const res = await addComment(payload);
-        if (res.code === '0') {
+        if (res.code === 0) {
           eventBus.$emit('cleanContent');
           Msg.showSuccess('发表评论成功');
           dispatch('getCommentAction', articleId);
@@ -72,7 +72,7 @@ export default {
         }
       } else {
         const res = await addReply(payload);
-        if (res.code === '0') {
+        if (res.code === 0) {
           eventBus.$emit('cleanContent');
           eventBus.$emit('collapse', null); //关闭评论框
           eventBus.$emit('collapseReply', null); //关评论框闭
@@ -85,11 +85,11 @@ export default {
     },
     async updateCommentAction({ commit }, payload) {
       const res1 = await updateComment(payload);
-      if (res1.code === '0') {
+      if (res1.code === 0) {
         Msg.showSuccess('修改评论成功');
         const { articleId } = payload;
         const res2 = await getComment(articleId); //重新获取评论数据
-        res2.code === '0' ? commit('getCommentInfo', res2.data) : Msg.showFail('获取评论列表失败');
+        res2.code === 0 ? commit('getCommentInfo', res2.data) : Msg.showFail('获取评论列表失败');
       } else {
         Msg.showFail('修改评论失败');
       }
@@ -97,11 +97,11 @@ export default {
     async removeCommentAction({ commit }, payload) {
       const { commentId } = payload;
       const res1 = await removeComment(commentId);
-      if (res1.code === '0') {
+      if (res1.code === 0) {
         Msg.showSuccess('删除评论成功');
         const { articleId } = payload;
         const res2 = await getComment(articleId); //重新获取评论数据
-        res2.code === '0' ? commit('getCommentInfo', res2.data) : Msg.showFail('获取评论列表失败');
+        res2.code === 0 ? commit('getCommentInfo', res2.data) : Msg.showFail('获取评论列表失败');
       } else {
         Msg.showFail('删除评论失败');
       }
@@ -109,7 +109,7 @@ export default {
     async likeAction({ dispatch }, payload) {
       const { articleId } = payload;
       const res = await like(payload);
-      if (res.code === '0') {
+      if (res.code === 0) {
         dispatch('getCommentAction', articleId);
         Msg.showSuccess('点赞评论成功');
       } else {

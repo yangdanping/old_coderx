@@ -2,10 +2,10 @@
   <div class="login-account">
     <el-form :rules="rules" :model="form" status-icon ref="loginForm" label-width="90px">
       <el-form-item label="用户名" prop="name">
-        <el-input v-model.trim="form.name" clearable></el-input>
+        <el-input v-model.trim="form.name" @keyup.enter.native="focusNext('password')" clearable></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input v-model.trim="form.password" type="password" clearable show-password></el-input>
+        <el-input v-model.trim="form.password" ref="password" type="password" @keyup.enter.native="login" clearable show-password></el-input>
       </el-form-item>
       <!-- <el-form-item>
         <div class="valid-code">
@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import { cache } from '@/utils';
 import ValidCode from '@/components/ValidCode.vue';
 
 export default {
@@ -29,8 +28,8 @@ export default {
   data() {
     return {
       form: {
-        name: cache.getCache('user') ? cache.getCache('user').name : '',
-        password: cache.getCache('user') ? cache.getCache('user').password : '',
+        name: '',
+        password: '',
         validCode: ''
       },
       rules: {
@@ -44,6 +43,9 @@ export default {
   methods: {
     createValidCode(code) {
       this.currentValidCode = code;
+    },
+    focusNext(nextRef) {
+      this.$refs[nextRef].focus();
     },
     login() {
       this.$refs['loginForm'].validate((valid) => {

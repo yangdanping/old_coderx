@@ -22,8 +22,12 @@ export default {
   },
   methods: {
     handleClick(tab, e) {
-      if (parseInt(tab.index)) {
+      if (tab.index) {
+        console.log('handleClick!!!!', tab);
         this.$store.commit('initPage');
+        if (tab.index === '0') {
+          tab.index = '';
+        }
         this.$store.commit('changeTag', tab.index);
         this.$store.dispatch('a/getListAction');
       } else {
@@ -44,17 +48,21 @@ export default {
     border-radius: 10px;
     overflow: hidden;
   }
+
   ::v-deep .el-tabs__nav-wrap::after {
     position: static !important;
   }
+
   ::v-deep .el-tabs__item {
     font-size: 18px;
     padding: 0 20px;
     text-align: center;
   }
+
   ::v-deep .el-tabs__item.is-active {
     color: #fff;
   }
+
   ::v-deep .el-tabs__active-bar {
     padding: 0 80px;
     z-index: -99;

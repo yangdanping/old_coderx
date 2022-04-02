@@ -10,19 +10,19 @@
         </div>
         <div class="profile-2">
           <i class="el-icon-coin"></i>
-          <span>年龄:{{ profile.age ? profile.age : '无' }}</span>
+          <span>年龄:{{ profile.age ?? '无' }}</span>
         </div>
         <div class="profile-3">
           <i class="el-icon-suitcase"></i>
-          <span>职业:{{ profile.career ? profile.career : 'Coder' }}</span>
+          <span>职业:{{ profile.career ?? 'Coder' }}</span>
         </div>
         <div class="profile-4">
           <i class="el-icon-coordinate"></i>
-          <span>居住地:{{ profile.address ? profile.address : 'CoderX星球' }}</span>
+          <span>居住地:{{ profile.address ?? 'CoderX星球' }}</span>
         </div>
         <div class="profile-5">
           <i class="el-icon-takeaway-box"></i>
-          <span>邮箱:{{ profile.email ? profile.email : '无' }}</span>
+          <span>邮箱:{{ profile.email ?? '无' }}</span>
         </div>
       </div>
     </div>
@@ -70,6 +70,9 @@ export default {
           break;
         case '3':
           this.$store.dispatch('u/getCollectAction', userId);
+          break;
+        case '4':
+          this.$store.dispatch('u/getFollowAction', userId);
           break;
         default:
           break;

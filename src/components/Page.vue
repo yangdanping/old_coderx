@@ -8,7 +8,7 @@
       :page-sizes="[5, 10]"
       :pager-count="5"
       :total="total"
-      layout="sizes,prev,pager,next,jumper"
+      layout="total,sizes,prev,pager,next,jumper"
     />
   </div>
 </template>

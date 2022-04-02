@@ -62,7 +62,7 @@ export default {
       } else {
         const userId = this.profile.id;
         getArtcileByCollectId(userId, itemId).then((res) => {
-          if (res.code === '0') {
+          if (res.code === 0) {
             this.activeCollect = this.collects.find((collect) => collect.id === itemId).name;
             console.log('选中的收藏夹为', this.activeCollect);
             res.data.forEach((article) => (article.createAt = timeFormat(article.createAt)));

@@ -1,7 +1,7 @@
 <template>
   <div class="article-list">
-    <template v-for="item in articles"><ArticleListItem :item="item" /></template>
-    <Page @changePage="changePage" :total="total" />
+    <template v-for="item in articles.result"><ArticleListItem :item="item" /></template>
+    <Page @changePage="changePage" :total="articles.total" />
   </div>
 </template>
 
@@ -13,18 +13,14 @@ export default {
   name: 'ArticleList',
   props: {
     articles: {
-      type: [Array, Number],
+      type: [Object, Number],
       default: () => []
     }
   },
   data() {
     return {};
   },
-  computed: {
-    ...mapState({
-      total: (state) => state.a.total //文章总数
-    })
-  },
+  computed: {},
   components: { ArticleListItem, Page },
   methods: {
     changePage() {

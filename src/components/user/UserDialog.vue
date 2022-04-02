@@ -58,5 +58,6 @@ export default {
   max-width: 900px;
   min-width: 800px;
   animation: fadeShow 1s forwards;
+  border-radius: 10px;
 }
 </style>

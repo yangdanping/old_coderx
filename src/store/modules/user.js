@@ -69,7 +69,7 @@ export default {
       const { name, password } = payload;
       const res = await userRegister(name, password);
       console.log(res);
-      if (res.code === '0') {
+      if (res.code === 0) {
         console.log('registerAction!!!!!!!!!!', res.data);
         dispatch('loginAction', payload); //注册成功后自动登陆
         // eventBus.$emit('registerSuccess');
@@ -82,12 +82,12 @@ export default {
       const { name, password } = payload;
       console.log('loginAction!!!!!!!!!!!!!!', payload);
       const res1 = await userLogin(name, password);
-      if (res1.code === '0') {
+      if (res1.code === 0) {
         const { id } = res1.data; //拿到id,后面要根据该id查询是谁登录了,以获取该用户的信息
         const { token } = res1;
         // 2.根据登录后获取到的用户id请求用户信息
         const res2 = await getUserInfo(id);
-        if (res2.code === '0') {
+        if (res2.code === 0) {
           commit('changeUserInfo', res2.data);
           cache.setCache('userInfo', res2.data);
           commit('changeToken', token);
@@ -103,14 +103,11 @@ export default {
     },
     async checkAuthAction({ commit }) {
       const res = await checkAuth();
-      if (res.code !== '0') {
-        commit('logOut', false);
-        // Msg.showFail(`${res.code}:${res.msg}`);
-      }
+      res.code && commit('logOut', false);
     },
     async getProfileAction({ commit, dispatch }, userId) {
       const res = await getUserInfo(userId); //注意!这个不是登录用户的信息,而是普通用户信息
-      if (res.code === '0') {
+      if (res.code === 0) {
         commit('changeProfile', res.data);
         dispatch('getArticleAction', res.data.id);
       } else {
@@ -120,16 +117,16 @@ export default {
     async updateProfileAction({}, payload) {
       const res = await updateProfile(payload);
       console.log(res.data);
-      res.code === '0' ? router.go(0) : Msg.showFail('修改信息失败');
+      res.code === 0 ? router.go(0) : Msg.showFail('修改信息失败');
     },
     async getFollowAction({ commit }, userId) {
       const res = await getFollow(userId); //注意!这个不是登录用户的信息,而是普通用户信息
       // 若改用户中的follower的id中有当前登录用户的id,则isFollowed为true
-      res.code === '0' ? commit('changeFollowInfo', res.data) : Msg.showFail('请求用户关注信息失败');
+      res.code === 0 ? commit('changeFollowInfo', res.data) : Msg.showFail('请求用户关注信息失败');
     },
     async followAction({ dispatch }, userId) {
       const res = await follow(userId); //注意!这个不是登录用户的信息,而是普通用户信息
-      if (res.code === '0') {
+      if (res.code === 0) {
         dispatch('getFollowAction', userId); //更新关注信息
         Msg.showSuccess('关注成功');
       } else {
@@ -139,11 +136,11 @@ export default {
     },
     async getArticleAction({ commit, rootState }, userId) {
       const res = await getArticle(userId, rootState.pageNum, rootState.pageSize);
-      res.code === '0' ? commit('changeArticle', res.data) : Msg.showFail('获取用户发表文章失败');
+      res.code === 0 ? commit('changeArticle', res.data) : Msg.showFail('获取用户发表文章失败');
     },
     async getCommentAction({ commit, rootState }, userId) {
       const res = await getComment(userId, rootState.pageNum, rootState.pageSize);
-      if (res.code === '0') {
+      if (res.code === 0) {
         commit('changeComment', res.data);
       } else {
         Msg.showFail('获取用户发表评论失败');
@@ -151,7 +148,7 @@ export default {
     },
     async getCollectAction({ commit }, userId) {
       const res = await getCollect(userId);
-      if (res.code === '0') {
+      if (res.code === 0) {
         commit('changeCollect', res.data);
       } else {
         Msg.showFail('获取用户收藏夹失败');
@@ -160,7 +157,7 @@ export default {
     async addCollectAction({ dispatch, rootState }, collectName) {
       const userId = rootState.u.userInfo.id;
       const res = await addCollect(collectName);
-      if (res.code === '0') {
+      if (res.code === 0) {
         Msg.showSuccess('添加收藏夹成功');
         dispatch('getCollectAction', userId);
       } else {
@@ -174,7 +171,7 @@ export default {
     },
     async uploadAvatarAction({ dispatch }, payload) {
       const res = await uploadAvatar(payload);
-      if (res.code === '0') {
+      if (res.code === 0) {
         Msg.showSuccess('更换头像成功');
         // router.go(0);
       } else {
@@ -184,7 +181,7 @@ export default {
     async reportAction({ dispatch }, payload) {
       const { userId, report } = payload;
       const res = await reportUser(userId, report);
-      if (res.code === '0') {
+      if (res.code === 0) {
         Msg.showSuccess('举报用户成功');
       } else {
         Msg.showFail('举报用户失败');
@@ -193,7 +190,7 @@ export default {
     async feedbackAction({ dispatch }, payload) {
       const { userId, content } = payload;
       const res = await feedback(userId, content);
-      if (res.code === '0') {
+      if (res.code === 0) {
         Msg.showSuccess('提交反馈成功');
       } else {
         Msg.showFail('提交反馈失败');

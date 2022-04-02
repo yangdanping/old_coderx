@@ -11,7 +11,7 @@
         <el-dropdown-item @click.native="logOut">退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
-    <FeedbackDialog @submit="submitFeedback" @cancel="cancelFeedback" :show="showFeedBack" />
+    <FeedbackDialog @submit="submitFeedback" @cancel="showFeedBack = false" :show="showFeedBack" />
   </div>
 </template>
 
@@ -45,7 +45,6 @@ export default {
       this.$router.push({ path: '/edit' });
     },
     goProfile() {
-      console.log(this.userInfo.id);
       this.$router.push(`/user/${this.userInfo.id}`);
     },
     //提交反馈
@@ -56,9 +55,6 @@ export default {
       } else {
         this.$showInfo('您没有提交任何反馈');
       }
-    },
-    cancelFeedback() {
-      this.showFeedBack = !this.showFeedBack;
     }
   }
 };
