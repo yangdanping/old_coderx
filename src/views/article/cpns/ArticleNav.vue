@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import { eventBus } from '@/utils';
 import { mapState } from 'vuex';
 export default {
   name: 'ArticleNav',
@@ -16,6 +17,14 @@ export default {
   },
   created() {
     this.$store.dispatch('a/getTagsAction');
+  },
+  mounted() {
+    eventBus.$on('changeTag', ({ id, name }) => {
+      console.log('tagId!!!!!!!!!!!!!!!', id);
+      this.activeName = name;
+      this.$store.commit('changeTag', id);
+      this.$store.dispatch('a/getListAction');
+    });
   },
   computed: {
     ...mapState({ tags: (state) => state.a.tags })

@@ -96,7 +96,10 @@ export default {
     },
     async likeAction({ dispatch }, articleId) {
       const res = await likeArticle(articleId);
-      if (res.code === 0) {
+      console.log('likeAction!!!!', res);
+      if (res.code === -1) {
+        Msg.showFail(`点赞失败 ${res.msg}`);
+      } else if (res.code === 0) {
         dispatch('getListAction');
         Msg.showSuccess('已点赞文章');
       } else {
@@ -107,7 +110,10 @@ export default {
     async editAction({ dispatch, commit, state }, payload) {
       const { title, content, tags } = payload;
       const res = await createArticle(title, content);
-      if (res.code === 0) {
+      console.log('editAction!!!!!!', res);
+      if (res.code === -1) {
+        Msg.showFail(`发布文章失败 ${res.msg}`);
+      } else if (res.code === 0) {
         const articleId = res.data.insertId;
         if (state.uploaded.length) {
           console.log(`articleId为${articleId}的文章已创建,要为该文章添加以下图片id`, state.uploaded);

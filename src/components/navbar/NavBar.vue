@@ -122,6 +122,9 @@ export default {
           justify-content: space-between;
           align-items: center;
           margin-right: 15px;
+          ::v-deep .el-input__inner {
+            padding: 20px 10px !important;
+          }
           .search-input ::placeholder {
             color: #f1f1f1;
           }
@@ -147,6 +150,7 @@ export default {
 
       .change-mode {
         background: transparent;
+        padding: 0 25px;
       }
       .change-mode:hover {
         color: rgb(170, 32, 104);
@@ -154,7 +158,7 @@ export default {
       }
       .register-btn {
         position: relative;
-        padding: 10px 35px;
+        padding: 0 35px;
         border-radius: 50px;
         color: #fff;
         font-size: 16px;
@@ -178,9 +182,9 @@ export default {
         z-index: -1;
       }
       .register-btn:hover {
-        color: #fff;
         text-shadow: 0px 2px 8px rgb(255, 255, 255);
         animation: flow 3s infinite;
+        transform: scale(1.05);
       }
       .register-btn:hover ::before {
         animation: flow 3s infinite;

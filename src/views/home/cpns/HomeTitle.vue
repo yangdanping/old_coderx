@@ -71,6 +71,7 @@ export default {
   // width: 7ch;
   // animation: typing steps(17, jump-none) 2s forwards;
   animation: titleDown 1s forwards;
+  // z-index: -1;
 }
 
 .title::before {

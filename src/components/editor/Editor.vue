@@ -1,5 +1,5 @@
 <template>
-  <el-tiptap v-model="content" :extensions="extensions" placeholder="请输入内容..." :height="height"></el-tiptap>
+  <el-tiptap v-model="content" :extensions="extensions" :charCounterCount="false" placeholder="请输入内容..." :height="height"></el-tiptap>
 </template>
 
 <script>

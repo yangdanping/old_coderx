@@ -1,12 +1,5 @@
 <template>
-  <el-upload
-    action="avatar"
-    :http-request="avatarUpLoad"
-    :disabled="!isUser(info.id)"
-    :show-file-list="false"
-    :on-success="handleAvatarSuccess"
-    :before-upload="beforeAvatarUpload"
-  >
+  <el-upload action="avatar" :http-request="avatarUpLoad" :disabled="!isUser(info.id)" :show-file-list="false" :before-upload="beforeAvatarUpload">
     <Avatar :disabled="true" :info="info" :size="200" :showSet="true" />
   </el-upload>
 </template>
@@ -36,9 +29,9 @@ export default {
     avatarUpLoad(content) {
       this.$store.dispatch('u/uploadAvatarAction', content);
     },
-    handleAvatarSuccess(res, file) {
-      this.$showSuccess('上传头像成功!');
-    },
+    // handleAvatarSuccess(res, file) {
+    //   this.$showSuccess('上传头像成功!');
+    // },
     beforeAvatarUpload(file) {
       const isLt2M = file.size / 1024 / 1024 < 2;
       !isLt2M && this.$showInfo('上传头像图片大小不能超过 2MB!');

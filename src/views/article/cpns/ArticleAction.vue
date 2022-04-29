@@ -38,7 +38,11 @@ export default {
   methods: {
     likeClick(articleId) {
       if (this.isLogin) {
-        this.$store.dispatch('a/likeAction', articleId);
+        if (this.article.status === '1') {
+          this.$showFail('文章已被封禁,不可点赞');
+        } else {
+          this.$store.dispatch('a/likeAction', articleId);
+        }
       } else {
         this.$showInfo('请先登录');
         this.$store.commit('changeDialog');

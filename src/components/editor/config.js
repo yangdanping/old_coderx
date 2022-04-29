@@ -66,19 +66,7 @@ const extensions = [
         console.log('上传图片成功!', res);
         console.log('获取到了上传的图片', res.data[0].url);
         const imgId = res.data[0].result.insertId;
-        // uploaded.push(id);
         store.commit('a/changeUploaded', imgId);
-        // if (!cache.getCache('pictures')) {
-        //   console.log('没有pictures本地缓存,创建一个pictures本地缓存');
-        //   uploaded.push(id);
-        //   cache.setCache('pictures', uploaded);
-        //   console.log(cache.getCache('pictures'));
-        // } else {
-        //   console.log('已有本地缓存,则直接加入');
-        //   uploaded.push(id);
-        //   cache.setCache('pictures', uploaded);
-        //   console.log(cache.getCache('pictures'));
-        // }
         return res.data[0].url;
       } else {
         Msg.showFail('图片上传失败');

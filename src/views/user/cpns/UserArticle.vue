@@ -1,22 +1,25 @@
 <template>
   <div class="article-list">
     <div class="list-header">
-      <h2>他的文章({{ profile.articleCount }})</h2>
+      <h2>{{ sex }}的文章({{ profile.articleCount }})</h2>
     </div>
-    <template v-for="item in articles">
-      <div class="content-wrapper">
-        <div class="content-main">
-          <div class="content" @click="goDetail(item.id)">
-            <a class="title">{{ item.title }}</a>
-            <div>
-              <span>{{ item.createAt }}</span>
-              <p class="abstract">{{ item.content }}</p>
+    <template v-if="articles.length">
+      <template v-for="item in articles">
+        <div class="content-wrapper">
+          <div class="content-main">
+            <div class="content" @click="goDetail(item.id)">
+              <a class="title">{{ item.title }}</a>
+              <div>
+                <span>{{ item.createAt }}</span>
+                <p class="abstract">{{ item.content }}</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </template>
+      <Page @changePage="changePage" :total="profile.articleCount" />
     </template>
-    <Page @changePage="changePage" :total="profile.articleCount" />
+    <template v-else><span>这个人未发表过文章</span></template>
   </div>
 </template>
 
@@ -32,7 +35,10 @@ export default {
     ...mapState({
       articles: (state) => state.u.articles,
       profile: (state) => state.u.profile
-    })
+    }),
+    sex() {
+      return this.profile.sex === '男' ? '他' : '她';
+    }
   },
   components: { Page },
   methods: {

@@ -169,11 +169,19 @@ export default {
       const res = await addToCollect(payload);
       dispatch('getCollectAction', userId);
     },
-    async uploadAvatarAction({ dispatch }, payload) {
+    async uploadAvatarAction({ dispatch, commit, rootState }, payload) {
+      const userId = rootState.u.userInfo.id;
       const res = await uploadAvatar(payload);
       if (res.code === 0) {
         Msg.showSuccess('更换头像成功');
-        // router.go(0);
+        const res = await getUserInfo(userId);
+        if (res.code === 0) {
+          commit('changeUserInfo', res.data);
+          cache.setCache('userInfo', res.data);
+          router.go(0);
+        } else {
+          Msg.showFail('请求用户信息失败');
+        }
       } else {
         Msg.showFail('更换头像失败');
       }

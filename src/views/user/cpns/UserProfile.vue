@@ -24,6 +24,11 @@
           <i class="el-icon-takeaway-box"></i>
           <span>邮箱:{{ profile.email ?? '无' }}</span>
         </div>
+        <div class="follow" v-if="!isUser(profile.id)">
+          <el-button @click="follow" :type="!isFollowed ? 'primary' : ''" :icon="!isFollowed ? 'el-icon-plus' : ''">
+            {{ !isFollowed ? '关注' : '已关注' }}
+          </el-button>
+        </div>
       </div>
     </div>
     <div class="profile-main">
@@ -33,7 +38,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import { eventBus } from '@/utils';
 import Avatar from '@/components/avatar/Avatar.vue';
 import UserProfileMenu from './UserProfileMenu.vue';
@@ -51,6 +56,11 @@ export default {
   },
   components: { Avatar, UserProfileMenu, UserAvatar },
   computed: {
+    ...mapState({
+      isFollowed: (state) => state.u.isFollowed,
+      followInfo: (state) => state.u.followInfo,
+      userInfo: (state) => state.u.userInfo
+    }),
     userSex() {
       const { sex } = this.profile;
       return require(`@/assets/img/user/${sex === '女' ? 'female' : 'male'}-icon.webp`);
@@ -61,6 +71,14 @@ export default {
     updateProfile() {
       this.$store.commit('changeDialog');
       eventBus.$emit('updateProfile', JSON.parse(JSON.stringify(this.profile))); //深拷贝
+    },
+    follow() {
+      if (this.userInfo.id) {
+        this.$store.dispatch('u/followAction', this.profile.id);
+      } else {
+        this.$showFail('请先登录');
+        this.$store.commit('changeDialog');
+      }
     },
     tabClick(index) {
       const userId = this.profile.id;
@@ -110,6 +128,14 @@ export default {
         align-items: center;
         margin-top: 10px;
         font-size: 25px;
+      }
+      .follow {
+        display: flex;
+        justify-content: right;
+        .el-button {
+          width: 120px;
+          font-size: 20px;
+        }
       }
     }
   }

@@ -77,6 +77,7 @@ export default {
     bottom: 0;
     left: 0;
     border: 0;
+    // z-index: 9999;
   }
   .preview {
     .title {

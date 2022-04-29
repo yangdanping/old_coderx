@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="comment-content">
-        <div class="content" v-html="item.content"></div>
+        <div class="content" :style="item.status === '1' ? 'color: red' : ''" v-html="item.content"></div>
         <CommentAction :comment="item" />
       </div>
       <CommentForm v-if="replythis(item.id)" :commentId="commentId" :isReply="true" />

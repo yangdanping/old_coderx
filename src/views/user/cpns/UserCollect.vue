@@ -2,35 +2,38 @@
   <div class="user-collect">
     <div class="list-header">
       <div v-if="!articles.length">
-        <h2>他的收藏({{ collects.length }})</h2>
+        <h2>{{ sex }}的收藏({{ collects.length }})</h2>
       </div>
       <div v-else>
         <h2><i @click="articles = []" class="el-icon-back"></i>收藏夹"{{ activeCollect }}"下的文章({{ articles.length }})</h2>
       </div>
     </div>
-    <div v-if="!articles.length">
-      <template v-for="item in collects">
-        <div class="collect-wrapper">
-          <div class="collect-name" @click="goCollectDetial(item.id, item.count)">{{ item.name }}{{ item.count ? `(${item.count.length})` : '' }}</div>
-          <span class="collect-time">创建于{{ item.createAt }}</span>
-        </div>
-      </template>
-    </div>
-    <div v-else>
-      <template v-for="item in articles">
-        <div class="content-wrapper">
-          <div class="content-main">
-            <div class="content" @click="goDetail(item.id)">
-              <a class="title">{{ item.title }}</a>
-              <div>
-                <span>{{ item.createAt }}</span>
-                <p class="abstract">{{ item.content }}</p>
+    <template v-if="collects.length">
+      <div v-if="!articles.length">
+        <template v-for="item in collects">
+          <div class="collect-wrapper">
+            <div class="collect-name" @click="goCollectDetial(item.id, item.count)">{{ item.name }}{{ item.count ? `(${item.count.length})` : '' }}</div>
+            <span class="collect-time">创建于{{ item.createAt }}</span>
+          </div>
+        </template>
+      </div>
+      <div v-else>
+        <template v-for="item in articles">
+          <div class="content-wrapper">
+            <div class="content-main">
+              <div class="content" @click="goDetail(item.id)">
+                <a class="title">{{ item.title }}</a>
+                <div>
+                  <span>{{ item.createAt }}</span>
+                  <p class="abstract">{{ item.content }}</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </template>
-    </div>
+        </template>
+      </div>
+    </template>
+    <template v-else><span>这个人未创建过收藏夹</span></template>
   </div>
 </template>
 
@@ -52,7 +55,10 @@ export default {
     ...mapState({
       collects: (state) => state.u.collects,
       profile: (state) => state.u.profile
-    })
+    }),
+    sex() {
+      return this.profile.sex === '男' ? '他' : '她';
+    }
   },
   methods: {
     goCollectDetial(itemId, count) {

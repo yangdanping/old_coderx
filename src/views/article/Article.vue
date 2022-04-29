@@ -6,8 +6,12 @@
         <ArticleNav />
       </div>
       <ArticleList ref="list" v-if="hasArticles" :articles="articles" />
-      <div v-else class="skeleton">
+      <div v-else-if="!noList" class="skeleton">
         <el-skeleton animated />
+      </div>
+      <div v-else class="skeleton">
+        <h1>该专栏暂无文章,快来发表第一篇吧~</h1>
+        <el-button @click="goEdit" type="primary">发表第一篇</el-button>
       </div>
     </div>
   </div>
@@ -22,18 +26,32 @@ export default {
   name: 'Article',
   components: { NavBar, ArticleList, ArticleNav },
   data() {
-    return {};
+    return {
+      noList: false
+    };
   },
   created() {
     this.$store.dispatch('a/getListAction');
+    setTimeout(() => (this.noList = !this.noList), 2000);
   },
   computed: {
-    ...mapState({ articles: (state) => state.a.articles }),
+    ...mapState({
+      articles: (state) => state.a.articles,
+      isLogin: (state) => state.u.token //根据是否有token判断是否登录(授权)
+    }),
     hasArticles() {
       return this.articles?.result.length;
     }
   },
-  methods: {}
+  methods: {
+    goEdit() {
+      if (this.isLogin) {
+        this.$router.push({ path: '/edit' });
+      } else {
+        this.$store.commit('changeDialog');
+      }
+    }
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -49,9 +67,10 @@ export default {
     .article-nav {
       position: fixed;
       left: 8vw;
-      top: 200px;
+      top: 150px;
     }
     .skeleton {
+      margin-top: 30vh;
       width: 50vw;
       height: calc(100vh - 120px);
     }

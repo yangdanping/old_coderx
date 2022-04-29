@@ -9,7 +9,7 @@
         <span class="created">{{ item.createAt }}</span>
       </div>
       <div class="reply-content">
-        <p v-html="item.content"></p>
+        <p :style="item.status === '1' ? 'color: red' : ''" v-html="item.content"></p>
         <CommentAction :comment="item" />
       </div>
       <CommentForm v-if="replythis(item.id)" :commentId="commentId" />

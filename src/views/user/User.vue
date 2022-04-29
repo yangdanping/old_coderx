@@ -16,6 +16,7 @@ export default {
   },
   created() {
     this.$store.dispatch('u/getProfileAction', parseInt(this.$route.params.userId));
+    this.$store.dispatch('u/getFollowAction', this.$route.params.userId);
     if (this.userInfo.id === parseInt(this.$route.params.userId)) {
       this.$showSuccess('获取的是登录用户的信息!');
     }

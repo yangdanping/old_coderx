@@ -6,7 +6,7 @@
         <span class="name">{{ item.author.name }}</span>
         <span>{{ item.createAt }}</span>
       </div>
-      <el-tag color v-for="tag in item.tags" size="small" :key="tag.name" type="success">{{ tag.name }}</el-tag>
+      <el-tag color v-for="tag in item.tags" size="small" :key="tag.name" @click="goTag(tag)" type="success">{{ tag.name }}</el-tag>
     </div>
     <div class="content-wrapper">
       <div class="content-main">
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { eventBus } from '@/utils';
 import Avatar from '@/components/avatar/Avatar.vue';
 import ArticleAction from './ArticleAction.vue';
 export default {
@@ -40,6 +41,9 @@ export default {
   methods: {
     goDetail(articleId) {
       this.$router.push({ path: `/article/${articleId}` });
+    },
+    goTag(tag) {
+      eventBus.$emit('changeTag', tag);
     }
   }
 };
@@ -66,6 +70,9 @@ export default {
     }
     span {
       margin-right: 15px;
+    }
+    .el-tag {
+      cursor: pointer;
     }
   }
 

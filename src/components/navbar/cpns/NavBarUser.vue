@@ -65,11 +65,11 @@ export default {
   display: flex;
   .el-icon-message {
     font-size: 30px;
-    margin: 6px 0 0 5px;
+    margin: 7px 10px 0 10px;
     cursor: pointer;
   }
   .editbtn {
-    margin: 0 15px;
+    margin-right: 10px;
     padding: 0 25px;
   }
   .el-dropdown {

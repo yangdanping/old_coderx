@@ -8,14 +8,14 @@
             <h2>{{ info.name }}</h2>
             <img :src="userSex" alt="" />
           </div>
-          <span class="follow">关注:{{ isFollow('following') }}</span>
-          <span>粉丝:{{ isFollow('follower') }}</span>
+          <span class="follow">关注:{{ followCount('following') }}</span>
+          <span>粉丝:{{ followCount('follower') }}</span>
         </div>
       </div>
       <div class="user-profile">
         <span>{{ info.career ?? 'Coder' }}</span>
         <template v-if="!isUser(info.id)">
-          <el-button @click="follow" :type="!isFollowed ? 'primary' : ''" size="mini">
+          <el-button @click="follow" :type="!isFollowed ? 'primary' : ''" :icon="!isFollowed ? 'el-icon-plus' : ''" size="mini">
             {{ !isFollowed ? '关注' : '已关注' }}
           </el-button>
         </template>
@@ -67,7 +67,7 @@ export default {
       const { sex } = this.info;
       return require(`@/assets/img/user/${sex === '女' ? 'female' : 'male'}-icon.webp`);
     },
-    isFollow() {
+    followCount() {
       return (type) => this.followInfo[type]?.length ?? 0;
     }
   },

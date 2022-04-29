@@ -63,7 +63,9 @@ export default {
       if (!commentId && !replyId) {
         console.log('我是一条即将发出的对文章的普通评论');
         const res = await addComment(payload);
-        if (res.code === 0) {
+        if (res.code === -1) {
+          Msg.showFail(`发布评论失败 ${res.msg}`);
+        } else if (res.code === 0) {
           eventBus.$emit('cleanContent');
           Msg.showSuccess('发表评论成功');
           dispatch('getCommentAction', articleId);
@@ -72,7 +74,9 @@ export default {
         }
       } else {
         const res = await addReply(payload);
-        if (res.code === 0) {
+        if (res.code === -1) {
+          Msg.showFail(`发布回复失败 ${res.msg}`);
+        } else if (res.code === 0) {
           eventBus.$emit('cleanContent');
           eventBus.$emit('collapse', null); //关闭评论框
           eventBus.$emit('collapseReply', null); //关评论框闭

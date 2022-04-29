@@ -1,22 +1,25 @@
 <template>
   <div class="">
     <div class="list-header">
-      <h2>他的回答({{ profile.commentCount }})</h2>
+      <h2>{{ sex }}的评论({{ profile.commentCount }})</h2>
     </div>
-    <template v-for="item in comments">
-      <div class="content-wrapper">
-        <div class="content-main">
-          <div class="content" @click="goDetail(item.id)">
-            <a class="title">{{ item.title }}</a>
-            <div>
-              <span>{{ item.createAt }}</span>
-              <p class="abstract">{{ item.content }}</p>
+    <template v-if="comments.length">
+      <template v-for="item in comments">
+        <div class="content-wrapper">
+          <div class="content-main">
+            <div class="content" @click="goDetail(item.id)">
+              <a class="title">{{ item.title }}</a>
+              <div>
+                <span>{{ item.createAt }}</span>
+                <p class="abstract">{{ item.content }}</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </template>
+      <Page @changePage="changePage" :total="profile.commentCount" />
     </template>
-    <Page @changePage="changePage" :total="profile.commentCount" />
+    <template v-else><span>这个人未发表过评论</span></template>
   </div>
 </template>
 
@@ -32,7 +35,10 @@ export default {
     ...mapState({
       comments: (state) => state.u.comments,
       profile: (state) => state.u.profile
-    })
+    }),
+    sex() {
+      return this.profile.sex === '男' ? '他' : '她';
+    }
   },
   components: { Page },
   methods: {

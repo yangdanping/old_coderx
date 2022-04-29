@@ -47,21 +47,25 @@ export default {
       this.content = content;
     },
     addComment() {
-      if (!this.content || this.content === '<p></p>') {
-        this.$showInfo('评论内容不能为空');
+      if (this.article.status === '1') {
+        this.$showFail('文章已被封禁,不可评论');
       } else {
-        this.disabled = !this.disabled;
-        setTimeout(() => {
-          // 这里的isReplyComment用作判断是否是对回复用户的回复,真正传入数据库的是当前真实回复的用户
-          this.$store.dispatch('c/commentAction', {
-            content: this.content,
-            articleId: this.article.id,
-            isReplyToComment: this.isReply ?? false,
-            commentId: this.commentId ?? null,
-            replyId: this.replyId ?? null
-          });
+        if (!this.content || this.content === '<p></p>') {
+          this.$showInfo('评论内容不能为空');
+        } else {
           this.disabled = !this.disabled;
-        }, 500);
+          setTimeout(() => {
+            // 这里的isReplyComment用作判断是否是对回复用户的回复,真正传入数据库的是当前真实回复的用户
+            this.$store.dispatch('c/commentAction', {
+              content: this.content,
+              articleId: this.article.id,
+              isReplyToComment: this.isReply ?? false,
+              commentId: this.commentId ?? null,
+              replyId: this.replyId ?? null
+            });
+            this.disabled = !this.disabled;
+          }, 500);
+        }
       }
     }
   }
