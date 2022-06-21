@@ -6,8 +6,8 @@ module.exports = {
     proxy: {
       //这里配置好后要在service的config文件中的BASE_URL改为'/api'
       '/api': {
-        target: 'http://localhost:8000', //接口的前缀
-        pathRewrite: { '^/dev-api': '' }, //重写路径
+        target: 'http://119.91.150.141:8000', //接口的前缀
+        pathRewrite: { '^/api': '' }, //重写路径
         changeOrigin: true //虚拟的站点需要更管origin
       },
       '/dev-api': {
